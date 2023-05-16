@@ -29,7 +29,13 @@ HUGO_VERSION = "0.96.0"
 [context.next.environment]
 HUGO_ENABLEGITINFO = "true"
 
+#[[redirects]]
+#from = "/npmjs/*"
+#to = "/npmjs/"
+#status = 200
+
 [[redirects]]
-from = "/npmjs/*"
-to = "/npmjs/"
-status = 200
+from = "https://andreamortaro.netlify.app/*"
+to = "https://andrea.mortaro.com/:splat"
+status = 301
+force = true

@@ -4,6 +4,7 @@
 
 theme = "congo"
 #baseURL = "https://andreamortaro.netlify.app/"
+baseURL = "https://andrea.mortaro.it"
 defaultContentLanguage = "en"
 
 enableRobotsTXT = true
