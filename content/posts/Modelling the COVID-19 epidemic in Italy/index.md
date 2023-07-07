@@ -10,7 +10,7 @@ summary: "My BCs thesis. Not another beamer with Latex, I used [reveal.js](https
 
 In 2020 I graduated with a bachelor's degree in Applied Mathematics from the University of Verona. In my thesis *"Strategie di controllo e stima dei parametri per modelli epidemiologici applicati al COVID19"* I analyzed some control policies to cope an epidemic and I estimated the parameters for some epidemiological models applied to Covid-19.
 
-To describe the impact of the lockdown policy in Italy during the the first part of 2020 I developed a SIR-type model called **\\(\kappa\\)**-SIR. To estimate the parameters I took into account the data provided by the GitHub account of [Dipartimento della Protezione Civile](https://github.com/pcm-dpc/COVID-19).
+To describe the impact of the lockdown policy in Italy during the the first part of 2020 I developed a SIR-type model called **\\(\kappa\\)**-SEIR. To estimate the parameters I took into account the data provided by the GitHub account of [Dipartimento della Protezione Civile](https://github.com/pcm-dpc/COVID-19).
 
 Take a look at my presentation [here](https://andreamortaro.github.io/COVID/). It's not another beamer with Latex, I used reveal.js. 
 
