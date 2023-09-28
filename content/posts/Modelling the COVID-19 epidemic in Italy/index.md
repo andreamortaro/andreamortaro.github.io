@@ -1,7 +1,7 @@
 ---
 title: "Modelling the COVID-19 epidemic in Italy"
 date: 2022-04-01
-tags: ["math", "BCs"]
+tags: ["math"]
 #mathjax: true
 summary: "My BCs thesis. Not another beamer with Latex, I used [reveal.js](https://revealjs.com/)."
 ---

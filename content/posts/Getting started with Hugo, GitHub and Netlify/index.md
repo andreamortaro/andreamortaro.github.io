@@ -2,7 +2,7 @@
 title: "Getting started with Hugo, GitHub and Netlify"
 date: 2022-05-08
 summary: "A quick guide to start blogging with these three tools."
-tags: ["hugo", 'github','netlify','website']
+tags: ["hugo",'netlify']
 ---
 
 
@@ -20,7 +20,7 @@ Let's get started. As a host operating system, I will be using **Mint 20.03**.
 [^1]: Follow the [guide](https://gohugo.io/getting-started/installing/) to install hugo in the proper way.
 
 From the [official Hugo realeases page](https://github.com/gohugoio/hugo/releases) download a <kbd>.deb</kbd> package of the latest version and install it with <kbd>dpkg</kbd> command:
-```
+```sh
 $ sudo dpkg -i hugo_<latest_version>_Linux-64bit.deb
 ```
 
@@ -28,14 +28,14 @@ $ sudo dpkg -i hugo_<latest_version>_Linux-64bit.deb
 
 ### Create a new website
 Use the <kbd>hugo new site</kbd> command:
-```
+```sh
 $ hugo new site test-site
 ```
 In this way the new site has a structure, but it has no content.
 
 ### Add a theme
 From [official Hugo Themes](https://themes.gohugo.io/) choose a theme and then add the theme repository as a Git submodule as follows:
-```
+```sh
 $ git submodule add -b stable https://github.com/jpanther/congo.git themes/congo
 ```
 
@@ -56,14 +56,14 @@ Pay attention to this step, otherwise there could be some problems.<cite> [^2]</
 [^2]: For more info take a look at the [offical docs](https://jpanther.github.io/congo/docs/installation/#set-up-theme-configuration-files).
 
 To check our site we can start the built-in server to build and serve the site.<br>Run the <kbd>hugo server</kbd> command from the site’s root directory:
-```
+```sh
 $ hugo server
 ```
 and go to [http://localhost:1313/](http://localhost:1313/) in your browser.
 
 ### Write a post
 Run the <kbd>hugo new</kbd> command:
-```
+```sh
 $ hugo new post/new-post.md
 ```
 In this way Hugo creates a new file <kbd>new-post.md</kbd> into <kbd>content/post</kbd>. It should looks like:
@@ -83,7 +83,7 @@ Running locally <kbd>hugo server</kbd> we consider only the visible contents (i.
 ### Generate static output for publishing
 
 One way to publish our website is:
-```
+```sh
 $ hugo -D
 ```
 In this way Hugo generates your static HTML pages into the <kbd>./public</kbd>. Then we can copy the content of the folder to some server by yourself.
@@ -96,7 +96,7 @@ Anyway it's more convenient to use **Netlify** for this step.  Before to pass to
 
 To create a local repository:
 
-```
+```sh
 $ git init
 $ git add .
 $ git commit -m 'start my website'
@@ -107,14 +107,15 @@ Then we have to setup a remote repository on GitHub.
 ### Sync your changes to a remote GitHub repository
 
 Since it's not necessary to track also the generated HTML in <kbd>/public</kbd>, so we specify it in <kbd>.gitignore</kbd>.
-~~~
+
+```sh
 $ git remote add origin https://github.com/<username>/<GitHub_repository_name>.git
 $ echo 'public/' >> .gitignore
 $ git branch -M main
 $ git add .
 $ git commit -m 'after the first post'
 $ git push -u origin main
-~~~
+```
 
 <!--(To make things more smooth: [SSH](:/21563ea4566c4f56a59dfd9647b374ad))-->
 Now we pass to set up Netlify.

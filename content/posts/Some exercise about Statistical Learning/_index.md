@@ -1,7 +1,7 @@
 ---
 title: "Some exercise about Statistical Learning"
 date: "2022-06-24T18:55:43+02:00"
-tags : ["jupyter", "math", "python"]
+tags : ["math", "python"]
 summary: "Analysis of some real dataset using Python."
 
 cascade:
