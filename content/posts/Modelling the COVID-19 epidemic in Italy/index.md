@@ -12,7 +12,7 @@ In 2020 I graduated with a bachelor's degree in Applied Mathematics from the Uni
 
 To describe the impact of the lockdown policy in Italy during the the first part of 2020 I developed a SIR-type model called **\\(\kappa\\)**-SEIR. To estimate the parameters I took into account the data provided by the GitHub account of [Dipartimento della Protezione Civile](https://github.com/pcm-dpc/COVID-19).
 
-Take a look at my presentation [here](https://andreamortaro.github.io/COVID/). It's not another beamer with Latex, I used reveal.js. 
+Take a look at my presentation [here](https://andreamortaro.github.io/COVID/). It's not another beamer with Latex, I used [reveal.js](https://revealjs.com/).
 
 To see the codes you can look at my github repo [EpidModCovid19](https://github.com/andreamortaro/EpidModCovid19).
 
