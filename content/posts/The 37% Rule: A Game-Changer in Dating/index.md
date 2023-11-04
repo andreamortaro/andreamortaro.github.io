@@ -3,7 +3,7 @@ title: "The 37% Rule: A Game-Changer in Dating"
 date: 2023-10-16
 tags: ["math", "TIL"]
 summary: "How many frogs must you kiss to get a prince or a princess?"
-draft: true
+draft: false
 ---
 
 {{< katex >}}
