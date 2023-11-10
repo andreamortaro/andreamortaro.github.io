@@ -1,7 +1,7 @@
 +++
 title = "SL4: Analysis of Prostate Cancer dataset – shrinkage methods"
 author = "Andrea Mortaro"
-layout = "notebook_toc"
+layout = "single"
 showDate = false
 weight = 3
 draft = "false"

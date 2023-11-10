@@ -1,7 +1,7 @@
 +++
 title = "SL3: Analysis of Prostate Cancer dataset – variable subset selection"
 author = "Andrea Mortaro"
-layout = "notebook_toc"
+layout = "single"
 showDate = false
 weight = 4
 draft = "false"

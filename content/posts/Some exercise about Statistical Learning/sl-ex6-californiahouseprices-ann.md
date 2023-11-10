@@ -1,7 +1,7 @@
 +++
 title = "SL6: California housing dataset – regression with ANN"
 author = "Andrea Mortaro"
-layout = "notebook_toc"
+layout = "single"
 showDate = false
 weight = 1
 draft = "false"

@@ -1,7 +1,7 @@
 +++
 title = "SL5: Human Tumor Microarray dataset - clustering with k-means"
 author = "Andrea Mortaro"
-layout = "notebook_toc"
+layout = "single"
 showDate = false
 weight = 2
 draft = "false"

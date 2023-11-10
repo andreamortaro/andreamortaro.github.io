@@ -1,7 +1,7 @@
 +++
 title = "SL2: Analysis of Prostate Cancer dataset - linear regression model"
 author = "Andrea Mortaro"
-layout = "notebook_toc"
+layout = "single"
 showDate = false
 weight = 5
 draft = "false"

@@ -13,6 +13,7 @@ enableSearch = true
 enableCodeCopy = true
 
 # robots = ""
+fingerprintAlgorithm = "sha256"
 
 [header]
   layout = "basic" # valid options: basic, hamburger, hybrid, custom
@@ -22,7 +23,7 @@ enableCodeCopy = true
 [footer]
   showCopyright = true
   showThemeAttribution = true
-  showAppearanceSwitcher = false
+  showAppearanceSwitcher = true
   showScrollToTop = true
 
 [homepage]

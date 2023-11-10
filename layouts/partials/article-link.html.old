@@ -1,11 +1,11 @@
- <!-- article link with recursive list and photo as thumb -->
+ <!-- article link without recursive list and photo as thumb -->
 
-<article class="flex items-center flex-row mt-6 max-w-prose">
+<article class="flex flex-row mt-6 max-w-prose">
   {{- $images := $.Resources.ByType "image" }}
   {{- $thumbnail := $images.GetMatch (.Params.thumbnail | default "*thumb*") }}
   {{- $feature := $images.GetMatch (.Params.feature | default "*feature*") | default $thumbnail }}
   {{- with $feature }}
-    <div class="flex-none pr-4 sm:pr-6">
+    <div class="flex-none pr-4 sm:pr-6 ">
       <a
         href="{{ with $.Params.externalUrl }}
           {{ . }}
@@ -64,7 +64,6 @@
         {{ partial "extend-article-link.html" . }}
       {{ end }}
     </h3>
-    {{ partial "recursive-series.html" . }} <!--cambiato article-link.html-->
     <div class="text-sm text-neutral-500 dark:text-neutral-400">
       {{ partial "article-meta.html" . }}
     </div>

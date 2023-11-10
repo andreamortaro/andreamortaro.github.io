@@ -1,7 +1,7 @@
 +++
 title = "SL1: Telco Customer Churn first data analysis using Python"
 author = "Andrea Mortaro"	
-layout = "notebook_toc"
+layout = "single"
 showDate = false
 weight = 6
 draft = "false"

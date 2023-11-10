@@ -2,7 +2,7 @@
 # Refer to the theme docs for more details about each of these parameters.
 # https://jpanther.github.io/congo/docs/getting-started/
 
-theme = "congo"
+theme = "congo" # needed if installed with git, otherwise (hugo+go) no
 #baseURL = "https://andreamortaro.netlify.app/"
 baseURL = "https://andrea.mortaro.it"
 defaultContentLanguage = "en"

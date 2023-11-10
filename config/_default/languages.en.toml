@@ -1,22 +1,22 @@
 languageCode = "en"
 languageName = "English"
-displayName = "EN"
-isoCode = "en"
 weight = 1
-rtl = false
 
 title = "Andrea Mortaro"
 # description = "My awesome website"
 copyright = "© 2023 by Andrea Mortaro"
 
-dateFormat = "2 January 2006"
-
 [params]
   # mainSections = ["section1", "section2"]
+    dateFormat = "2 January 2006"
+    rtl = false
+    isoCode = "en"
+    displayName = "EN"
 
 [author]
   name = "Andrea Mortaro"
-  image = "img/andrea3.1.jpg"
+  # image = "img/andrea3.1.jpg"
+  image = "img/andrea-sunglasses.jpg"
   headline = "Mathematician and tech enthusiast."
   # bio = "A little bit about you"
   links = [
@@ -58,7 +58,7 @@ dateFormat = "2 January 2006"
   #   { tiktok = "https://tiktok.com/@username" },
   #   { tumblr = "https://username.tumblr.com" },
   #   { twitch = "https://twitch.tv/username" },
-    { twitter = "https://twitter.com/andrea_mortaro"}
+    { x-twitter = "https://twitter.com/andrea_mortaro"}
   #   { whatsapp = "https://wa.me/phone-number" },
   #   { youtube = "https://youtube.com/username" },
   ]
