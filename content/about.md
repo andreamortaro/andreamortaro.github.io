@@ -4,6 +4,6 @@ date: 2022-04-05T01:31:16+02:00
 draft: false
 ---
 
-My name is Andrea. I'm 25 years old and I'm from Italy. I'm attending MD in Mathematics with focus on Applied Math track.
+Hey there! I'm Andrea, freshly minted with a degree in Mathematics and a passion for the applied side of things! With a strong focus on the applied math track, I'm all about cracking codes and uncovering quantitative solutions in real-world scenarios.
 
 I’ve created this simple site to organise my online space and to share a bit more about what I’m interested in.
