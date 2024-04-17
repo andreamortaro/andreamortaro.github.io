@@ -1,5 +1,6 @@
 languageCode = "en"
 languageName = "English"
+languageDirection = "ltr"
 weight = 1
 
 title = "Andrea Mortaro"
@@ -13,7 +14,7 @@ copyright = "© 2024 Andrea Mortaro"
     isoCode = "en"
     displayName = "EN"
 
-[author]
+[params.author]
   name = "Andrea Mortaro"
   # image = "img/andrea3.1.jpg"
   image = "img/andrea-sunglasses.jpg"
