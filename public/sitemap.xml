@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex6-californiahouseprices-ann/</loc>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex5-humantumormicro-clustering/</loc>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex4-prostate-shrinkage/</loc>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex3-subsetselection/</loc>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex2-prostatecancer/</loc>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex1-telcocustomerchurn/</loc>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/about/</loc>
+            <lastmod>2024-04-03T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/</loc>
+            <lastmod>2024-04-03T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/modelling-traffic-with-lwr-models/</loc>
+            <lastmod>2024-03-11T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/</loc>
+            <lastmod>2024-03-11T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/spotify/</loc>
+            <lastmod>2023-11-04T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/the-37-rule-a-game-changer-in-dating/</loc>
+            <lastmod>2023-10-16T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/some-exercise-about-statistical-learning/</loc>
+            <lastmod>2022-06-24T18:55:43+02:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/getting-started-with-hugo-github-and-netlify/</loc>
+            <lastmod>2022-05-08T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/modelling-the-covid-19-epidemic-in-italy/</loc>
+            <lastmod>2022-04-01T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+  
+</urlset>

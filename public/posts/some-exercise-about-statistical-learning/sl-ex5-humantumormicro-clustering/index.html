@@ -1,0 +1,1590 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="false"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="rgb(255,255,255)" />
+  
+  <title>SL5: Human Tumor Microarray dataset - clustering with k-means &middot; Andrea Mortaro</title>
+    <meta name="title" content="SL5: Human Tumor Microarray dataset - clustering with k-means &middot; Andrea Mortaro" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.74ad8406faea02f3e186ba5126249aaeed9073629e04b05037b903396b188724.js"
+    integrity="sha256-dK2EBvrqAvPhhrpRJiSaru2Qc2KeBLBQN7kDOWsYhyQ="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.790b059e2e9fa3fdf3b2e196f71c93eebce086cb299a998628bb721d41e0453e.css"
+    integrity="sha256-eQsFni6fo/3zsuGW9xyT7rzghsspmpmGKLtyHUHgRT4="
+  />
+  
+    
+    
+    
+  
+  
+  
+    
+    
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.ef84f1e4c888f2aa2d84745ad4e1d75d27a8f29d55f84702214c97ecd79fba5b.js"
+      integrity="sha256-74Tx5MiI8qothHRa1OHXXSeo8p1V&#43;EcCIUyX7Nefuls="
+      data-copy="Copy"
+      data-copied="Copied"
+    ></script>
+  
+  
+  <meta
+    name="description"
+    content="
+      
+        
+      
+    "
+  />
+  
+  
+  
+  <link rel="canonical" href="http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex5-humantumormicro-clustering/" />
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex5-humantumormicro-clustering/">
+  <meta property="og:site_name" content="Andrea Mortaro">
+  <meta property="og:title" content="SL5: Human Tumor Microarray dataset - clustering with k-means">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="SL5: Human Tumor Microarray dataset - clustering with k-means">
+<meta name="twitter:description" content="">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "SL5: Human Tumor Microarray dataset - clustering with k-means",
+    "headline": "SL5: Human Tumor Microarray dataset - clustering with k-means",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/localhost:1313\/posts\/some-exercise-about-statistical-learning\/sl-ex5-humantumormicro-clustering\/",
+    "author" : {
+      "@type": "Person",
+      "name": "Andrea Mortaro"
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "1705"
+  }
+  </script>
+
+
+  
+  <meta name="author" content="Andrea Mortaro" />
+  
+    
+      <link href="mailto:andrea.mortaro@yahoo.com" rel="me" />
+    
+      <link href="https://github.com/andreamortaro" rel="me" />
+    
+      <link href="https://mastodon.uno/@andreamortaro" rel="me" />
+    
+      <link href="https://twitter.com/andrea_mortaro" rel="me" />
+    
+  
+  
+  
+
+
+
+
+
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/lib/katex/katex.min.af6f85907cdfd6ed3e4906d93a8233d91c5638859f744cd1b98c9b1a3ccaab5f231bdcda49f132f6cdfe8cca86ff33ed468affab8a9a502610a664a34f0f0cfa.css"
+    integrity="sha512-r2&#43;FkHzf1u0&#43;SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3&#43;jMqG/zPtRor/q4qaUCYQpmSjTw8M&#43;g=="
+  />
+  
+  
+  <script
+    defer
+    src="/lib/katex/katex.min.20da6cf7343619410c0900fbc626506c65159ea9f312f9729d5cba7aa713707378f9a4222e8f7fb9a42a7240e9749f199b7334401b3e3e4b60e29cf490492552.js"
+    integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4&#43;aQiLo9/uaQqckDpdJ8Zm3M0QBs&#43;Pktg4pz0kEklUg=="
+  ></script>
+  
+  
+  <script
+    defer
+    src="/lib/katex/auto-render.min.6095714e3aadb63b14ddc4af69346ab12974c1b460654345f8d1860a0b68fcc51b22f68b757433193090bb80afc8965b65cb607e5541d0f5f0f4b2e64d69b9ff.js"
+    integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF&#43;NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w=="
+    onload="renderMathInElement(document.body);"
+  ></script>
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 sm:px-14 md:px-24 lg:px-32 dark:bg-neutral-800 dark:text-neutral"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 print:hidden sm:py-10 dark:text-neutral">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Andrea Mortaro</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/about/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >About</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/posts/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Blog</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/tags/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Tags</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="https://github.com/andreamortaro"
+                  title=""
+                  target="_blank"
+                  >
+                    <span
+                      class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                
+                
+                  <button
+                    id="search-button-1"
+                    title="Search (/)"
+                  >
+                    
+                      <span
+                        class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                      ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
+                        class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                        ></span
+                      >
+                    
+                  </button>
+                
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+        <ol class="text-sm text-neutral-500 print:hidden dark:text-neutral-400">
+  
+  
+    
+  
+    
+  
+    
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/"
+      >Welcome to Congo! :tada:</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class=" inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/"
+      >Posts</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class=" inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/some-exercise-about-statistical-learning/"
+      >Some exercise about Statistical Learning</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/some-exercise-about-statistical-learning/sl-ex5-humantumormicro-clustering/"
+      >SL5: Human Tumor Microarray dataset - clustering with k-means</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        SL5: Human Tumor Microarray dataset - clustering with k-means
+      </h1>
+      
+        <div class="mb-12 mt-8 text-base text-neutral-500 print:hidden dark:text-neutral-400">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <span title="Reading time">9 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+    <div class="my-1 flex flex-wrap text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+      
+        
+      
+        
+      
+    </div>
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+        <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
+          <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
+            <details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5">
+  <summary
+    class="block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+  >
+    Table of Contents
+  </summary>
+  <div class="border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#data-acquisition"><strong>Data acquisition</strong></a></li>
+    <li><a href="#data-pre-processing"><strong>Data pre-processing</strong></a></li>
+    <li><a href="#clustering-analysis"><strong>Clustering Analysis</strong></a>
+      <ul>
+        <li><a href="#k-means"><strong>K-Means</strong></a></li>
+        <li><a href="#comparison-between-different-methods-of-initialization-kbdk-meanskbd-vs-kbdrandomkbd"><strong>Comparison between different methods of initialization: <kbd>k-means++</kbd> vs <kbd>random</kbd></strong></a></li>
+        <li><a href="#comparison-between-different-kbdn_iterkbd"><strong>Comparison between different <kbd>n_iter</kbd></strong>:</a></li>
+        <li><a href="#mini-batch-k-means"><strong>Mini-batch K-means</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#analysis-for-k3"><strong>Analysis for K=3</strong></a>
+      <ul>
+        <li><a href="#number-of-cancer-cases-of-each-type-in-each-of-the-3-clusters"><strong>Number of cancer cases of each type in each of the 3 clusters</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+          </div>
+        </div>
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># data analysis and wrangling</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> <span class="c1"># linear algebra</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> <span class="c1"># data processing, CSV file I/O (e.g. pd.read_csv)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># import random as rnd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># visualization</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># %matplotlib inline</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># machine learning</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">MiniBatchKMeans</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span> <span class="c1"># to visualize images</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span> <span class="c1"># to create tables</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="s1">&#39;/kaggle/input&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+</span></span></code></pre></div><pre><code>/kaggle/input/14cancer/chart.png
+/kaggle/input/14cancer/14cancer.ytrain.txt
+/kaggle/input/14cancer/14cancer.xtrain.txt
+/kaggle/input/14cancer/chart2.png
+</code></pre>
+<h4>1. Download the “14-cancer microarray data” from the <a rel="nofollow" href="https://web.stanford.edu/~hastie/ElemStatLearn/" hreflang="eng" target="_blank">book website</a></h4>
+<ul>
+<li>Get information about the dataset in file 14cancer.info and in Chapter 1 (page 5) of the book (Hastie et al., 2009)</li>
+</ul>
+<p>Some info about <kbd>14cancer.xtrain.txt</kbd> and<kbd>14cancer.ytrain.txt</kbd>.</p>
+<ul>
+<li>
+<p>DNA microarrays measure the expression of genes in a cell</p>
+</li>
+<li>
+<p>14-cancer gene expression data set:</p>
+<ul>
+<li>16064 genes</li>
+<li>144 training samples</li>
+<li>54 test samples</li>
+</ul>
+</li>
+<li>
+<p>One gene per row, one sample per column.</p>
+</li>
+<li>
+<p>Cancer classes are labelled as follows:</p>
+<ol>
+<li>breast</li>
+<li>prostate</li>
+<li>lung</li>
+<li>collerectal</li>
+<li>lymphoma</li>
+<li>bladder</li>
+<li>melanoma</li>
+<li>uterus</li>
+<li>leukemia</li>
+<li>renal</li>
+<li>pancreas</li>
+<li>ovary</li>
+<li>meso</li>
+<li>cns</li>
+</ol>
+</li>
+</ul>
+<h4>2. Generate a new Kernel and give it the name:</h4>
+        “SL_EX5_HTM_Clustering_Surname”
+<blockquote>
+<h2>✅</h2>
+</blockquote>
+<h4>3. Load the data in Kaggle</h4>
+<blockquote>
+<h2>✅</h2>
+</blockquote>
+<h2 id="data-acquisition" class="relative group"><strong>Data acquisition</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#data-acquisition" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Load the Cancer Microarray dataset (already splitted in train and test)</span>
+</span></span><span class="line"><span class="cl"><span class="n">xtrain</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/kaggle/input/14cancer/14cancer.xtrain.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ytrain</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/kaggle/input/14cancer/14cancer.ytrain.txt&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span></span></code></pre></div><div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><strong>Warning:</strong> the dataset is already splitted in training set and test set.</span>
+</div>
+
+<h2 id="data-pre-processing" class="relative group"><strong>Data pre-processing</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#data-pre-processing" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">xtrain</span> <span class="o">=</span> <span class="n">xtrain</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="c1"># The columns represent the genes, and the rows are the different samples</span>
+</span></span><span class="line"><span class="cl"><span class="n">ytrain</span> <span class="o">=</span> <span class="n">ytrain</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="c1"># for each sample I have a label</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_genes</span><span class="p">),</span> <span class="n">n_labels</span> <span class="o">=</span> <span class="n">xtrain</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">ytrain</span><span class="p">)</span><span class="o">.</span><span class="n">size</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;#genes: </span><span class="si">{</span><span class="n">n_genes</span><span class="si">}</span><span class="s2">, #samples: </span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2">, #labels </span><span class="si">{</span><span class="n">n_labels</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>#genes: 16063, #samples: 144, #labels 14
+</code></pre>
+<div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><strong>Warning:</strong> I don&rsquo;t standardize the data before to perform clustering, in order to do not loose the natural properties of my dataset.</span>
+</div>
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">xtrain</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <th style='text-align:center; vertical-align:middle'>3</th>
+      <th style='text-align:center; vertical-align:middle'>4</th>
+      <th style='text-align:center; vertical-align:middle'>5</th>
+      <th style='text-align:center; vertical-align:middle'>6</th>
+      <th style='text-align:center; vertical-align:middle'>7</th>
+      <th style='text-align:center; vertical-align:middle'>8</th>
+      <th style='text-align:center; vertical-align:middle'>9</th>
+      <th style='text-align:center; vertical-align:middle'>...</th>
+      <th style='text-align:center; vertical-align:middle'>16053</th>
+      <th style='text-align:center; vertical-align:middle'>16054</th>
+      <th style='text-align:center; vertical-align:middle'>16055</th>
+      <th style='text-align:center; vertical-align:middle'>16056</th>
+      <th style='text-align:center; vertical-align:middle'>16057</th>
+      <th style='text-align:center; vertical-align:middle'>16058</th>
+      <th style='text-align:center; vertical-align:middle'>16059</th>
+      <th style='text-align:center; vertical-align:middle'>16060</th>
+      <th style='text-align:center; vertical-align:middle'>16061</th>
+      <th style='text-align:center; vertical-align:middle'>16062</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <td style='text-align:center; vertical-align:middle'>-73.0</td>
+      <td style='text-align:center; vertical-align:middle'>-69.0</td>
+      <td style='text-align:center; vertical-align:middle'>-48.0</td>
+      <td style='text-align:center; vertical-align:middle'>13.0</td>
+      <td style='text-align:center; vertical-align:middle'>-86.0</td>
+      <td style='text-align:center; vertical-align:middle'>-147.0</td>
+      <td style='text-align:center; vertical-align:middle'>-65.0</td>
+      <td style='text-align:center; vertical-align:middle'>-71.0</td>
+      <td style='text-align:center; vertical-align:middle'>-32.0</td>
+      <td style='text-align:center; vertical-align:middle'>100.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>-134.0</td>
+      <td style='text-align:center; vertical-align:middle'>352.0</td>
+      <td style='text-align:center; vertical-align:middle'>-67.0</td>
+      <td style='text-align:center; vertical-align:middle'>121.0</td>
+      <td style='text-align:center; vertical-align:middle'>-5.0</td>
+      <td style='text-align:center; vertical-align:middle'>-11.0</td>
+      <td style='text-align:center; vertical-align:middle'>-21.0</td>
+      <td style='text-align:center; vertical-align:middle'>-41.0</td>
+      <td style='text-align:center; vertical-align:middle'>-967.0</td>
+      <td style='text-align:center; vertical-align:middle'>-120.0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <td style='text-align:center; vertical-align:middle'>-16.0</td>
+      <td style='text-align:center; vertical-align:middle'>-63.0</td>
+      <td style='text-align:center; vertical-align:middle'>-97.0</td>
+      <td style='text-align:center; vertical-align:middle'>-42.0</td>
+      <td style='text-align:center; vertical-align:middle'>-91.0</td>
+      <td style='text-align:center; vertical-align:middle'>-164.0</td>
+      <td style='text-align:center; vertical-align:middle'>-53.0</td>
+      <td style='text-align:center; vertical-align:middle'>-77.0</td>
+      <td style='text-align:center; vertical-align:middle'>-17.0</td>
+      <td style='text-align:center; vertical-align:middle'>122.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>-51.0</td>
+      <td style='text-align:center; vertical-align:middle'>244.0</td>
+      <td style='text-align:center; vertical-align:middle'>-15.0</td>
+      <td style='text-align:center; vertical-align:middle'>119.0</td>
+      <td style='text-align:center; vertical-align:middle'>-32.0</td>
+      <td style='text-align:center; vertical-align:middle'>4.0</td>
+      <td style='text-align:center; vertical-align:middle'>-14.0</td>
+      <td style='text-align:center; vertical-align:middle'>-28.0</td>
+      <td style='text-align:center; vertical-align:middle'>-205.0</td>
+      <td style='text-align:center; vertical-align:middle'>-31.0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <td style='text-align:center; vertical-align:middle'>4.0</td>
+      <td style='text-align:center; vertical-align:middle'>-45.0</td>
+      <td style='text-align:center; vertical-align:middle'>-112.0</td>
+      <td style='text-align:center; vertical-align:middle'>-25.0</td>
+      <td style='text-align:center; vertical-align:middle'>-85.0</td>
+      <td style='text-align:center; vertical-align:middle'>-127.0</td>
+      <td style='text-align:center; vertical-align:middle'>56.0</td>
+      <td style='text-align:center; vertical-align:middle'>-110.0</td>
+      <td style='text-align:center; vertical-align:middle'>81.0</td>
+      <td style='text-align:center; vertical-align:middle'>41.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>14.0</td>
+      <td style='text-align:center; vertical-align:middle'>163.0</td>
+      <td style='text-align:center; vertical-align:middle'>-14.0</td>
+      <td style='text-align:center; vertical-align:middle'>7.0</td>
+      <td style='text-align:center; vertical-align:middle'>15.0</td>
+      <td style='text-align:center; vertical-align:middle'>-8.0</td>
+      <td style='text-align:center; vertical-align:middle'>-104.0</td>
+      <td style='text-align:center; vertical-align:middle'>-36.0</td>
+      <td style='text-align:center; vertical-align:middle'>-245.0</td>
+      <td style='text-align:center; vertical-align:middle'>34.0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>3</th>
+      <td style='text-align:center; vertical-align:middle'>-31.0</td>
+      <td style='text-align:center; vertical-align:middle'>-110.0</td>
+      <td style='text-align:center; vertical-align:middle'>-20.0</td>
+      <td style='text-align:center; vertical-align:middle'>-50.0</td>
+      <td style='text-align:center; vertical-align:middle'>-115.0</td>
+      <td style='text-align:center; vertical-align:middle'>-113.0</td>
+      <td style='text-align:center; vertical-align:middle'>-17.0</td>
+      <td style='text-align:center; vertical-align:middle'>-40.0</td>
+      <td style='text-align:center; vertical-align:middle'>-17.0</td>
+      <td style='text-align:center; vertical-align:middle'>80.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>26.0</td>
+      <td style='text-align:center; vertical-align:middle'>625.0</td>
+      <td style='text-align:center; vertical-align:middle'>18.0</td>
+      <td style='text-align:center; vertical-align:middle'>59.0</td>
+      <td style='text-align:center; vertical-align:middle'>-10.0</td>
+      <td style='text-align:center; vertical-align:middle'>32.0</td>
+      <td style='text-align:center; vertical-align:middle'>-2.0</td>
+      <td style='text-align:center; vertical-align:middle'>10.0</td>
+      <td style='text-align:center; vertical-align:middle'>-495.0</td>
+      <td style='text-align:center; vertical-align:middle'>-37.0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>4</th>
+      <td style='text-align:center; vertical-align:middle'>-33.0</td>
+      <td style='text-align:center; vertical-align:middle'>-39.0</td>
+      <td style='text-align:center; vertical-align:middle'>-45.0</td>
+      <td style='text-align:center; vertical-align:middle'>14.0</td>
+      <td style='text-align:center; vertical-align:middle'>-56.0</td>
+      <td style='text-align:center; vertical-align:middle'>-106.0</td>
+      <td style='text-align:center; vertical-align:middle'>73.0</td>
+      <td style='text-align:center; vertical-align:middle'>-34.0</td>
+      <td style='text-align:center; vertical-align:middle'>18.0</td>
+      <td style='text-align:center; vertical-align:middle'>64.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>-69.0</td>
+      <td style='text-align:center; vertical-align:middle'>398.0</td>
+      <td style='text-align:center; vertical-align:middle'>38.0</td>
+      <td style='text-align:center; vertical-align:middle'>215.0</td>
+      <td style='text-align:center; vertical-align:middle'>-2.0</td>
+      <td style='text-align:center; vertical-align:middle'>44.0</td>
+      <td style='text-align:center; vertical-align:middle'>3.0</td>
+      <td style='text-align:center; vertical-align:middle'>68.0</td>
+      <td style='text-align:center; vertical-align:middle'>-293.0</td>
+      <td style='text-align:center; vertical-align:middle'>-34.0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>...</th>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>139</th>
+      <td style='text-align:center; vertical-align:middle'>-196.0</td>
+      <td style='text-align:center; vertical-align:middle'>-369.0</td>
+      <td style='text-align:center; vertical-align:middle'>-263.0</td>
+      <td style='text-align:center; vertical-align:middle'>162.0</td>
+      <td style='text-align:center; vertical-align:middle'>-277.0</td>
+      <td style='text-align:center; vertical-align:middle'>-615.0</td>
+      <td style='text-align:center; vertical-align:middle'>-397.0</td>
+      <td style='text-align:center; vertical-align:middle'>-243.0</td>
+      <td style='text-align:center; vertical-align:middle'>70.0</td>
+      <td style='text-align:center; vertical-align:middle'>-167.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>-25.0</td>
+      <td style='text-align:center; vertical-align:middle'>2674.0</td>
+      <td style='text-align:center; vertical-align:middle'>171.0</td>
+      <td style='text-align:center; vertical-align:middle'>1499.0</td>
+      <td style='text-align:center; vertical-align:middle'>95.0</td>
+      <td style='text-align:center; vertical-align:middle'>735.0</td>
+      <td style='text-align:center; vertical-align:middle'>-12.0</td>
+      <td style='text-align:center; vertical-align:middle'>647.0</td>
+      <td style='text-align:center; vertical-align:middle'>-2414.0</td>
+      <td style='text-align:center; vertical-align:middle'>-33.0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>140</th>
+      <td style='text-align:center; vertical-align:middle'>34.0</td>
+      <td style='text-align:center; vertical-align:middle'>-81.0</td>
+      <td style='text-align:center; vertical-align:middle'>-146.0</td>
+      <td style='text-align:center; vertical-align:middle'>-151.0</td>
+      <td style='text-align:center; vertical-align:middle'>-174.0</td>
+      <td style='text-align:center; vertical-align:middle'>-121.0</td>
+      <td style='text-align:center; vertical-align:middle'>-290.0</td>
+      <td style='text-align:center; vertical-align:middle'>-106.0</td>
+      <td style='text-align:center; vertical-align:middle'>43.0</td>
+      <td style='text-align:center; vertical-align:middle'>240.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>-32.0</td>
+      <td style='text-align:center; vertical-align:middle'>226.0</td>
+      <td style='text-align:center; vertical-align:middle'>189.0</td>
+      <td style='text-align:center; vertical-align:middle'>310.0</td>
+      <td style='text-align:center; vertical-align:middle'>-13.0</td>
+      <td style='text-align:center; vertical-align:middle'>210.0</td>
+      <td style='text-align:center; vertical-align:middle'>-22.0</td>
+      <td style='text-align:center; vertical-align:middle'>622.0</td>
+      <td style='text-align:center; vertical-align:middle'>-889.0</td>
+      <td style='text-align:center; vertical-align:middle'>-104.0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>141</th>
+      <td style='text-align:center; vertical-align:middle'>-56.0</td>
+      <td style='text-align:center; vertical-align:middle'>-818.0</td>
+      <td style='text-align:center; vertical-align:middle'>-1338.0</td>
+      <td style='text-align:center; vertical-align:middle'>-57.0</td>
+      <td style='text-align:center; vertical-align:middle'>-989.0</td>
+      <td style='text-align:center; vertical-align:middle'>-796.0</td>
+      <td style='text-align:center; vertical-align:middle'>-1466.0</td>
+      <td style='text-align:center; vertical-align:middle'>-347.0</td>
+      <td style='text-align:center; vertical-align:middle'>-413.0</td>
+      <td style='text-align:center; vertical-align:middle'>103.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>-85.0</td>
+      <td style='text-align:center; vertical-align:middle'>1827.0</td>
+      <td style='text-align:center; vertical-align:middle'>581.0</td>
+      <td style='text-align:center; vertical-align:middle'>1547.0</td>
+      <td style='text-align:center; vertical-align:middle'>-72.0</td>
+      <td style='text-align:center; vertical-align:middle'>999.0</td>
+      <td style='text-align:center; vertical-align:middle'>-461.0</td>
+      <td style='text-align:center; vertical-align:middle'>564.0</td>
+      <td style='text-align:center; vertical-align:middle'>-3567.0</td>
+      <td style='text-align:center; vertical-align:middle'>-192.0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>142</th>
+      <td style='text-align:center; vertical-align:middle'>-245.0</td>
+      <td style='text-align:center; vertical-align:middle'>-235.0</td>
+      <td style='text-align:center; vertical-align:middle'>-127.0</td>
+      <td style='text-align:center; vertical-align:middle'>197.0</td>
+      <td style='text-align:center; vertical-align:middle'>-562.0</td>
+      <td style='text-align:center; vertical-align:middle'>-714.0</td>
+      <td style='text-align:center; vertical-align:middle'>-1621.0</td>
+      <td style='text-align:center; vertical-align:middle'>-226.0</td>
+      <td style='text-align:center; vertical-align:middle'>-35.0</td>
+      <td style='text-align:center; vertical-align:middle'>-243.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>-419.0</td>
+      <td style='text-align:center; vertical-align:middle'>580.0</td>
+      <td style='text-align:center; vertical-align:middle'>233.0</td>
+      <td style='text-align:center; vertical-align:middle'>1065.0</td>
+      <td style='text-align:center; vertical-align:middle'>-71.0</td>
+      <td style='text-align:center; vertical-align:middle'>397.0</td>
+      <td style='text-align:center; vertical-align:middle'>-28.0</td>
+      <td style='text-align:center; vertical-align:middle'>114.0</td>
+      <td style='text-align:center; vertical-align:middle'>-3086.0</td>
+      <td style='text-align:center; vertical-align:middle'>-16.0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>143</th>
+      <td style='text-align:center; vertical-align:middle'>-26.0</td>
+      <td style='text-align:center; vertical-align:middle'>-1595.0</td>
+      <td style='text-align:center; vertical-align:middle'>-2085.0</td>
+      <td style='text-align:center; vertical-align:middle'>-334.0</td>
+      <td style='text-align:center; vertical-align:middle'>-455.0</td>
+      <td style='text-align:center; vertical-align:middle'>-354.0</td>
+      <td style='text-align:center; vertical-align:middle'>-482.0</td>
+      <td style='text-align:center; vertical-align:middle'>196.0</td>
+      <td style='text-align:center; vertical-align:middle'>114.0</td>
+      <td style='text-align:center; vertical-align:middle'>45.0</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>-243.0</td>
+      <td style='text-align:center; vertical-align:middle'>526.0</td>
+      <td style='text-align:center; vertical-align:middle'>126.0</td>
+      <td style='text-align:center; vertical-align:middle'>320.0</td>
+      <td style='text-align:center; vertical-align:middle'>-30.0</td>
+      <td style='text-align:center; vertical-align:middle'>308.0</td>
+      <td style='text-align:center; vertical-align:middle'>-179.0</td>
+      <td style='text-align:center; vertical-align:middle'>121.0</td>
+      <td style='text-align:center; vertical-align:middle'>-1878.0</td>
+      <td style='text-align:center; vertical-align:middle'>-357.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>144 rows × 16063 columns</p>
+</div>
+<h2 id="clustering-analysis" class="relative group"><strong>Clustering Analysis</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#clustering-analysis" aria-label="Anchor">#</a></span></h2><h4>4. Use the<kbd>sklearn.cluster</kbd> module to perform clustering analysis on the dataset. In particular, repeat the analysis proposed in section 14.3.8 of the book (Hastie et al., 2009)</h4>
+<ul>
+<li>Start using <strong><code>K-means</code></strong> and then test some <strong>other clustering algorithms</strong> at your choice</li>
+<li>Cluster the samples (i.e., columns). Each sample has a label (tumor type)</li>
+<li><strong>Do not use the labels in the clustering phase</strong> but examine them posthoc to interpret the clusters</li>
+<li>Run k-means with K from <strong>2 to 10</strong> and compare the clusterings in terms of within-sum of squares</li>
+<li>Show the chart of the performance depending on K</li>
+<li>Select some K and analyze the clusters as done in the book</li>
+</ul>
+<h3 id="k-means" class="relative group"><strong>K-Means</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#k-means" aria-label="Anchor">#</a></span></h3><p>The <strong>KMeans algorithm</strong> clusters data by trying to separate samples in n groups of equal variance, minimizing a criterion known as the <strong>inertia</strong> or <strong>within-cluster sum-of-squares</strong>.<cite> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></cite></p>
+<p>The k-means algorithm divides a set of samples into disjoint clusters, each described by the mean of the samples in the cluster. The means are commonly called the cluster “<em>centroids</em>”; note that they are not, in general, points from, although they live in the same space.</p>
+<p>The K-means algorithm aims to choose centroids that minimise the inertia, or within-cluster sum-of-squares criterion:
+\[\sum_{i=0}^{n}\min_{\mu_j \in C}(||x_i - \mu_j||^2)\]</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># K-means with k from 2 to 10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">n_clusters</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">alg</span> <span class="o">=</span> <span class="s1">&#39;k-means++&#39;</span> <span class="c1"># Method for initialization</span>
+</span></span><span class="line"><span class="cl"><span class="n">niter</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># Number of time the k-means algorithm will be run with different centroid seeds.</span>
+</span></span><span class="line"><span class="cl"><span class="n">wc_km_sos</span><span class="o">=</span><span class="p">[]</span> <span class="c1"># within_cluster_km_sos</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;k</span><span class="se">\t</span><span class="s1">Inertia</span><span class="se">\t\t\t</span><span class="s1">decrease %&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="mi">50</span> <span class="o">*</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">formatter_result</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&#34;</span><span class="si">{:d}</span><span class="se">\t</span><span class="si">{:f}</span><span class="se">\t</span><span class="si">{:f}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">n_clusters</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">alg</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="n">niter</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xtrain</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># inertia = Sum of squared distances of samples to their closest cluster center  </span>
+</span></span><span class="line"><span class="cl">    <span class="n">wcv</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">inertia_</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wc_km_sos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wcv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wcv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># variations in %</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">wc_km_sos</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="n">wc_km_sos</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">wc_km_sos</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">wc_km_sos</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">formatter_result</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">))</span>    
+</span></span></code></pre></div><pre><code>k	Inertia			        decrease %
+--------------------------------------------------
+2	865755593329.079102 	0.000000
+3	728028390816.590332	    -18.917834
+4	638452947540.124023	    -14.030077
+5	586449466492.984497	    -8.867513
+6	538128754493.843750 	-8.979396
+7	516487727616.067871 	-4.190037
+8	488855618252.548340 	-5.652407
+9	454592949466.325562	    -7.537000
+10	440415484775.366333	    -3.219111
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># fig </span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">wc_km_sos</span><span class="p">,</span>  <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;darkblue&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ax.yaxis.set_major_formatter(FormatStrFormatter(&#39;%.f&#39;))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&#34;Number of Clusters K&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;within-cluster sum of squares&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&#34;Total within-cluster sum of squares</span><span class="se">\n</span><span class="s2"> for K-means clustering&#34;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.825</span><span class="p">)</span> <span class="c1"># change title position</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex5-humantumormicro-clustering/output_15_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># We can compare the above chart with the one in the book:</span>
+</span></span><span class="line"><span class="cl"><span class="n">scale</span> <span class="o">=</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl"><span class="n">Image</span><span class="p">(</span><span class="s2">&#34;../input/14cancer/chart.png&#34;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">width</span><span class="o">*</span><span class="n">scale</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">height</span><span class="o">*</span><span class="n">scale</span><span class="p">)</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex5-humantumormicro-clustering/output_16_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+
+This plot is taken from &ldquo;The Elements of Statistical Learning&rdquo; book.<cite> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></cite></p>
+<h3 id="comparison-between-different-methods-of-initialization-kbdk-meanskbd-vs-kbdrandomkbd" class="relative group"><strong>Comparison between different methods of initialization: <kbd>k-means++</kbd> vs <kbd>random</kbd></strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#comparison-between-different-methods-of-initialization-kbdk-meanskbd-vs-kbdrandomkbd" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">n_clusters</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">niter</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># Number of time the k-means algorithm will be run with different centroid seeds.</span>
+</span></span><span class="line"><span class="cl"><span class="n">wc_kmpp</span><span class="p">,</span> <span class="n">wc_rnd</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;k</span><span class="se">\t</span><span class="s1">K-means</span><span class="se">\t\t\t</span><span class="s1">random&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">formatter_result</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&#34;</span><span class="si">{:d}</span><span class="se">\t</span><span class="si">{:f}</span><span class="se">\t</span><span class="si">{:f}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">n_clusters</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">kmpp</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&#34;k-means++&#34;</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="n">niter</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xtrain</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rnd</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&#34;random&#34;</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="n">niter</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xtrain</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kmpp</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rnd</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    <span class="n">wc_kmpp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kmpp</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wc_rnd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rnd</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">formatter_result</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">))</span>    
+</span></span></code></pre></div><pre><code>k	K-means			        random
+------------------------------------------------------------
+2	865755593329.079102	    865755593329.078979
+3	728215342983.054443	    728215342983.054443
+4	638286863470.537109	    638452947540.124146
+5	586098738159.229004	    580943572411.067993
+6	541362331453.668213	    539591832514.661987
+7	501565429046.019531	    500472648214.279541
+8	481877683922.631714	    484882990782.917847
+9	461806611237.345337	    464195618439.327515
+10	448128965453.922974	    454970652718.346436
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># fig </span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">wc_kmpp</span><span class="p">,</span>  <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;darkblue&#34;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;k-means++&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">wc_rnd</span><span class="p">,</span>  <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;orange&#34;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;random&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ax.yaxis.set_major_formatter(FormatStrFormatter(&#39;%.f&#39;))</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&#34;Number of Clusters K&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;within-cluster sum of squares&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&#34;Comparison with different method of initialization&#34;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.825</span><span class="p">)</span> <span class="c1"># change title position</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex5-humantumormicro-clustering/output_19_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h3 id="comparison-between-different-kbdn_iterkbd" class="relative group"><strong>Comparison between different <kbd>n_iter</kbd></strong>: <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#comparison-between-different-kbdn_iterkbd" aria-label="Anchor">#</a></span></h3><p>Number of time the k-means algorithm will be run with different centroid seeds.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">n_clusters</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">wc_ten_seeds</span><span class="p">,</span> <span class="n">wc_twenty_seeds</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;k</span><span class="se">\t</span><span class="s1">n_iter=10</span><span class="se">\t\t</span><span class="s1">n_iter=20&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="mi">70</span> <span class="o">*</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">formatter_result</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&#34;</span><span class="si">{:d}</span><span class="se">\t</span><span class="si">{:f}</span><span class="se">\t</span><span class="si">{:f}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">n_clusters</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">ten_seeds</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&#34;k-means++&#34;</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xtrain</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">twenty_seeds</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&#34;k-means++&#34;</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xtrain</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ten_seeds</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">twenty_seeds</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    <span class="n">wc_ten_seeds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ten_seeds</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wc_twenty_seeds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">twenty_seeds</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">formatter_result</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">))</span>    
+</span></span></code></pre></div><pre><code>k	n_iter=10		        n_iter=20
+----------------------------------------------------------------------
+2	866070488704.476074	    865755593329.079102
+3	728028390816.590210	    727972625271.491211
+4	639723868185.660278 	638286863470.537109
+5	579977474766.300903 	580224574540.047607
+6	543140308602.200195 	537625894944.809998
+7	499824352123.143555 	499900728332.191284
+8	481177796841.305420 	478729684111.517700
+9	463786737203.969238 	455823165084.713989
+10	447920765947.759399 	440614709199.603394
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># fig </span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">wc_ten_seeds</span><span class="p">,</span>  <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;darkblue&#34;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;n_iter=10&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">wc_twenty_seeds</span><span class="p">,</span>  <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;orange&#34;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;n_iter=20&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ax.yaxis.set_major_formatter(FormatStrFormatter(&#39;%.f&#39;))</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&#34;Number of Clusters K&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;within-cluster sum of squares&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&#34;Comparison between different n_iter&#34;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.825</span><span class="p">)</span> <span class="c1"># change title position</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex5-humantumormicro-clustering/output_22_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h3 id="mini-batch-k-means" class="relative group"><strong>Mini-batch K-means</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#mini-batch-k-means" aria-label="Anchor">#</a></span></h3><p>The <strong>MiniBatchKMeans</strong> is a variant of the KMeans algorithm which uses mini-batches to reduce the computation time, while still attempting to optimise the same objective function.</p>
+<p>Mini-batches are subsets of the input data, randomly sampled in each training iteration. These mini-batches drastically reduce the amount of computation required to converge to a local solution.</p>
+<p>In contrast to other algorithms that reduce the convergence time of k-means, mini-batch k-means produces results that are generally only slightly worse than the standard algorithm.<cite> <sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></cite></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># K-means with k from 2 to 10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">n_clusters</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">alg</span> <span class="o">=</span> <span class="s1">&#39;k-means++&#39;</span> <span class="c1"># Method for initialization</span>
+</span></span><span class="line"><span class="cl"><span class="n">niter</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># Number of time the k-means algorithm will be run with different centroid seeds.</span>
+</span></span><span class="line"><span class="cl"><span class="n">wc_mbkm_sos</span><span class="o">=</span><span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;k</span><span class="se">\t</span><span class="s1">Inertia</span><span class="se">\t\t\t</span><span class="s1">decrease %&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="mi">50</span> <span class="o">*</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">formatter_result</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&#34;</span><span class="si">{:d}</span><span class="se">\t</span><span class="si">{:f}</span><span class="se">\t</span><span class="si">{:f}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">n_clusters</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">mbkm</span> <span class="o">=</span> <span class="n">MiniBatchKMeans</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">alg</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="n">niter</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xtrain</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># inertia = Sum of squared distances of samples to their closest cluster center  </span>
+</span></span><span class="line"><span class="cl">    <span class="n">wcv</span> <span class="o">=</span> <span class="n">mbkm</span><span class="o">.</span><span class="n">inertia_</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wc_mbkm_sos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wcv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wcv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># variations in %</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">wc_mbkm_sos</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="n">wc_mbkm_sos</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">wc_mbkm_sos</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">wc_mbkm_sos</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">formatter_result</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">))</span>    
+</span></span></code></pre></div><pre><code>k	Inertia			        decrease %
+--------------------------------------------------
+2	870435631688.268311	    0.000000
+3	728979505913.590698	    -19.404678
+4	644499761950.796875	    -13.107801
+5	651489332987.863525	    1.072860
+6	554034243741.206177	    -17.590084
+7	547550479471.734985	    -1.184140
+8	526030833538.899902	    -4.090948
+9	489328464969.691284	    -7.500559
+10	452845818672.533325	    -8.056306
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># fig </span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">wc_mbkm_sos</span><span class="p">,</span>  <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;darkblue&#34;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;k-means&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">wc_km_sos</span><span class="p">,</span>  <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;orange&#34;</span><span class="p">,</span>  <span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;Mini batch k-means&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ax.yaxis.set_major_formatter(FormatStrFormatter(&#39;%.f&#39;))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&#34;Number of Clusters K&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;within-cluster sum of squares&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&#34;Total within-cluster sum of squares</span><span class="se">\n</span><span class="s2">comparison&#34;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.825</span><span class="p">)</span> <span class="c1"># change title position</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex5-humantumormicro-clustering/output_29_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h2 id="analysis-for-k3" class="relative group"><strong>Analysis for K=3</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#analysis-for-k3" aria-label="Anchor">#</a></span></h2><h3 id="number-of-cancer-cases-of-each-type-in-each-of-the-3-clusters" class="relative group"><strong>Number of cancer cases of each type in each of the 3 clusters</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#number-of-cancer-cases-of-each-type-in-each-of-the-3-clusters" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">rows</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&#34;k-means++&#34;</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xtrain</span><span class="p">)</span><span class="o">.</span><span class="n">labels_</span> <span class="c1"># labels of each sample after clustering</span>
+</span></span><span class="line"><span class="cl"><span class="n">columns</span> <span class="o">=</span> <span class="n">ytrain</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="c1"># make the df into an iterable list</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Collect info in a table</span>
+</span></span><span class="line"><span class="cl"><span class="n">tab</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n_labels</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">n_labels</span><span class="p">)</span> <span class="c1"># rows: clusters, columns: cancer labels</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Update table</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tab</span><span class="p">[</span><span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span> <span class="c1"># column-1 because we range over 14 clusters (0,13)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="c1"># Better formatting of the table into a DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tab</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">table</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;breast&#34;</span><span class="p">,</span> <span class="s2">&#34;prostate&#34;</span><span class="p">,</span> <span class="s2">&#34;lung&#34;</span><span class="p">,</span> <span class="s2">&#34;collerectal&#34;</span><span class="p">,</span> <span class="s2">&#34;lymphoma&#34;</span><span class="p">,</span> <span class="s2">&#34;bladder&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="s2">&#34;melanoma&#34;</span><span class="p">,</span> <span class="s2">&#34;uterus&#34;</span><span class="p">,</span> <span class="s2">&#34;leukemia&#34;</span><span class="p">,</span> <span class="s2">&#34;renal&#34;</span><span class="p">,</span> <span class="s2">&#34;pancreas&#34;</span><span class="p">,</span> <span class="s2">&#34;ovary&#34;</span><span class="p">,</span> <span class="s2">&#34;meso&#34;</span><span class="p">,</span> <span class="s2">&#34;cns&#34;</span><span class="p">]</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">table</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>breast</th>
+      <th style='text-align:center; vertical-align:middle'>prostate</th>
+      <th style='text-align:center; vertical-align:middle'>lung</th>
+      <th style='text-align:center; vertical-align:middle'>collerectal</th>
+      <th style='text-align:center; vertical-align:middle'>lymphoma</th>
+      <th style='text-align:center; vertical-align:middle'>bladder</th>
+      <th style='text-align:center; vertical-align:middle'>melanoma</th>
+      <th style='text-align:center; vertical-align:middle'>uterus</th>
+      <th style='text-align:center; vertical-align:middle'>leukemia</th>
+      <th style='text-align:center; vertical-align:middle'>renal</th>
+      <th style='text-align:center; vertical-align:middle'>pancreas</th>
+      <th style='text-align:center; vertical-align:middle'>ovary</th>
+      <th style='text-align:center; vertical-align:middle'>meso</th>
+      <th style='text-align:center; vertical-align:middle'>cns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>21</td>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <td style='text-align:center; vertical-align:middle'>8</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>6</td>
+      <td style='text-align:center; vertical-align:middle'>5</td>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>7</td>
+      <td style='text-align:center; vertical-align:middle'>5</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>5</td>
+      <td style='text-align:center; vertical-align:middle'>6</td>
+      <td style='text-align:center; vertical-align:middle'>4</td>
+      <td style='text-align:center; vertical-align:middle'>4</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>13</td>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>4</td>
+      <td style='text-align:center; vertical-align:middle'>13</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>More info about K-Means method and other clustering methods can be found <a href="https://scikit-learn.org/stable/modules/clustering.html" target="_blank" rel="noreferrer">here</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>The above chart can be found in the section 14.3.8 of the book <a href="https://hastie.su.domains/ElemStatLearn/" target="_blank" rel="noreferrer">The Elements of Statistical Learning: Data Mining, Inference, and Prediction.</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="/posts/some-exercise-about-statistical-learning/sl-ex4-prostate-shrinkage/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >SL4: Analysis of Prostate Cancer dataset – shrinkage methods</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="/posts/some-exercise-about-statistical-learning/sl-ex6-californiahouseprices-ann/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >SL6: California housing dataset – regression with ANN</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                </span>
+              </span>
+              <span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+          <div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12">
+            <a
+              href="#the-top"
+              class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+              aria-label="Scroll to top"
+              title="Scroll to top"
+            >
+              &uarr;
+            </a>
+          </div>
+        
+      </main><footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            © 2024 Andrea Mortaro
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+        <div
+          class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        >
+          <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
+            <div
+              class="flex h-12 w-12 items-center justify-center dark:hidden"
+              title="Switch to dark appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+            </div>
+            <div
+              class="hidden h-12 w-12 items-center justify-center dark:flex"
+              title="Switch to light appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+            </div>
+          </button>
+        </div>
+      
+    </div>
+  </div>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm sm:p-6 md:p-[10vh] lg:p-[12vh] dark:bg-neutral-900/50"
+  data-url="http://localhost:1313/"
+>
+  <div
+    id="search-modal"
+    class="top-20 mx-auto flex min-h-0 w-full max-w-3xl flex-col rounded-md border border-neutral-200 bg-neutral shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex flex-none items-center justify-between px-2">
+      <form class="flex min-w-0 flex-auto items-center">
+        <div class="flex h-8 w-8 items-center justify-center text-neutral-400">
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="mx-1 flex h-12 flex-auto appearance-none bg-transparent focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex h-8 w-8 items-center justify-center text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto overflow-auto px-2">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+</html>

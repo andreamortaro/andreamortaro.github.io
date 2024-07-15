@@ -1,0 +1,1657 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="false"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="rgb(255,255,255)" />
+  
+  <title>SL4: Analysis of Prostate Cancer dataset – shrinkage methods &middot; Andrea Mortaro</title>
+    <meta name="title" content="SL4: Analysis of Prostate Cancer dataset – shrinkage methods &middot; Andrea Mortaro" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.74ad8406faea02f3e186ba5126249aaeed9073629e04b05037b903396b188724.js"
+    integrity="sha256-dK2EBvrqAvPhhrpRJiSaru2Qc2KeBLBQN7kDOWsYhyQ="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.790b059e2e9fa3fdf3b2e196f71c93eebce086cb299a998628bb721d41e0453e.css"
+    integrity="sha256-eQsFni6fo/3zsuGW9xyT7rzghsspmpmGKLtyHUHgRT4="
+  />
+  
+    
+    
+    
+  
+  
+  
+    
+    
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.ef84f1e4c888f2aa2d84745ad4e1d75d27a8f29d55f84702214c97ecd79fba5b.js"
+      integrity="sha256-74Tx5MiI8qothHRa1OHXXSeo8p1V&#43;EcCIUyX7Nefuls="
+      data-copy="Copy"
+      data-copied="Copied"
+    ></script>
+  
+  
+  <meta
+    name="description"
+    content="
+      
+        
+      
+    "
+  />
+  
+  
+  
+  <link rel="canonical" href="http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex4-prostate-shrinkage/" />
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex4-prostate-shrinkage/">
+  <meta property="og:site_name" content="Andrea Mortaro">
+  <meta property="og:title" content="SL4: Analysis of Prostate Cancer dataset – shrinkage methods">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="SL4: Analysis of Prostate Cancer dataset – shrinkage methods">
+<meta name="twitter:description" content="">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "SL4: Analysis of Prostate Cancer dataset – shrinkage methods",
+    "headline": "SL4: Analysis of Prostate Cancer dataset – shrinkage methods",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/localhost:1313\/posts\/some-exercise-about-statistical-learning\/sl-ex4-prostate-shrinkage\/",
+    "author" : {
+      "@type": "Person",
+      "name": "Andrea Mortaro"
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "3508"
+  }
+  </script>
+
+
+  
+  <meta name="author" content="Andrea Mortaro" />
+  
+    
+      <link href="mailto:andrea.mortaro@yahoo.com" rel="me" />
+    
+      <link href="https://github.com/andreamortaro" rel="me" />
+    
+      <link href="https://mastodon.uno/@andreamortaro" rel="me" />
+    
+      <link href="https://twitter.com/andrea_mortaro" rel="me" />
+    
+  
+  
+  
+
+
+
+
+
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/lib/katex/katex.min.af6f85907cdfd6ed3e4906d93a8233d91c5638859f744cd1b98c9b1a3ccaab5f231bdcda49f132f6cdfe8cca86ff33ed468affab8a9a502610a664a34f0f0cfa.css"
+    integrity="sha512-r2&#43;FkHzf1u0&#43;SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3&#43;jMqG/zPtRor/q4qaUCYQpmSjTw8M&#43;g=="
+  />
+  
+  
+  <script
+    defer
+    src="/lib/katex/katex.min.20da6cf7343619410c0900fbc626506c65159ea9f312f9729d5cba7aa713707378f9a4222e8f7fb9a42a7240e9749f199b7334401b3e3e4b60e29cf490492552.js"
+    integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4&#43;aQiLo9/uaQqckDpdJ8Zm3M0QBs&#43;Pktg4pz0kEklUg=="
+  ></script>
+  
+  
+  <script
+    defer
+    src="/lib/katex/auto-render.min.6095714e3aadb63b14ddc4af69346ab12974c1b460654345f8d1860a0b68fcc51b22f68b757433193090bb80afc8965b65cb607e5541d0f5f0f4b2e64d69b9ff.js"
+    integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF&#43;NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w=="
+    onload="renderMathInElement(document.body);"
+  ></script>
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 sm:px-14 md:px-24 lg:px-32 dark:bg-neutral-800 dark:text-neutral"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 print:hidden sm:py-10 dark:text-neutral">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Andrea Mortaro</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/about/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >About</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/posts/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Blog</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/tags/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Tags</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="https://github.com/andreamortaro"
+                  title=""
+                  target="_blank"
+                  >
+                    <span
+                      class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                
+                
+                  <button
+                    id="search-button-1"
+                    title="Search (/)"
+                  >
+                    
+                      <span
+                        class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                      ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
+                        class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                        ></span
+                      >
+                    
+                  </button>
+                
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+        <ol class="text-sm text-neutral-500 print:hidden dark:text-neutral-400">
+  
+  
+    
+  
+    
+  
+    
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/"
+      >Welcome to Congo! :tada:</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class=" inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/"
+      >Posts</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class=" inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/some-exercise-about-statistical-learning/"
+      >Some exercise about Statistical Learning</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/some-exercise-about-statistical-learning/sl-ex4-prostate-shrinkage/"
+      >SL4: Analysis of Prostate Cancer dataset – shrinkage methods</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        SL4: Analysis of Prostate Cancer dataset – shrinkage methods
+      </h1>
+      
+        <div class="mb-12 mt-8 text-base text-neutral-500 print:hidden dark:text-neutral-400">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <span title="Reading time">17 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+    <div class="my-1 flex flex-wrap text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+      
+        
+      
+        
+      
+    </div>
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+        <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
+          <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
+            <details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5">
+  <summary
+    class="block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+  >
+    Table of Contents
+  </summary>
+  <div class="border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#data-acquisition"><strong>Data acquisition</strong></a></li>
+    <li><a href="#data-pre-processing"><strong>Data pre-processing</strong></a>
+      <ul>
+        <li><a href="#standardization"><strong>Standardization</strong></a></li>
+        <li><a href="#split-into-training-and-test-sets"><strong>Split into Training and Test sets</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#ridge-regression"><strong>Ridge regression</strong></a>
+      <ul>
+        <li><a href="#ridge-coefficients-as-functions-of-the-effective-dof"><strong>Ridge coefficients as functions of the effective DoF</strong></a></li>
+        <li><a href="#ridge-regression-loocv"><strong>Ridge regression LOOCV</strong></a></li>
+        <li><a href="#ridge-regression-with-10-folds-cross-validation"><strong>Ridge regression with 10-Folds Cross Validation</strong></a></li>
+        <li><a href="#comparison-between-ridge-loo-cv-and-ridge-10-folds-cv"><strong>Comparison between Ridge LOO CV and Ridge 10 Folds CV</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#lasso-regression"><strong>Lasso regression</strong></a>
+      <ul>
+        <li><a href="#comparison-between-lasso-with-different-cv-folds"><strong>Comparison between Lasso with different CV folds</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#results-and-comparisons"><strong>Results and comparisons</strong></a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+          </div>
+        </div>
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># data analysis and wrangling</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> <span class="c1"># linear algebra</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> <span class="c1"># data processing, CSV file I/O (e.g. pd.read_csv)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># import random as rnd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># visualization</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># %matplotlib inline</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># machine learning</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">RidgeCV</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">lasso_path</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LassoCV</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span> <span class="c1"># to visualize images</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span> <span class="c1"># to create tables</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="s1">&#39;/kaggle/input&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+</span></span></code></pre></div><pre><code>/kaggle/input/prostate-data/tab4.png
+/kaggle/input/prostate-data/tab4-no-cap.png
+/kaggle/input/prostate-data/tab3.png
+/kaggle/input/prostate-data/prostate.data
+/kaggle/input/prostate-data/tab.png
+/kaggle/input/prostate-data/tab2.png
+</code></pre>
+<h4>1. Open your kernel SL_EX2_ProstateCancer_Surname in Kaggle</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>2. Generate a copy called SL_EX4_Prostate_Shrinkage_Surname by the Fork button</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>3. Import Ridge from sklearn.linear_model</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h2 id="data-acquisition" class="relative group"><strong>Data acquisition</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#data-acquisition" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Load the Prostate Cancer dataset</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../input/prostate-data/prostate.data&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Save &#34;train&#34; and lpsa&#34; columns into Pandas Series variables</span>
+</span></span><span class="line"><span class="cl"><span class="n">train</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">lpsa</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;lpsa&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Drop &#34;train&#34; and lpsa&#34; variable from data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span><span class="s1">&#39;lpsa&#39;</span><span class="p">,</span><span class="s1">&#39;train&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="data-pre-processing" class="relative group"><strong>Data pre-processing</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#data-pre-processing" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## X VARIABLE:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Split the data in train and test sets</span>
+</span></span><span class="line"><span class="cl"><span class="n">dataTrain</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="c1"># Obviously, len(idx)==len(dataTrain) is True!</span>
+</span></span><span class="line"><span class="cl"><span class="n">dataTest</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Rename these two variables as &#34;predictorsTrain&#34; and &#34;predictorsTest&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTrain</span> <span class="o">=</span> <span class="n">dataTrain</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTest</span> <span class="o">=</span> <span class="n">dataTest</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## Y VARIABLE:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Split the &#34;lpsa&#34; in train and test sets</span>
+</span></span><span class="line"><span class="cl"><span class="n">lpsaTrain</span> <span class="o">=</span> <span class="n">lpsa</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">lpsaTest</span> <span class="o">=</span> <span class="n">lpsa</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">]</span>
+</span></span></code></pre></div><h3 id="standardization" class="relative group"><strong>Standardization</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#standardization" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Standardize &#34;predictorsTrain&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTrainMeans</span> <span class="o">=</span> <span class="n">predictorsTrain</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTrainStds</span> <span class="o">=</span> <span class="n">predictorsTrain</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTrain_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">predictorsTrain</span> <span class="o">-</span> <span class="n">predictorsTrainMeans</span><span class="p">)</span><span class="o">/</span><span class="n">predictorsTrainStds</span> <span class="c1"># standardized variables of predictorTrain</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Standardize &#34;predictorsTest&#34; (using the mean and std of predictorsTrain, it&#39;s better!)</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTest_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">predictorsTest</span> <span class="o">-</span> <span class="n">predictorsTrainMeans</span><span class="p">)</span><span class="o">/</span><span class="n">predictorsTrainStds</span> <span class="c1"># standardized variables of predictorTest</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Standardize all the data together (necessary for CV)</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictors</span> <span class="o">=</span> <span class="n">data</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictors_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">predictors</span> <span class="o">-</span> <span class="n">predictors</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="n">predictors</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</span></span></code></pre></div><h3 id="split-into-training-and-test-sets" class="relative group"><strong>Split into Training and Test sets</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#split-into-training-and-test-sets" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## TRAINING SET</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_train</span> <span class="o">=</span> <span class="n">predictorsTrain_std</span>
+</span></span><span class="line"><span class="cl"><span class="n">Y_train</span> <span class="o">=</span> <span class="n">lpsaTrain</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## TEST SET</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_test</span> <span class="o">=</span> <span class="n">predictorsTest_std</span>
+</span></span><span class="line"><span class="cl"><span class="n">Y_test</span> <span class="o">=</span> <span class="n">lpsaTest</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## All the data standardized</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">predictors_std</span>
+</span></span><span class="line"><span class="cl"><span class="n">Y</span> <span class="o">=</span> <span class="n">lpsa</span>
+</span></span></code></pre></div><h2 id="ridge-regression" class="relative group"><strong>Ridge regression</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ridge-regression" aria-label="Anchor">#</a></span></h2><h4>4. Starting from standardized data, generate a ridge regression model with \(\alpha\)=1.0 (called \(\lambda\) in the slides)</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## Ridge Regression model trained on training set</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridge</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">);</span> <span class="c1"># if alpha=0, then Ridge coincides with OLS</span>
+</span></span></code></pre></div><h4>5. Show model’s coefficients, intercept and score (on both the training and the test set)</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## For Ridge model</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on train </span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_train_ridge</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on test</span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_test_ridge</span> <span class="o">=</span> <span class="n">ridge</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">Y_test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">About the the Ridge regression model for alpha = 1:</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* intercept: </span><span class="si">{</span><span class="n">ridge</span><span class="o">.</span><span class="n">intercept_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* model coefficients:: </span><span class="si">{</span><span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on training set: </span><span class="si">{</span><span class="n">R2_train_ridge</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on test set: </span><span class="si">{</span><span class="n">R2_test_ridge</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>About the the Ridge regression model for alpha = 1:
+* intercept: 2.452
+* model coefficients:: [0.69, 0.292, -0.135, 0.21, 0.304, -0.256, -0.011, 0.258]
+* R^2 on training set: 0.694
+* R^2 on test set: 0.512
+</code></pre>
+<h4>6. Plot Ridge coefficients as functions of the regularization parameter alpha</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># create a vector of alphas</span>
+</span></span><span class="line"><span class="cl"><span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">base</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># regularization params [base**start,base**end]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">coefs_r</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># lists to store model coeffs</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alphas</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># Compute the Ridge model</span>
+</span></span><span class="line"><span class="cl">    <span class="n">reg</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># Store coefficient</span>
+</span></span><span class="line"><span class="cl">    <span class="n">coefs_r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reg</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># fig </span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alphas</span><span class="p">,</span> <span class="n">coefs_r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;--&#34;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">)</span>  <span class="c1"># horizontal line</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ax.set_xlim(ax.get_xlim()[::-1]) # reverse the x-axis</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;$\alpha $&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;Coefficients&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;Ridge coefficients as a function of $\alpha$&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex4-prostate-shrinkage/output_19_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h3 id="ridge-coefficients-as-functions-of-the-effective-dof" class="relative group"><strong>Ridge coefficients as functions of the effective DoF</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ridge-coefficients-as-functions-of-the-effective-dof" aria-label="Anchor">#</a></span></h3><p>The effective degree of freedom of the Ridge regression is
+\[\text{df} (\alpha ) = \sum_{i=1}^{n} \dfrac{d_i^2}{d_i^2+\alpha}\]
+where \(d_i\) are singular values of \(X\).</p>
+<p>In a linear-regression fit with p variables, the degrees-of-freedom of the fit is \(df(\alpha)=p\), the number of free parameters.<br>
+The idea is that although all p coefficients in a ridge fit will be non-zero, they are fit in a restricted fashion controlled by \(\alpha\). Note that when we have no regularization \(df(0)=p\) .</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Compute effective DoF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">df_r</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="n">s2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">compute_uv</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>   <span class="c1"># singular values squared</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alphas</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tmp</span> <span class="o">=</span> <span class="n">s2</span><span class="o">/</span><span class="p">(</span><span class="n">s2</span><span class="o">+</span><span class="n">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">df_r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># fig </span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl"><span class="n">palette</span> <span class="o">=</span> <span class="s1">&#39;darkblue&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_r</span><span class="p">,</span> <span class="n">coefs_r</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ax.axvline(5, linestyle=&#34;:&#34;, linewidth=1.25, color=&#34;red&#34;)     # vertical line</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;--&#34;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">)</span>  <span class="c1"># horizontal line</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;df($\alpha $)&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;Coefficients&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Ridge coefficients as functions of the effective DoF&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Annotate the name of each variable at the last value</span>
+</span></span><span class="line"><span class="cl"><span class="n">coords</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">([</span><span class="mi">8</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">coefs_r</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">coefs_r</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># last value where I want to annotate the corresponding label</span>
+</span></span><span class="line"><span class="cl"><span class="n">labels</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">coord</span><span class="p">,</span><span class="n">lab</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span><span class="n">labels</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">coord</span><span class="p">,</span>                    <span class="c1"># The point (x, y) to annotate.</span>
+</span></span><span class="line"><span class="cl">                <span class="n">xytext</span><span class="o">=</span><span class="n">coord</span><span class="p">,</span>                <span class="c1"># The position (x, y) to place the text at.</span>
+</span></span><span class="line"><span class="cl">                <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">text</span><span class="o">=</span><span class="n">lab</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex4-prostate-shrinkage/output_22_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># We can compare the above chart with the one in the book (figure 3.8):</span>
+</span></span><span class="line"><span class="cl"><span class="n">scale</span> <span class="o">=</span> <span class="mi">70</span>
+</span></span><span class="line"><span class="cl"><span class="n">Image</span><span class="p">(</span><span class="s2">&#34;../input/prostate-data/tab4-no-cap.png&#34;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">width</span><span class="o">*</span><span class="n">scale</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">height</span><span class="o">*</span><span class="n">scale</span><span class="p">)</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex4-prostate-shrinkage/output_23_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+
+This plot is taken from &ldquo;The Elements of Statistical Learning&rdquo; book.<cite> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></cite></p>
+<h3 id="ridge-regression-loocv" class="relative group"><strong>Ridge regression LOOCV</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ridge-regression-loocv" aria-label="Anchor">#</a></span></h3><h4>7. Find the best regularization parameter by cross-validation using leave-one-out</h4>
+<ul>
+<li>Use only the training set <strong>(97 observations)</strong>.</li>
+<li>Use <strong>store_cv_values=True</strong> to get the leave-one-out errors.</li>
+<li>The <strong>cv_values_</strong> in the result object provided by <strong>RidgeCV</strong> contains <em><strong>one row for each observation (97 rows) and one column for each alpha in alphas (100 columns)</strong></em>. <br>
+Cell i,j contains the leave-one-out mean squared error on the i-th observation given the j-th alpha.<br>
+By computing the mean by column of cv_values_ you obtain the average cross-validation error for each alpha. This is the value that has to be minimized (see next step).</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Create and train the model using all the data</span>
+</span></span><span class="line"><span class="cl"><span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">start</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">num</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">base</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># cv = None, to use the Leave-One-Out cross-validation</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridgeLOO</span> <span class="o">=</span> <span class="n">RidgeCV</span><span class="p">(</span><span class="n">alphas</span> <span class="o">=</span> <span class="n">alphas</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fit_intercept</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">store_cv_values</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridgeLOO</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">cvVal</span> <span class="o">=</span> <span class="n">ridgeLOO</span><span class="o">.</span><span class="n">cv_values_</span>  <span class="c1"># cvVal[i,j] = LOO MSE on the i-th observation given the j-th alpha</span>
+</span></span><span class="line"><span class="cl"><span class="n">cvMeans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cvVal</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">cvStd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cvVal</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The shape is: &#34;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">cvVal</span><span class="p">))</span> <span class="c1"># contains one row for each observation and one column for each alpha in alphas</span>
+</span></span></code></pre></div><pre><code>The shape is:  (97, 200)
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## Best regularization parameter: identify the minimum LOOCV MSE and the related alpha</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">min_val</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">cvMeans</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># min_val = abs(ridgeLOO.best_score_)   # alternative way</span>
+</span></span><span class="line"><span class="cl"><span class="n">min_alpha</span> <span class="o">=</span> <span class="n">ridgeLOO</span><span class="o">.</span><span class="n">alpha_</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># min_alpha = ridgeLOO.alphas[np.argmin(cvMeans)]   # alternative way</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">The best regularization parameter is </span><span class="se">\u03B1</span><span class="s2">=</span><span class="si">{</span><span class="n">min_alpha</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, with corresponding LOOCV MSE equal to </span><span class="si">{</span><span class="n">min_val</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">.</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The best regularization parameter is α=6.08, with corresponding LOOCV MSE equal to 0.536.
+</code></pre>
+<h4>9. Identify the minimum leave-one-out cross-validation error and the related alpha, model coefficients and performance</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## Perform the Ridge regression on the best alpha</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridgeLOO_best</span> <span class="o">=</span> <span class="n">RidgeCV</span><span class="p">(</span><span class="n">alphas</span> <span class="o">=</span> <span class="n">min_alpha</span><span class="p">,</span> <span class="n">fit_intercept</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridgeLOO_best</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on train </span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_train_ridgeLOO_best</span> <span class="o">=</span> <span class="n">ridgeLOO_best</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on test</span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_test_ridgeLOO_best</span> <span class="o">=</span> <span class="n">ridgeLOO_best</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">Y_test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># print some info about Ridge CV</span>
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">For this value of </span><span class="se">\u03B1</span><span class="s2">=</span><span class="si">{</span><span class="n">min_alpha</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="s2"> we have the following parameters:</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* intercept: </span><span class="si">{</span><span class="n">ridgeLOO_best</span><span class="o">.</span><span class="n">intercept_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* model coefficients: </span><span class="si">{</span><span class="n">ridgeLOO_best</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on training set: </span><span class="si">{</span><span class="n">R2_train_ridgeLOO_best</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on test set: </span><span class="si">{</span><span class="n">R2_test_ridgeLOO_best</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>For this value of α=6.08 we have the following parameters:
+* intercept: 2.478
+* model coefficients: [0.59, 0.26, -0.128, 0.126, 0.287, -0.065, 0.045, 0.099]
+* R^2 on training set: 0.67
+* R^2 on test set: 0.609
+</code></pre>
+<h4>8. Plot the leave-one-out cross-validation curve</h4>
+<ul>
+<li>Hint: plot the alphas vector against the average cross-validation error for each alpha computed at the last point</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># fig </span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl"><span class="n">palette</span> <span class="o">=</span> <span class="s1">&#39;darkblue&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># straight lines</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ridgeLOO</span><span class="o">.</span><span class="n">alphas</span><span class="p">,</span> <span class="n">cvMeans</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkblue&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">min_alpha</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">min_alpha</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;:&#34;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;red&#34;</span><span class="p">)</span> <span class="c1"># vertical line</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;$\alpha$&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;cv MSE&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">fr</span><span class="s2">&#34;LOOCV curve ($\alpha$: </span><span class="si">{</span><span class="n">ridgeLOO</span><span class="o">.</span><span class="n">alpha_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">)&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ax.set_xlim(ax.get_xlim()[::-1]) # reverse the x-axis</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex4-prostate-shrinkage/output_31_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h3 id="ridge-regression-with-10-folds-cross-validation" class="relative group"><strong>Ridge regression with 10-Folds Cross Validation</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ridge-regression-with-10-folds-cross-validation" aria-label="Anchor">#</a></span></h3><h4>10. Identify the minimum 10-folds cross-validation error and the related alpha, model coefficients and performance</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># store_cv_values = False otherwise it is incompatible with cv!=none</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridge_10cv</span> <span class="o">=</span> <span class="n">RidgeCV</span><span class="p">(</span><span class="n">alphas</span> <span class="o">=</span> <span class="n">alphas</span><span class="p">,</span> <span class="n">fit_intercept</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">store_cv_values</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cv</span> <span class="o">=</span> <span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridge_10cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">);</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Best regularization parameter: identify the minimum LOO CV error and the related alpha</span>
+</span></span><span class="line"><span class="cl"><span class="n">min_alpha_10cv</span> <span class="o">=</span> <span class="n">ridge_10cv</span><span class="o">.</span><span class="n">alpha_</span>
+</span></span><span class="line"><span class="cl"><span class="n">min_val_10cv</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ridge_10cv</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span> <span class="c1"># loocv of 10cv</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">The best regularization parameters is </span><span class="se">\u03B1</span><span class="s2">=</span><span class="si">{</span><span class="n">min_alpha_10cv</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, with corresponding Leave-One-Out MSE equal to: </span><span class="si">{</span><span class="n">min_val_10cv</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The best regularization parameters is α=207.292, with corresponding Leave-One-Out MSE equal to: 52.447
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## Perform the Ridge regression with 10 folds on the best alpha (in order to perform on train and test sets)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridge_10cv_best</span> <span class="o">=</span> <span class="n">RidgeCV</span><span class="p">(</span><span class="n">alphas</span> <span class="o">=</span> <span class="n">min_alpha_10cv</span><span class="p">,</span> <span class="n">fit_intercept</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridge_10cv_best</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on train </span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_train_ridge_10cv_best</span> <span class="o">=</span> <span class="n">ridge_10cv_best</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on test</span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_test_ridge_10cv_best</span> <span class="o">=</span> <span class="n">ridge_10cv_best</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">Y_test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># print some info about Ridge CV</span>
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">For this value of </span><span class="se">\u03B1</span><span class="s2">=</span><span class="si">{</span><span class="n">min_alpha_10cv</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="s2"> we have the following parameters:</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* intercept: </span><span class="si">{</span><span class="n">ridge_10cv_best</span><span class="o">.</span><span class="n">intercept_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* model coefficients: </span><span class="si">{</span><span class="n">ridge_10cv_best</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on training set: </span><span class="si">{</span><span class="n">R2_train_ridge_10cv_best</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on test set: </span><span class="si">{</span><span class="n">R2_test_ridge_10cv_best</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>For this value of α=207.292 we have the following parameters:
+* intercept: 2.478
+* model coefficients: [0.195, 0.118, 0.01, 0.047, 0.131, 0.101, 0.058, 0.068]
+* R^2 on training set: 0.468
+* R^2 on test set: 0.459
+</code></pre>
+<h3 id="comparison-between-ridge-loo-cv-and-ridge-10-folds-cv" class="relative group"><strong>Comparison between Ridge LOO CV and Ridge 10 Folds CV</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#comparison-between-ridge-loo-cv-and-ridge-10-folds-cv" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># table</span>
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Term&#39;</span><span class="p">,</span><span class="s1">&#39;Ridge LOOCV&#39;</span><span class="p">,</span> <span class="s1">&#39;Ridge 10-CV&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># labels (0-th column)</span>
+</span></span><span class="line"><span class="cl"><span class="n">intercept_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Intercept&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Best Alpha&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">coefs_label</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">intercept_label</span><span class="p">,</span><span class="n">alpha_label</span><span class="p">,</span><span class="n">coefs_label</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ridge LOOCV column values</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">ridgeLOO_best</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_intercept_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_alpha_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">alpha_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_coefs_val</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridgeLOO_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">model_intercept_val</span><span class="p">,</span><span class="n">model_alpha_val</span><span class="p">,</span><span class="n">model_coefs_val</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ridge 10CV column values</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">ridge_10cv_best</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_intercept_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_alpha_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">alpha_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_coefs_val</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridge_10cv_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">model_intercept_val</span><span class="p">,</span><span class="n">model_alpha_val</span><span class="p">,</span><span class="n">model_coefs_val</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">labels</span><span class="p">,</span> <span class="n">ridgeLOO_values</span><span class="p">,</span> <span class="n">ridge_10cv_values</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;fancy_grid&#39;</span><span class="p">))</span>
+</span></span></code></pre></div><pre><code>╒════════════╤═══════════════╤═══════════════╕
+│ Term       │   Ridge LOOCV │   Ridge 10-CV │
+╞════════════╪═══════════════╪═══════════════╡
+│ Intercept  │         2.478 │         2.478 │
+├────────────┼───────────────┼───────────────┤
+│ Best Alpha │         6.08  │       207.292 │
+├────────────┼───────────────┼───────────────┤
+│ lcavol     │         0.59  │         0.195 │
+├────────────┼───────────────┼───────────────┤
+│ lweight    │         0.26  │         0.118 │
+├────────────┼───────────────┼───────────────┤
+│ age        │        -0.128 │         0.01  │
+├────────────┼───────────────┼───────────────┤
+│ lbph       │         0.126 │         0.047 │
+├────────────┼───────────────┼───────────────┤
+│ svi        │         0.287 │         0.131 │
+├────────────┼───────────────┼───────────────┤
+│ lcp        │        -0.065 │         0.101 │
+├────────────┼───────────────┼───────────────┤
+│ gleason    │         0.045 │         0.058 │
+├────────────┼───────────────┼───────────────┤
+│ pgg45      │         0.099 │         0.068 │
+╘════════════╧═══════════════╧═══════════════╛
+</code></pre>
+<h2 id="lasso-regression" class="relative group"><strong>Lasso regression</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#lasso-regression" aria-label="Anchor">#</a></span></h2><h4>11. Import Lasso from sklearn.linear_model</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>12. Generate a lasso regression model with a specific regularization parameter alpha=0.1</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Create a Lasso regression model</span>
+</span></span><span class="line"><span class="cl"><span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">);</span>
+</span></span></code></pre></div><h4>14 Show model’s coefficients, intercept and score (on both the training and the test set)</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Stats on train </span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_train_lasso</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on test</span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_test_lasso</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">Y_test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">About the the Lasso regression model:</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* intercept: </span><span class="si">{</span><span class="n">lasso</span><span class="o">.</span><span class="n">intercept_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* model coefficients: </span><span class="si">{</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on training set: </span><span class="si">{</span><span class="n">R2_train_lasso</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on test set: </span><span class="si">{</span><span class="n">R2_test_lasso</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>About the the Lasso regression model:
+* intercept: 2.452
+* model coefficients: [0.575, 0.23, -0.0, 0.105, 0.172, 0.0, 0.0, 0.065]
+* R^2 on training set: 0.648
+* R^2 on test set: 0.569
+</code></pre>
+<h4>15. Plot Lasso coefficients as a function of the regularization parameter</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Lasso path: coefficients as functions of the regularization parameters</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># we can set either alphas or eps: the smaller eps, the longer the path is</span>
+</span></span><span class="line"><span class="cl"><span class="n">alphas_lasso</span><span class="p">,</span> <span class="n">coefs_lasso</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">lasso_path</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">eps</span> <span class="o">=</span> <span class="mf">5e-3</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># For each coefficient I compute the first index in which it becomes zero.</span>
+</span></span><span class="line"><span class="cl"><span class="n">nz_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">((</span><span class="n">coefs_lasso</span> <span class="o">!=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># fig </span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">xx</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">alphas_lasso</span><span class="p">)</span> <span class="c1"># neg_log_alphas_lasso</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">coef</span> <span class="ow">in</span> <span class="n">coefs_lasso</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Info about when coefs are shrunken to 0</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">nz</span> <span class="ow">in</span> <span class="n">nz_list</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="n">nz</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;:&#34;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;grey&#34;</span><span class="p">)</span> <span class="c1"># vertical line</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># dots where coefs become zero</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">coef</span> <span class="ow">in</span> <span class="n">coefs_lasso</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="n">nz</span><span class="p">],</span> <span class="n">coef</span><span class="p">[</span><span class="n">nz</span><span class="p">],</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">           
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span> <span class="c1"># horizontal line</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ax.grid(color=&#39;grey&#39;, linestyle=&#39;-&#39;, linewidth=0.5);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;-log($\alpha$)&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;Coefficients&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;Lasso coefficients&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## Annotate the name of each variable at the last value</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">1.1</span><span class="p">)</span>      <span class="c1"># enlarge xaxis</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha_end</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">1.015</span>                      <span class="c1"># last value of alpha</span>
+</span></span><span class="line"><span class="cl"><span class="n">last_val</span> <span class="o">=</span> <span class="p">[</span><span class="n">last</span> <span class="k">for</span> <span class="o">*</span><span class="n">_</span><span class="p">,</span> <span class="n">last</span> <span class="ow">in</span> <span class="n">coefs_lasso</span><span class="p">]</span> <span class="c1"># last value of all the 8 coeffs</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">coords</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">([</span><span class="n">alpha_end</span><span class="p">]</span><span class="o">*</span><span class="mi">8</span><span class="p">,</span><span class="n">last_val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">labels</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">coord</span><span class="p">,</span><span class="n">lab</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span><span class="n">labels</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">coord</span><span class="p">,</span>            <span class="c1"># The point (x, y) to annotate.</span>
+</span></span><span class="line"><span class="cl">                <span class="n">xytext</span><span class="o">=</span><span class="n">coord</span><span class="p">,</span>        <span class="c1"># The position (x, y) to place the text at.</span>
+</span></span><span class="line"><span class="cl">                <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">text</span><span class="o">=</span><span class="n">lab</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex4-prostate-shrinkage/output_47_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4>16. Find the best regularization parameter by cross-validation</h4>
+<ul>
+<li>Hint: use function LassoCV from sklearn</li>
+<li>Test different number of cv folds</li>
+</ul>
+<h4>17. Plot the mean square error curve for each fold and for the average of all the folds</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## Some params</span>
+</span></span><span class="line"><span class="cl"><span class="n">cvFolds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span> <span class="n">step</span>  <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha_lasso_cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># where we store some info</span>
+</span></span><span class="line"><span class="cl"><span class="n">best_alpha</span><span class="p">,</span> <span class="n">performances_lasso_cv</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="n">intercepts_lasso_cv</span><span class="p">,</span> <span class="n">model_coefs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Initialize the fig</span>
+</span></span><span class="line"><span class="cl"><span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">12</span> <span class="c1"># single subplot</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrow</span><span class="p">,</span><span class="n">ncol</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">folds</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cvFolds</span><span class="p">,</span><span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">lasso_cv</span> <span class="o">=</span> <span class="n">LassoCV</span><span class="p">(</span><span class="n">cv</span><span class="o">=</span><span class="n">folds</span><span class="p">,</span> <span class="n">alphas</span><span class="o">=</span><span class="n">alpha_lasso_cv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lasso_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">)</span> <span class="c1"># fitting the model using n-folds</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># R^2 train</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pred_train_lasso_cv</span> <span class="o">=</span> <span class="n">lasso_cv</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Rsquared_train_lasso_cv</span> <span class="o">=</span> <span class="n">lasso_cv</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># R^2 test</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pred_test_lasso_cv</span> <span class="o">=</span> <span class="n">lasso_cv</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Rsquared_test_lasso_cv</span> <span class="o">=</span> <span class="n">lasso_cv</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">Y_test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">#store some info</span>
+</span></span><span class="line"><span class="cl">    <span class="n">best_alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">alpha_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model_coefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">intercepts_lasso_cv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">performances_lasso_cv</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Rsquared_train_lasso_cv</span><span class="p">,</span><span class="n">Rsquared_test_lasso_cv</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">m_log_alphas</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">alphas_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m_log_alphas</span><span class="p">,</span> <span class="n">lasso_cv</span><span class="o">.</span><span class="n">mse_path_</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;--&#34;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m_log_alphas</span><span class="p">,</span> <span class="n">lasso_cv</span><span class="o">.</span><span class="n">mse_path_</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;Average across the folds&#34;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">alpha_</span><span class="p">),</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&#34;:&#34;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;black&#34;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;alpha: CV estimate&#34;</span><span class="p">)</span> <span class="c1"># best alpha</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#ax.grid(color=&#39;grey&#39;, linestyle=&#39;-&#39;, linewidth=0.5);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;$-log(\alpha)$&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&#34;MSE&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">folds</span><span class="si">}</span><span class="s2">-folds (best </span><span class="se">\u03B1</span><span class="s2">: </span><span class="si">{</span><span class="n">lasso_cv</span><span class="o">.</span><span class="n">alpha_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">)&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&#34;tight&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># set the spacing between subplots</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&#34;MSE curve for each fold and for the average of all the folds&#34;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex4-prostate-shrinkage/output_50_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Best regularization parameter by cross-validation</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Best regularization parameter </span><span class="se">\u03B1</span><span class="s2">:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">nfolds</span><span class="p">,</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cvFolds</span><span class="p">,</span><span class="n">best_alpha</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34; * For </span><span class="si">{</span><span class="n">nfolds</span><span class="si">}</span><span class="s2">-folds: </span><span class="si">{</span><span class="n">alpha</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>Best regularization parameter α:
+ * For 5-folds: 0.0001
+ * For 10-folds: 0.0029
+ * For 15-folds: 0.0074
+ * For 20-folds: 0.0093
+</code></pre>
+<h4>18. Show the best alpha, model coefficients and performance on training and test set</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## For Lasso_cv model</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Some stats about the performance of Lasso CV with different folds:</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">cvFolds</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;* For </span><span class="si">{</span><span class="n">cvFolds</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">-folds:</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    - best </span><span class="se">\u03B1</span><span class="s2">: </span><span class="si">{</span><span class="n">best_alpha</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    - intercept: </span><span class="si">{</span><span class="n">intercepts_lasso_cv</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    - coefficients: </span><span class="si">{</span><span class="n">model_coefs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    - score on training set: </span><span class="si">{</span><span class="n">performances_lasso_cv</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    - score on test set: </span><span class="si">{</span><span class="n">performances_lasso_cv</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    &#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>Some stats about the performance of Lasso CV with different folds:
+
+* For 5-folds:
+    - best α: 0.0
+    - intercept: 2.452
+    - coefficients: [0.716, 0.293, -0.142, 0.212, 0.309, -0.288, -0.02, 0.277]
+    - score on training set: 0.694
+    - score on test set: 0.504
+    
+* For 10-folds:
+    - best α: 0.003
+    - intercept: 2.452
+    - coefficients: [0.706, 0.292, -0.137, 0.209, 0.304, -0.27, -0.008, 0.258]
+    - score on training set: 0.694
+    - score on test set: 0.511
+    
+* For 15-folds:
+    - best α: 0.007
+    - intercept: 2.452
+    - coefficients: [0.692, 0.289, -0.127, 0.204, 0.295, -0.241, -0.0, 0.237]
+    - score on training set: 0.694
+    - score on test set: 0.521
+    
+* For 20-folds:
+    - best α: 0.009
+    - intercept: 2.452
+    - coefficients: [0.687, 0.287, -0.123, 0.202, 0.29, -0.228, -0.0, 0.23]
+    - score on training set: 0.693
+    - score on test set: 0.524
+</code></pre>
+<h3 id="comparison-between-lasso-with-different-cv-folds" class="relative group"><strong>Comparison between Lasso with different CV folds</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#comparison-between-lasso-with-different-cv-folds" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># table</span>
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Term&#39;</span><span class="p">,</span><span class="s1">&#39;Lasso CV</span><span class="se">\n</span><span class="s1">(5-folds)&#39;</span><span class="p">,</span> <span class="s1">&#39;Lasso CV</span><span class="se">\n</span><span class="s1">(10-folds)&#39;</span><span class="p">,</span> <span class="s1">&#39;Lasso CV</span><span class="se">\n</span><span class="s1">(15-folds)&#39;</span><span class="p">,</span> <span class="s1">&#39;Lasso CV</span><span class="se">\n</span><span class="s1">(20-folds)&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">lasso_cv_values</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># labels (0-th column)</span>
+</span></span><span class="line"><span class="cl"><span class="n">intercept_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Intercept&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">alpha_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Best Alpha&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">coefs_label</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">intercept_label</span><span class="p">,</span><span class="n">alpha_label</span><span class="p">,</span><span class="n">coefs_label</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model_intercept_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">intercepts_lasso_cv</span><span class="p">[</span><span class="n">idx</span><span class="p">]])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model_alpha_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">best_alpha</span><span class="p">[</span><span class="n">idx</span><span class="p">]])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model_coefs_val</span> <span class="o">=</span> <span class="n">model_coefs</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">model_intercept_val</span><span class="p">,</span><span class="n">model_alpha_val</span><span class="p">,</span><span class="n">model_coefs_val</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">lasso_cv_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># table = np.column_stack((labels,lasso_cv_values))</span>
+</span></span><span class="line"><span class="cl"><span class="n">table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">labels</span><span class="p">,</span> <span class="n">lasso_cv_values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lasso_cv_values</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">lasso_cv_values</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">lasso_cv_values</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;fancy_grid&#39;</span><span class="p">))</span>
+</span></span></code></pre></div><pre><code>╒════════════╤═════════════╤══════════════╤══════════════╤══════════════╕
+│ Term       │    Lasso CV │     Lasso CV │     Lasso CV │     Lasso CV │
+│            │   (5-folds) │   (10-folds) │   (15-folds) │   (20-folds) │
+╞════════════╪═════════════╪══════════════╪══════════════╪══════════════╡
+│ Intercept  │       2.452 │        2.452 │        2.452 │        2.452 │
+├────────────┼─────────────┼──────────────┼──────────────┼──────────────┤
+│ Best Alpha │       0     │        0.003 │        0.007 │        0.009 │
+├────────────┼─────────────┼──────────────┼──────────────┼──────────────┤
+│ lcavol     │       0.716 │        0.706 │        0.692 │        0.687 │
+├────────────┼─────────────┼──────────────┼──────────────┼──────────────┤
+│ lweight    │       0.293 │        0.292 │        0.289 │        0.287 │
+├────────────┼─────────────┼──────────────┼──────────────┼──────────────┤
+│ age        │      -0.142 │       -0.137 │       -0.127 │       -0.123 │
+├────────────┼─────────────┼──────────────┼──────────────┼──────────────┤
+│ lbph       │       0.212 │        0.209 │        0.204 │        0.202 │
+├────────────┼─────────────┼──────────────┼──────────────┼──────────────┤
+│ svi        │       0.309 │        0.304 │        0.295 │        0.29  │
+├────────────┼─────────────┼──────────────┼──────────────┼──────────────┤
+│ lcp        │      -0.288 │       -0.27  │       -0.241 │       -0.228 │
+├────────────┼─────────────┼──────────────┼──────────────┼──────────────┤
+│ gleason    │      -0.02  │       -0.008 │       -0     │       -0     │
+├────────────┼─────────────┼──────────────┼──────────────┼──────────────┤
+│ pgg45      │       0.277 │        0.258 │        0.237 │        0.23  │
+╘════════════╧═════════════╧══════════════╧══════════════╧══════════════╛
+</code></pre>
+<h2 id="results-and-comparisons" class="relative group"><strong>Results and comparisons</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#results-and-comparisons" aria-label="Anchor">#</a></span></h2><h4>OLS</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## For OLS model</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## Create an OLS model fitted on training set</span>
+</span></span><span class="line"><span class="cl"><span class="n">ols</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ols</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on train </span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_train_ols</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on test</span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_test_ols</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">Y_test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;About the the OLS regression model:</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* coefficients: </span><span class="si">{</span><span class="n">ols</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* intercept: </span><span class="si">{</span><span class="n">ols</span><span class="o">.</span><span class="n">intercept_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on training set: </span><span class="si">{</span><span class="n">R2_train_ols</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on test set: </span><span class="si">{</span><span class="n">R2_test_ols</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>About the the OLS regression model:
+* coefficients: [0.716, 0.293, -0.143, 0.212, 0.31, -0.289, -0.021, 0.277]
+* intercept: 2.452
+* R^2 on training set: 0.694
+* R^2 on test set: 0.503
+</code></pre>
+<h4>Best Subset Selection</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## For Best Subset model - RSS - Andrea</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">predLabels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;lcavol&#39;</span><span class="p">,</span><span class="s1">&#39;svi&#39;</span><span class="p">,</span><span class="s1">&#39;gleason&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">X1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">predLabels</span><span class="p">],</span> <span class="n">Y_train</span>
+</span></span><span class="line"><span class="cl"><span class="n">X2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">predLabels</span><span class="p">],</span> <span class="n">Y_test</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the linear model, fitting also the intecept (non-zero)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssA</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on train </span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_train_bssA</span> <span class="o">=</span> <span class="n">bssA</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on test</span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_test_bssA</span> <span class="o">=</span> <span class="n">bssA</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span><span class="n">y2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;About the the Linear Regression regression model (choosing the predictors selected by BSS - performed by Andrea):</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* predictors: </span><span class="si">{</span><span class="n">predLabels</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* coefficients: </span><span class="si">{</span><span class="n">bssA</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* intercept: </span><span class="si">{</span><span class="n">bssA</span><span class="o">.</span><span class="n">intercept_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on training set: </span><span class="si">{</span><span class="n">R2_train_bssA</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on test set: </span><span class="si">{</span><span class="n">R2_test_bssA</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>About the the Linear Regression regression model (choosing the predictors selected by BSS - performed by Andrea):
+* predictors: ['lcavol', 'svi', 'gleason']
+* coefficients: [0.74, 0.225, 0.029]
+* intercept: 2.452
+* R^2 on training set: 0.561
+* R^2 on test set: 0.635
+</code></pre>
+<div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><strong>Warning:</strong> Choosing the bestBest RSS for Best Selection, Backward Selection and Forward Selection gave the same choice of predictors: [lcavol, svi, gleason]</span>
+</div>
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## For Best Subset model - RSS - Hastie and Tibshirani (book)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">predLabels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;lcavol&#39;</span><span class="p">,</span><span class="s1">&#39;lweight&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">X1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">predLabels</span><span class="p">],</span> <span class="n">Y_train</span>
+</span></span><span class="line"><span class="cl"><span class="n">X2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">predLabels</span><span class="p">],</span> <span class="n">Y_test</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the linear model, fitting also the intecept (non-zero)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssHT</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on train </span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_train_bssHT</span> <span class="o">=</span> <span class="n">bssHT</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stats on test</span>
+</span></span><span class="line"><span class="cl"><span class="n">R2_test_bssHT</span> <span class="o">=</span> <span class="n">bssHT</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span><span class="n">y2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;About the the Linear Regression regression model (choosing the predictors selected by BSS - performed by HT):</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* predictors: </span><span class="si">{</span><span class="n">predLabels</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* coefficients: </span><span class="si">{</span><span class="n">bssHT</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* intercept: </span><span class="si">{</span><span class="n">bssHT</span><span class="o">.</span><span class="n">intercept_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on training set: </span><span class="si">{</span><span class="n">R2_train_bssHT</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">* R^2 on test set: </span><span class="si">{</span><span class="n">R2_test_bssHT</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>About the the Linear Regression regression model (choosing the predictors selected by BSS - performed by HT):
+* predictors: ['lcavol', 'lweight']
+* coefficients: [0.78, 0.352]
+* intercept: 2.452
+* R^2 on training set: 0.615
+* R^2 on test set: 0.531
+</code></pre>
+<div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><strong>Warning:</strong> BSS performed by HT [book]</span>
+</div>
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">ols</span><span class="o">.</span><span class="n">coef_</span>
+</span></span></code></pre></div><pre><code>array([ 0.71640701,  0.2926424 , -0.14254963,  0.2120076 ,  0.30961953,
+       -0.28900562, -0.02091352,  0.27734595])
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># table</span>
+</span></span><span class="line"><span class="cl"><span class="n">round_coef</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Term&#39;</span><span class="p">,</span><span class="s1">&#39;OLS&#39;</span><span class="p">,</span><span class="s1">&#39;BSS</span><span class="se">\n</span><span class="s1">(Andrea)&#39;</span><span class="p">,</span><span class="s1">&#39;BSS</span><span class="se">\n</span><span class="s1">(HT)&#39;</span><span class="p">,</span><span class="s1">&#39;Ridge CV</span><span class="se">\n</span><span class="s1">(LOOCV)&#39;</span><span class="p">,</span><span class="s1">&#39;Ridge CV</span><span class="se">\n</span><span class="s1">(10 Folds)&#39;</span><span class="p">,</span> <span class="s1">&#39;Lasso</span><span class="se">\n</span><span class="s1">(alpha=0.1)&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># labels (0-th column)</span>
+</span></span><span class="line"><span class="cl"><span class="n">intercept_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Intercept&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">coefs_label</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">te_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Test Error</span><span class="se">\n</span><span class="s1">(R^2 on test set)&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">intercept_label</span><span class="p">,</span><span class="n">coefs_label</span><span class="p">,</span><span class="n">te_label</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ols columns values</span>
+</span></span><span class="line"><span class="cl"><span class="n">ols_int</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ols</span><span class="o">.</span><span class="n">intercept_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">ols_coefs</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">coef_</span>
+</span></span><span class="line"><span class="cl"><span class="n">ols_te</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">R2_test_ols</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">ols_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">ols_int</span><span class="p">,</span><span class="n">ols_coefs</span><span class="p">,</span><span class="n">ols_te</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># BSS Andrea columns values</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssA_int</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bssA</span><span class="o">.</span><span class="n">intercept_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">bssA</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">bssA</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="n">bssA</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssA_coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssA_te</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">R2_test_bssA</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssA_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">bssA_int</span><span class="p">,</span> <span class="n">bssA_coefs</span><span class="p">,</span> <span class="n">bssA_te</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># BSS Hastie and Tibshirani [book] columns values</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssHT_int</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bssHT</span><span class="o">.</span><span class="n">intercept_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">bssHT</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">bssHT</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssHT_coefs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssHT_te</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">R2_test_bssHT</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">bssHT_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">bssHT_int</span><span class="p">,</span> <span class="n">bssHT_coefs</span><span class="p">,</span> <span class="n">bssHT_te</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ridge LOO columns values</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">ridgeLOO_best</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_int</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_coefs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_te</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">R2_test_ridgeLOO_best</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridge_cv_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">model_int</span><span class="p">,</span><span class="n">model_coefs</span><span class="p">,</span> <span class="n">model_te</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ridge 10 CV columns values</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">ridge_10cv_best</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_int</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_coefs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span>
+</span></span><span class="line"><span class="cl"><span class="n">model_te</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">R2_test_ridge_10cv_best</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">ridge_10cv_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">model_int</span><span class="p">,</span><span class="n">model_coefs</span><span class="p">,</span> <span class="n">model_te</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># lasso columns values</span>
+</span></span><span class="line"><span class="cl"><span class="n">lasso_int</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lasso</span><span class="o">.</span><span class="n">intercept_</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">lasso_coefs</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span>
+</span></span><span class="line"><span class="cl"><span class="n">lasso_te</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">R2_test_lasso</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">lasso_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">lasso_int</span><span class="p">,</span><span class="n">lasso_coefs</span><span class="p">,</span> <span class="n">lasso_te</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_coef</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">labels</span><span class="p">,</span><span class="n">ols_values</span><span class="p">,</span><span class="n">bssA_values</span><span class="p">,</span><span class="n">bssHT_values</span><span class="p">,</span><span class="n">ridge_cv_values</span><span class="p">,</span><span class="n">ridge_10cv_values</span><span class="p">,</span> <span class="n">lasso_values</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;fancy_grid&#39;</span><span class="p">))</span>
+</span></span></code></pre></div><pre><code>╒═══════════════════╤════════╤════════════╤════════╤════════════╤══════════════╤═══════════════╕
+│ Term              │    OLS │        BSS │    BSS │   Ridge CV │     Ridge CV │         Lasso │
+│                   │        │   (Andrea) │   (HT) │    (LOOCV) │   (10 Folds) │   (alpha=0.1) │
+╞═══════════════════╪════════╪════════════╪════════╪════════════╪══════════════╪═══════════════╡
+│ Intercept         │  2.452 │      2.452 │  2.452 │      2.478 │        2.478 │         2.452 │
+├───────────────────┼────────┼────────────┼────────┼────────────┼──────────────┼───────────────┤
+│ lcavol            │  0.716 │      0.74  │  0.78  │      0.59  │        0.195 │         0.575 │
+├───────────────────┼────────┼────────────┼────────┼────────────┼──────────────┼───────────────┤
+│ lweight           │  0.293 │      0     │  0.352 │      0.26  │        0.118 │         0.23  │
+├───────────────────┼────────┼────────────┼────────┼────────────┼──────────────┼───────────────┤
+│ age               │ -0.143 │      0     │  0     │     -0.128 │        0.01  │        -0     │
+├───────────────────┼────────┼────────────┼────────┼────────────┼──────────────┼───────────────┤
+│ lbph              │  0.212 │      0     │  0     │      0.126 │        0.047 │         0.105 │
+├───────────────────┼────────┼────────────┼────────┼────────────┼──────────────┼───────────────┤
+│ svi               │  0.31  │      0.225 │  0     │      0.287 │        0.131 │         0.172 │
+├───────────────────┼────────┼────────────┼────────┼────────────┼──────────────┼───────────────┤
+│ lcp               │ -0.289 │      0     │  0     │     -0.065 │        0.101 │         0     │
+├───────────────────┼────────┼────────────┼────────┼────────────┼──────────────┼───────────────┤
+│ gleason           │ -0.021 │      0.029 │  0     │      0.045 │        0.058 │         0     │
+├───────────────────┼────────┼────────────┼────────┼────────────┼──────────────┼───────────────┤
+│ pgg45             │  0.277 │      0     │  0     │      0.099 │        0.068 │         0.065 │
+├───────────────────┼────────┼────────────┼────────┼────────────┼──────────────┼───────────────┤
+│ Test Error        │  0.503 │      0.635 │  0.531 │      0.609 │        0.459 │         0.569 │
+│ (R^2 on test set) │        │            │        │            │              │               │
+╘═══════════════════╧════════╧════════════╧════════╧════════════╧══════════════╧═══════════════╛
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># We can compare the above taqble with the one in the book:</span>
+</span></span><span class="line"><span class="cl"><span class="n">Image</span><span class="p">(</span><span class="s2">&#34;../input/prostate-data/tab3.png&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex4-prostate-shrinkage/output_66_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><strong>Warning:</strong> In the book is not provided the reg parameter choosen to perform Lasso for the table</span>
+</div>
+
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>The above chart is the figure 3.8 in the book <a href="https://hastie.su.domains/ElemStatLearn/" target="_blank" rel="noreferrer">The Elements of Statistical Learning: Data Mining, Inference, and Prediction.</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="/posts/some-exercise-about-statistical-learning/sl-ex3-subsetselection/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >SL3: Analysis of Prostate Cancer dataset – variable subset selection</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="/posts/some-exercise-about-statistical-learning/sl-ex5-humantumormicro-clustering/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >SL5: Human Tumor Microarray dataset - clustering with k-means</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                </span>
+              </span>
+              <span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+          <div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12">
+            <a
+              href="#the-top"
+              class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+              aria-label="Scroll to top"
+              title="Scroll to top"
+            >
+              &uarr;
+            </a>
+          </div>
+        
+      </main><footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            © 2024 Andrea Mortaro
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+        <div
+          class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        >
+          <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
+            <div
+              class="flex h-12 w-12 items-center justify-center dark:hidden"
+              title="Switch to dark appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+            </div>
+            <div
+              class="hidden h-12 w-12 items-center justify-center dark:flex"
+              title="Switch to light appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+            </div>
+          </button>
+        </div>
+      
+    </div>
+  </div>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm sm:p-6 md:p-[10vh] lg:p-[12vh] dark:bg-neutral-900/50"
+  data-url="http://localhost:1313/"
+>
+  <div
+    id="search-modal"
+    class="top-20 mx-auto flex min-h-0 w-full max-w-3xl flex-col rounded-md border border-neutral-200 bg-neutral shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex flex-none items-center justify-between px-2">
+      <form class="flex min-w-0 flex-auto items-center">
+        <div class="flex h-8 w-8 items-center justify-center text-neutral-400">
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="mx-1 flex h-12 flex-auto appearance-none bg-transparent focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex h-8 w-8 items-center justify-center text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto overflow-auto px-2">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+</html>

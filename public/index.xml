@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Welcome to Congo! :tada: on Andrea Mortaro</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content in Welcome to Congo! :tada: on Andrea Mortaro</description>
+    <generator>Hugo 0.125.0</generator>
+    <language>en</language>
+    <copyright>© 2024 Andrea Mortaro</copyright>
+    <lastBuildDate>Wed, 03 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SL6: California housing dataset – regression with ANN</title>
+      <link>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex6-californiahouseprices-ann/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex6-californiahouseprices-ann/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SL5: Human Tumor Microarray dataset - clustering with k-means</title>
+      <link>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex5-humantumormicro-clustering/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex5-humantumormicro-clustering/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SL4: Analysis of Prostate Cancer dataset – shrinkage methods</title>
+      <link>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex4-prostate-shrinkage/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex4-prostate-shrinkage/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SL3: Analysis of Prostate Cancer dataset – variable subset selection</title>
+      <link>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex3-subsetselection/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex3-subsetselection/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SL2: Analysis of Prostate Cancer dataset - linear regression model</title>
+      <link>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex2-prostatecancer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex2-prostatecancer/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SL1: Telco Customer Churn first data analysis using Python</title>
+      <link>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex1-telcocustomerchurn/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex1-telcocustomerchurn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Wed, 03 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>Hey there!</description>
+    </item>
+    <item>
+      <title>Modelling Traffic with LWR models</title>
+      <link>http://localhost:1313/posts/modelling-traffic-with-lwr-models/</link>
+      <pubDate>Mon, 11 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/modelling-traffic-with-lwr-models/</guid>
+      <description>My MSc thesis about traffic modelling dynamics.</description>
+    </item>
+    <item>
+      <title>spotify</title>
+      <link>http://localhost:1313/posts/spotify/</link>
+      <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/spotify/</guid>
+      <description>aaa</description>
+    </item>
+    <item>
+      <title>The 37% Rule: A Game-Changer in Dating</title>
+      <link>http://localhost:1313/posts/the-37-rule-a-game-changer-in-dating/</link>
+      <pubDate>Mon, 16 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/the-37-rule-a-game-changer-in-dating/</guid>
+      <description>How many frogs must you kiss to get a prince or a princess?</description>
+    </item>
+    <item>
+      <title>Getting started with Hugo, GitHub and Netlify</title>
+      <link>http://localhost:1313/posts/getting-started-with-hugo-github-and-netlify/</link>
+      <pubDate>Sun, 08 May 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/getting-started-with-hugo-github-and-netlify/</guid>
+      <description>A quick guide to start blogging with these three tools.</description>
+    </item>
+    <item>
+      <title>Modelling the COVID-19 epidemic in Italy</title>
+      <link>http://localhost:1313/posts/modelling-the-covid-19-epidemic-in-italy/</link>
+      <pubDate>Fri, 01 Apr 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/modelling-the-covid-19-epidemic-in-italy/</guid>
+      <description>My BCs thesis. Not another beamer with Latex, I used &lt;a href=&#34;https://revealjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noreferrer&#34;&gt;reveal.js&lt;/a&gt;.</description>
+    </item>
+  </channel>
+</rss>

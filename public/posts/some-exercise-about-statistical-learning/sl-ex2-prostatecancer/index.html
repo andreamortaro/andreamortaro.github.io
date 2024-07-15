@@ -1,0 +1,2149 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="false"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="rgb(255,255,255)" />
+  
+  <title>SL2: Analysis of Prostate Cancer dataset - linear regression model &middot; Andrea Mortaro</title>
+    <meta name="title" content="SL2: Analysis of Prostate Cancer dataset - linear regression model &middot; Andrea Mortaro" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.74ad8406faea02f3e186ba5126249aaeed9073629e04b05037b903396b188724.js"
+    integrity="sha256-dK2EBvrqAvPhhrpRJiSaru2Qc2KeBLBQN7kDOWsYhyQ="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.790b059e2e9fa3fdf3b2e196f71c93eebce086cb299a998628bb721d41e0453e.css"
+    integrity="sha256-eQsFni6fo/3zsuGW9xyT7rzghsspmpmGKLtyHUHgRT4="
+  />
+  
+    
+    
+    
+  
+  
+  
+    
+    
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.ef84f1e4c888f2aa2d84745ad4e1d75d27a8f29d55f84702214c97ecd79fba5b.js"
+      integrity="sha256-74Tx5MiI8qothHRa1OHXXSeo8p1V&#43;EcCIUyX7Nefuls="
+      data-copy="Copy"
+      data-copied="Copied"
+    ></script>
+  
+  
+  <meta
+    name="description"
+    content="
+      
+        
+      
+    "
+  />
+  
+  
+  
+  <link rel="canonical" href="http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex2-prostatecancer/" />
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex2-prostatecancer/">
+  <meta property="og:site_name" content="Andrea Mortaro">
+  <meta property="og:title" content="SL2: Analysis of Prostate Cancer dataset - linear regression model">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="SL2: Analysis of Prostate Cancer dataset - linear regression model">
+<meta name="twitter:description" content="">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "SL2: Analysis of Prostate Cancer dataset - linear regression model",
+    "headline": "SL2: Analysis of Prostate Cancer dataset - linear regression model",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/localhost:1313\/posts\/some-exercise-about-statistical-learning\/sl-ex2-prostatecancer\/",
+    "author" : {
+      "@type": "Person",
+      "name": "Andrea Mortaro"
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "3381"
+  }
+  </script>
+
+
+  
+  <meta name="author" content="Andrea Mortaro" />
+  
+    
+      <link href="mailto:andrea.mortaro@yahoo.com" rel="me" />
+    
+      <link href="https://github.com/andreamortaro" rel="me" />
+    
+      <link href="https://mastodon.uno/@andreamortaro" rel="me" />
+    
+      <link href="https://twitter.com/andrea_mortaro" rel="me" />
+    
+  
+  
+  
+
+
+
+
+
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/lib/katex/katex.min.af6f85907cdfd6ed3e4906d93a8233d91c5638859f744cd1b98c9b1a3ccaab5f231bdcda49f132f6cdfe8cca86ff33ed468affab8a9a502610a664a34f0f0cfa.css"
+    integrity="sha512-r2&#43;FkHzf1u0&#43;SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3&#43;jMqG/zPtRor/q4qaUCYQpmSjTw8M&#43;g=="
+  />
+  
+  
+  <script
+    defer
+    src="/lib/katex/katex.min.20da6cf7343619410c0900fbc626506c65159ea9f312f9729d5cba7aa713707378f9a4222e8f7fb9a42a7240e9749f199b7334401b3e3e4b60e29cf490492552.js"
+    integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4&#43;aQiLo9/uaQqckDpdJ8Zm3M0QBs&#43;Pktg4pz0kEklUg=="
+  ></script>
+  
+  
+  <script
+    defer
+    src="/lib/katex/auto-render.min.6095714e3aadb63b14ddc4af69346ab12974c1b460654345f8d1860a0b68fcc51b22f68b757433193090bb80afc8965b65cb607e5541d0f5f0f4b2e64d69b9ff.js"
+    integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF&#43;NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w=="
+    onload="renderMathInElement(document.body);"
+  ></script>
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 sm:px-14 md:px-24 lg:px-32 dark:bg-neutral-800 dark:text-neutral"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 print:hidden sm:py-10 dark:text-neutral">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Andrea Mortaro</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/about/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >About</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/posts/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Blog</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/tags/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Tags</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="https://github.com/andreamortaro"
+                  title=""
+                  target="_blank"
+                  >
+                    <span
+                      class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                
+                
+                  <button
+                    id="search-button-1"
+                    title="Search (/)"
+                  >
+                    
+                      <span
+                        class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                      ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
+                        class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                        ></span
+                      >
+                    
+                  </button>
+                
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+        <ol class="text-sm text-neutral-500 print:hidden dark:text-neutral-400">
+  
+  
+    
+  
+    
+  
+    
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/"
+      >Welcome to Congo! :tada:</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class=" inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/"
+      >Posts</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class=" inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/some-exercise-about-statistical-learning/"
+      >Some exercise about Statistical Learning</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/some-exercise-about-statistical-learning/sl-ex2-prostatecancer/"
+      >SL2: Analysis of Prostate Cancer dataset - linear regression model</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        SL2: Analysis of Prostate Cancer dataset - linear regression model
+      </h1>
+      
+        <div class="mb-12 mt-8 text-base text-neutral-500 print:hidden dark:text-neutral-400">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <span title="Reading time">16 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+    <div class="my-1 flex flex-wrap text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+      
+        
+      
+        
+      
+    </div>
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+        <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
+          <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
+            <details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5">
+  <summary
+    class="block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+  >
+    Table of Contents
+  </summary>
+  <div class="border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#data-acquisition"><strong>Data acquisition</strong></a></li>
+    <li><a href="#linear-regression"><strong>Linear Regression</strong></a></li>
+    <li><a href="#difference-in-setting-up-kbdfit_interceptkbd-in-linearregression"><strong>Difference in setting up <kbd>fit_intercept</kbd> in LinearRegression()</strong></a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+          </div>
+        </div>
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        
+
+<blockquote>
+<h4>Aim of the analysis</h4> We want to examinate correlation between the level of prostate-specific antigen and a number of clinical parameters in men, who are about to receive a prostatectomy.
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># data analysis and wrangling</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> <span class="c1"># linear algebra</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> <span class="c1"># data processing, CSV file I/O (e.g. pd.read_csv)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># import random as rnd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># visualization</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># %matplotlib inline</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># machine learning</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span> <span class="c1"># to visualize images</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span> <span class="c1"># to create tables</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="s1">&#39;/kaggle/input&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+</span></span></code></pre></div><pre><code>/kaggle/input/prostate-data/prostate.data
+/kaggle/input/prostate-data/tab.png
+/kaggle/input/prostate-data/tab2.png
+</code></pre>
+<h4>1. Open the <a rel="nofollow" href="https://web.stanford.edu/~hastie/ElemStatLearn/" hreflang="eng" target="_blank">webpage of the book “The Elements of Statistical Learning”</a>, go to the “Data” section and download the info and data files for the dataset called Prostate</h4>
+<h4>2. Open the file `prostate.info.txt`</h4>
+<ul>
+<li>
+<p>Hint: please, refer also to Section 3.2.1 (page 49) of the book “The Elements of Statistical Learning” to gather this information</p>
+</li>
+<li>
+<p>How many predictors are present in the dataset? What are those names?</p>
+<blockquote>
+<p>There are 8 predictors:<br>
+<t>       1. lcavol (log cancer volume)<br>
+2. lweight (log prostate weight)<br>
+3. age<br>
+4. lbph (log of the amount of benign prostatic hyperplasia)<br>
+5. svi (seminal veiscle invasion)<br>
+6. lcp (log of capsular penetration)<br>
+7. gleason (Gleason score)<br>
+8. pgg45 (percent of Gleason scores 4 or 5)</p>
+</blockquote>
+</li>
+<li>
+<p>How many responses are present in the dataset? What are their names?</p>
+<blockquote>
+<p>There is one response:
+1. lpsa (log of prostate-specific antigen)</p>
+</blockquote>
+</li>
+<li>
+<p>How did the authors split the dataset in training and test set?</p>
+<blockquote>
+<p>They randomly split the dataset (containing 97 observations, in <code>prostate.data</code>) into a training set of size 67 and a test set of size 30. <br> In the file <code>prostate.data</code> there is a column <code>train</code> which is of boolean type in order to distinguish if an observation is used (T) or not (F) to train the model.</p>
+</blockquote>
+</li>
+</ul>
+<h4>3. Open the file `prostate.data` by a text editor or a spreadsheet and have a quick look at the data</h4>
+<ul>
+<li>How many observations are present?
+<blockquote>
+<p>There are 97 observations in total.</p>
+</blockquote>
+</li>
+<li>Which is the symbol used to separate the columns?
+<blockquote>
+<p>To separate the columns there is the escape character <code>\t</code> tab.</p>
+</blockquote>
+</li>
+</ul>
+<h4>4. Open Kaggle, generate a new kernel and give it the name “SL_EX2_ProstateCancer_Surname”</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>5. Add the dataset `prostate.data` to the kernel</h4>
+<ul>
+<li>Hint: See the Add Dataset button on the right</li>
+<li>Hint: use import option “Convert tabular files to csv”</li>
+</ul>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>6. Run the first cell of the kernel to check if the data file is present in folder ../input</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>7. Add to the first cell new lines to load the following libraries: seaborn, matplotlib.pyplot, sklearn.linear_model.LinearRegression</h4>
+<div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><b>Tip:</b> We import also <code>pandas</code>.</span>
+</div>
+
+<h4>8. Add a Markdown cell on top of the notebook, copy and paste in it the text of this exercise and provide in the same cell the answers to the questions that you get step-by-step.</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>9. Load the Prostate Cancer dataset into a Pandas DataFrame variable called "data"</h4>
+<ul>
+<li>How can you say Python to use the right separator between columns?
+<blockquote>
+<p>I need to specify <code>sep='\t</code> into <code>read_csv</code> method in order to load the dataset.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="data-acquisition" class="relative group"><strong>Data acquisition</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#data-acquisition" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Load the Prostate Cancer dataset</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../input/prostate-data/prostate.data&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># data.info() # to check if it is correct</span>
+</span></span></code></pre></div><h4>10. Display the number of rows and columns of variable data</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="p">[</span><span class="n">num_rows</span><span class="p">,</span><span class="n">num_columns</span><span class="p">]</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;The number of rows is </span><span class="si">{</span><span class="n">num_rows</span><span class="si">}</span><span class="s2"> and the number of columns is </span><span class="si">{</span><span class="n">num_columns</span><span class="si">}</span><span class="s2">.&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The number of rows is 97 and the number of columns is 11.
+</code></pre>
+<h4>11. Show the first 5 rows of the dataset</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>Unnamed: 0</th>
+      <th style='text-align:center; vertical-align:middle'>lcavol</th>
+      <th style='text-align:center; vertical-align:middle'>lweight</th>
+      <th style='text-align:center; vertical-align:middle'>age</th>
+      <th style='text-align:center; vertical-align:middle'>lbph</th>
+      <th style='text-align:center; vertical-align:middle'>svi</th>
+      <th style='text-align:center; vertical-align:middle'>lcp</th>
+      <th style='text-align:center; vertical-align:middle'>gleason</th>
+      <th style='text-align:center; vertical-align:middle'>pgg45</th>
+      <th style='text-align:center; vertical-align:middle'>lpsa</th>
+      <th style='text-align:center; vertical-align:middle'>train</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>-0.579818</td>
+      <td style='text-align:center; vertical-align:middle'>2.769459</td>
+      <td style='text-align:center; vertical-align:middle'>50</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>6</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>-0.430783</td>
+      <td style='text-align:center; vertical-align:middle'>T</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>-0.994252</td>
+      <td style='text-align:center; vertical-align:middle'>3.319626</td>
+      <td style='text-align:center; vertical-align:middle'>58</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>6</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>-0.162519</td>
+      <td style='text-align:center; vertical-align:middle'>T</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>-0.510826</td>
+      <td style='text-align:center; vertical-align:middle'>2.691243</td>
+      <td style='text-align:center; vertical-align:middle'>74</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>7</td>
+      <td style='text-align:center; vertical-align:middle'>20</td>
+      <td style='text-align:center; vertical-align:middle'>-0.162519</td>
+      <td style='text-align:center; vertical-align:middle'>T</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>3</th>
+      <td style='text-align:center; vertical-align:middle'>4</td>
+      <td style='text-align:center; vertical-align:middle'>-1.203973</td>
+      <td style='text-align:center; vertical-align:middle'>3.282789</td>
+      <td style='text-align:center; vertical-align:middle'>58</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>6</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>-0.162519</td>
+      <td style='text-align:center; vertical-align:middle'>T</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>4</th>
+      <td style='text-align:center; vertical-align:middle'>5</td>
+      <td style='text-align:center; vertical-align:middle'>0.751416</td>
+      <td style='text-align:center; vertical-align:middle'>3.432373</td>
+      <td style='text-align:center; vertical-align:middle'>62</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>6</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>0.371564</td>
+      <td style='text-align:center; vertical-align:middle'>T</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h4>12. Remove the first column of the dataset which contains observation indices</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;* Before to drop the first column:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#data1 = data1.drop(columns=&#39;Unnamed: 0&#39;)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#data1 = data1.drop(labels=[&#39;Unnamed: 0&#39;],axis=1)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">* After having dropped the first column:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># without specifying the name of the variable (axis=0 indicates rows, axis=1 indicates columns)</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">data</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</span></span></code></pre></div><pre><code>* Before to drop the first column:
+
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 97 entries, 0 to 96
+Data columns (total 11 columns):
+ #   Column      Non-Null Count  Dtype  
+---  ------      --------------  -----  
+ 0   Unnamed: 0  97 non-null     int64  
+ 1   lcavol      97 non-null     float64
+ 2   lweight     97 non-null     float64
+ 3   age         97 non-null     int64  
+ 4   lbph        97 non-null     float64
+ 5   svi         97 non-null     int64  
+ 6   lcp         97 non-null     float64
+ 7   gleason     97 non-null     int64  
+ 8   pgg45       97 non-null     int64  
+ 9   lpsa        97 non-null     float64
+ 10  train       97 non-null     object 
+dtypes: float64(5), int64(5), object(1)
+memory usage: 8.5+ KB
+
+
+* After having dropped the first column:
+
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 97 entries, 0 to 96
+Data columns (total 10 columns):
+ #   Column   Non-Null Count  Dtype  
+---  ------   --------------  -----  
+ 0   lcavol   97 non-null     float64
+ 1   lweight  97 non-null     float64
+ 2   age      97 non-null     int64  
+ 3   lbph     97 non-null     float64
+ 4   svi      97 non-null     int64  
+ 5   lcp      97 non-null     float64
+ 6   gleason  97 non-null     int64  
+ 7   pgg45    97 non-null     int64  
+ 8   lpsa     97 non-null     float64
+ 9   train    97 non-null     object 
+dtypes: float64(5), int64(4), object(1)
+memory usage: 7.7+ KB
+
+
+T    67
+F    30
+Name: train, dtype: int64
+</code></pre>
+<div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><b>Warning:</b> Keep attention to do not run the above cell twice. Otherwise it will drop again the first column.</span>
+</div>
+
+<h4>13. Save column train in a new variable called "train" and having type `Series` (the Pandas data structure used to represent DataFrame columns), then drop the column train from the data DataFrame</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Save &#34;train&#34; column in a Pandas Series variable</span>
+</span></span><span class="line"><span class="cl"><span class="n">train</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># train = pd.Series(data[&#39;train&#39;])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Drop &#34;train&#34; variable from data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">])</span>
+</span></span></code></pre></div><div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><b>Warning:</b> Keep attention to do not run the above cell twice. In this case you have already dropped &rsquo;train'.</span>
+</div>
+
+<h4>14. Save column lpsa in a new variable called "lpsa" and having type `Series` (the Pandas data structure used to represent DataFrame columns), then drop the column lpsa from the data DataFrame and save the result in a new DataFrame called predictors</h4>
+<ul>
+<li>How many predictors are available?
+<blockquote>
+<p>There are 8 predictors available for each one of the 97 observations.</p>
+</blockquote>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Save &#34;lpsa&#34; column in a Pandas Series variable</span>
+</span></span><span class="line"><span class="cl"><span class="n">lpsa</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;lpsa&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># lpsa = pd.Series(data[&#39;lpsa&#39;])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Drop &#34;train&#34; variable from data</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lpsa&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictors</span> <span class="o">=</span> <span class="n">data</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictors</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</span></span></code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 97 entries, 0 to 96
+Data columns (total 8 columns):
+ #   Column   Non-Null Count  Dtype  
+---  ------   --------------  -----  
+ 0   lcavol   97 non-null     float64
+ 1   lweight  97 non-null     float64
+ 2   age      97 non-null     int64  
+ 3   lbph     97 non-null     float64
+ 4   svi      97 non-null     int64  
+ 5   lcp      97 non-null     float64
+ 6   gleason  97 non-null     int64  
+ 7   pgg45    97 non-null     int64  
+dtypes: float64(4), int64(4)
+memory usage: 6.2 KB
+</code></pre>
+<h4>15. Check the presence of missing values in the `data` variable</h4>
+Since all the columns are numerical variables, we have not to distinguish variables between numerical and categorical kind.
+<ul>
+<li>How many missing values are there? In which columns?
+<blockquote>
+<p>We have no missing values.</p>
+</blockquote>
+</li>
+<li>Which types do the variable have?
+<blockquote>
+<p><code>lcavol</code>,<code>lweight</code>,<code>lbph</code> and<code>lcp</code> are float64, while <code>age</code>,<code>svi</code>,<code>gleason</code> and <code>pgg45</code> are int64</p>
+</blockquote>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;For each variable in data, we have no missing values:</span><span class="se">\n\n</span><span class="s2">&#34;</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</span></span></code></pre></div><pre><code>For each variable in data, we have no missing values:
+
+lcavol     0
+lweight    0
+age        0
+lbph       0
+svi        0
+lcp        0
+gleason    0
+pgg45      0
+dtype: int64
+</code></pre>
+<h4>16. Show histograms of all variables in a single figure</h4>
+<ul>
+<li>Use argument figsize to enlarge the figure if needed</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">predictors</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">layout</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&#34;Not Standardized data&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><pre><code>&lt;Figure size 432x288 with 0 Axes&gt;
+</code></pre>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex2-prostatecancer/output_28_1.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4>17. Show the basic statistics (min, max, mean, quartiles, etc. for each variable) in data</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>lcavol</th>
+      <th style='text-align:center; vertical-align:middle'>lweight</th>
+      <th style='text-align:center; vertical-align:middle'>age</th>
+      <th style='text-align:center; vertical-align:middle'>lbph</th>
+      <th style='text-align:center; vertical-align:middle'>svi</th>
+      <th style='text-align:center; vertical-align:middle'>lcp</th>
+      <th style='text-align:center; vertical-align:middle'>gleason</th>
+      <th style='text-align:center; vertical-align:middle'>pgg45</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>count</th>
+      <td style='text-align:center; vertical-align:middle'>97.000000</td>
+      <td style='text-align:center; vertical-align:middle'>97.000000</td>
+      <td style='text-align:center; vertical-align:middle'>97.000000</td>
+      <td style='text-align:center; vertical-align:middle'>97.000000</td>
+      <td style='text-align:center; vertical-align:middle'>97.000000</td>
+      <td style='text-align:center; vertical-align:middle'>97.000000</td>
+      <td style='text-align:center; vertical-align:middle'>97.000000</td>
+      <td style='text-align:center; vertical-align:middle'>97.000000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>mean</th>
+      <td style='text-align:center; vertical-align:middle'>1.350010</td>
+      <td style='text-align:center; vertical-align:middle'>3.628943</td>
+      <td style='text-align:center; vertical-align:middle'>63.865979</td>
+      <td style='text-align:center; vertical-align:middle'>0.100356</td>
+      <td style='text-align:center; vertical-align:middle'>0.216495</td>
+      <td style='text-align:center; vertical-align:middle'>-0.179366</td>
+      <td style='text-align:center; vertical-align:middle'>6.752577</td>
+      <td style='text-align:center; vertical-align:middle'>24.381443</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>std</th>
+      <td style='text-align:center; vertical-align:middle'>1.178625</td>
+      <td style='text-align:center; vertical-align:middle'>0.428411</td>
+      <td style='text-align:center; vertical-align:middle'>7.445117</td>
+      <td style='text-align:center; vertical-align:middle'>1.450807</td>
+      <td style='text-align:center; vertical-align:middle'>0.413995</td>
+      <td style='text-align:center; vertical-align:middle'>1.398250</td>
+      <td style='text-align:center; vertical-align:middle'>0.722134</td>
+      <td style='text-align:center; vertical-align:middle'>28.204035</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>min</th>
+      <td style='text-align:center; vertical-align:middle'>-1.347074</td>
+      <td style='text-align:center; vertical-align:middle'>2.374906</td>
+      <td style='text-align:center; vertical-align:middle'>41.000000</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>6.000000</td>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>25%</th>
+      <td style='text-align:center; vertical-align:middle'>0.512824</td>
+      <td style='text-align:center; vertical-align:middle'>3.375880</td>
+      <td style='text-align:center; vertical-align:middle'>60.000000</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+      <td style='text-align:center; vertical-align:middle'>-1.386294</td>
+      <td style='text-align:center; vertical-align:middle'>6.000000</td>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>50%</th>
+      <td style='text-align:center; vertical-align:middle'>1.446919</td>
+      <td style='text-align:center; vertical-align:middle'>3.623007</td>
+      <td style='text-align:center; vertical-align:middle'>65.000000</td>
+      <td style='text-align:center; vertical-align:middle'>0.300105</td>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+      <td style='text-align:center; vertical-align:middle'>-0.798508</td>
+      <td style='text-align:center; vertical-align:middle'>7.000000</td>
+      <td style='text-align:center; vertical-align:middle'>15.000000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>75%</th>
+      <td style='text-align:center; vertical-align:middle'>2.127041</td>
+      <td style='text-align:center; vertical-align:middle'>3.876396</td>
+      <td style='text-align:center; vertical-align:middle'>68.000000</td>
+      <td style='text-align:center; vertical-align:middle'>1.558145</td>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+      <td style='text-align:center; vertical-align:middle'>1.178655</td>
+      <td style='text-align:center; vertical-align:middle'>7.000000</td>
+      <td style='text-align:center; vertical-align:middle'>40.000000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>max</th>
+      <td style='text-align:center; vertical-align:middle'>3.821004</td>
+      <td style='text-align:center; vertical-align:middle'>4.780383</td>
+      <td style='text-align:center; vertical-align:middle'>79.000000</td>
+      <td style='text-align:center; vertical-align:middle'>2.326302</td>
+      <td style='text-align:center; vertical-align:middle'>1.000000</td>
+      <td style='text-align:center; vertical-align:middle'>2.904165</td>
+      <td style='text-align:center; vertical-align:middle'>9.000000</td>
+      <td style='text-align:center; vertical-align:middle'>100.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h4>18. Generate a new DataFrame called dataTrain and containing only the rows of data in which the train variable has value “T”</h4>
+<ul>
+<li>Hint: use the loc attribute of DataFrame to access a groups of rows and columns by label(s) or boolean arrays</li>
+<li>How many rows and columns does dataTrain have?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">dataTrain</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="c1"># Obviously, len(idx)==len(dataTrain) is True!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># # Alternative way:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># # 1. Get the indexes corresponding to train ==  &#39;T&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># idxTrain = train.loc[train == &#39;T&#39;].index.tolist() </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># # 2. Access to interesting rows with .iloc()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># dataTrain = data.iloc[idxTrain]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;dataTrain contains </span><span class="si">{</span><span class="n">dataTrain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> rows and </span><span class="si">{</span><span class="n">dataTrain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columns.&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>dataTrain contains 67 rows and 8 columns.
+</code></pre>
+<h4>19. Generate a new DataFrame called dataTest and containing only the rows of data in which the train variable has value “F”</h4>
+<ul>
+<li>How many rows and columns does dataTest have?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">dataTest</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">]</span>
+</span></span></code></pre></div><h4>20. Generate a new Series called lpsaTrain and containing only the values of variable lpsa in which the train variable has value “T”</h4>
+<ul>
+<li>How many valuses does lpsaTrain have?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Create a new Series variable</span>
+</span></span><span class="line"><span class="cl"><span class="n">lpsaTrain</span> <span class="o">=</span> <span class="n">lpsa</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># # Another way to define it</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># data_all = pd.read_csv(&#39;../input/prostate-data/prostate.data&#39;,sep=&#39;\t&#39;)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># lpsaTrain = data_all.loc[train == &#39;T&#39;][&#39;lpsa&#39;]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># # To check if it is correct:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># idxTrain = train.loc[train == &#39;T&#39;].index.tolist()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># lpsaTrain == lpsa.iloc[idxTrain]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;lpsaTrain has </span><span class="si">{</span><span class="n">lpsaTrain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> values.&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>lpsaTrain has 67 values.
+</code></pre>
+<h4>21. Generate a new Series called lpsaTest and containing only the values of variable lpsa in which the train variable has value “F”</h4>
+<ul>
+<li>How many valuses does lpsaTest have?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">lpsaTest</span> <span class="o">=</span> <span class="n">lpsa</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># # To check if it is correct: </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># len(lpsaTest) == len(data)-len(lpsaTrain)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;lpsaTrain has </span><span class="si">{</span><span class="n">lpsaTest</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> values.&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>lpsaTrain has 30 values.
+</code></pre>
+<h4>22. Show the correlation matrix among all the variables in dataTrain</h4>
+<ul>
+<li>Hint: use the correct method in DataFrame</li>
+<li>Hint: check if the values in the matrix correspond to those in Table 3.1 of the book</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Create correlation matrix</span>
+</span></span><span class="line"><span class="cl"><span class="n">corrM</span> <span class="o">=</span> <span class="n">dataTrain</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># As in the book, I plot values up to 3 decimals</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Display only the lower diagonal correlation matrix</span>
+</span></span><span class="line"><span class="cl"><span class="n">lowerM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">corrM</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Lower matrix of ones. (for k=0 I include also the main diagonal)</span>
+</span></span><span class="line"><span class="cl"><span class="n">cond</span> <span class="o">=</span> <span class="n">lowerM</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="c1"># Create a matrix of false, except in lowerM</span>
+</span></span><span class="line"><span class="cl"><span class="n">corrM</span> <span class="o">=</span> <span class="n">corrM</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="c1"># .where() replaces values with other where the condition is False.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">corrM</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>lcavol</th>
+      <th style='text-align:center; vertical-align:middle'>lweight</th>
+      <th style='text-align:center; vertical-align:middle'>age</th>
+      <th style='text-align:center; vertical-align:middle'>lbph</th>
+      <th style='text-align:center; vertical-align:middle'>svi</th>
+      <th style='text-align:center; vertical-align:middle'>lcp</th>
+      <th style='text-align:center; vertical-align:middle'>gleason</th>
+      <th style='text-align:center; vertical-align:middle'>pgg45</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>lcavol</th>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>lweight</th>
+      <td style='text-align:center; vertical-align:middle'>0.3</td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>age</th>
+      <td style='text-align:center; vertical-align:middle'>0.286</td>
+      <td style='text-align:center; vertical-align:middle'>0.317</td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>lbph</th>
+      <td style='text-align:center; vertical-align:middle'>0.063</td>
+      <td style='text-align:center; vertical-align:middle'>0.437</td>
+      <td style='text-align:center; vertical-align:middle'>0.287</td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>svi</th>
+      <td style='text-align:center; vertical-align:middle'>0.593</td>
+      <td style='text-align:center; vertical-align:middle'>0.181</td>
+      <td style='text-align:center; vertical-align:middle'>0.129</td>
+      <td style='text-align:center; vertical-align:middle'>-0.139</td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>lcp</th>
+      <td style='text-align:center; vertical-align:middle'>0.692</td>
+      <td style='text-align:center; vertical-align:middle'>0.157</td>
+      <td style='text-align:center; vertical-align:middle'>0.173</td>
+      <td style='text-align:center; vertical-align:middle'>-0.089</td>
+      <td style='text-align:center; vertical-align:middle'>0.671</td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>gleason</th>
+      <td style='text-align:center; vertical-align:middle'>0.426</td>
+      <td style='text-align:center; vertical-align:middle'>0.024</td>
+      <td style='text-align:center; vertical-align:middle'>0.366</td>
+      <td style='text-align:center; vertical-align:middle'>0.033</td>
+      <td style='text-align:center; vertical-align:middle'>0.307</td>
+      <td style='text-align:center; vertical-align:middle'>0.476</td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'></td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>pgg45</th>
+      <td style='text-align:center; vertical-align:middle'>0.483</td>
+      <td style='text-align:center; vertical-align:middle'>0.074</td>
+      <td style='text-align:center; vertical-align:middle'>0.276</td>
+      <td style='text-align:center; vertical-align:middle'>-0.03</td>
+      <td style='text-align:center; vertical-align:middle'>0.481</td>
+      <td style='text-align:center; vertical-align:middle'>0.663</td>
+      <td style='text-align:center; vertical-align:middle'>0.757</td>
+      <td style='text-align:center; vertical-align:middle'></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># We can compare the above correlation matrix with the one in the book:</span>
+</span></span><span class="line"><span class="cl"><span class="n">Image</span><span class="p">(</span><span class="s2">&#34;../input/prostate-data/tab.png&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex2-prostatecancer/output_41_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4>23. Drop the column lpsa from the `dataTrain` DataFrame and save the result in a new DataFrame called `predictorsTrain`</h4>
+<div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><b>Warning:</b> I can not drop <code>lpsa</code> from <code>dataTrain</code>, because I have already done it!</span>
+</div>
+
+<p>In fact:</p>
+<ul>
+<li>at step 14. I dropped <code>lpsa</code> from <code>data</code></li>
+<li>at step 18. I created <code>dataTrain</code> from <code>data</code>, by selecting certain rows. So at this step <code>dataTrain</code> does not contain <code>lpsa</code>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># predictorsTrain = dataTrain.drop[&#39;lpsa&#39;]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTrain</span> <span class="o">=</span> <span class="n">dataTrain</span>
+</span></span></code></pre></div><h4>24. Drop the column `lpsa` from the dataTest DataFrame and save the result in a new DataFrame called `predictorsTest`</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">dataTest</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTest</span> <span class="o">=</span> <span class="n">dataTest</span>
+</span></span></code></pre></div><div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><b>Warning:</b> I can not drop <code>lpsa</code> from <code>dataTest</code>, because I have already done it!</span>
+</div>
+
+<p>In fact:</p>
+<ul>
+<li>at step 14. I dropped <code>lpsa</code> from <code>data</code></li>
+<li>at step 19. I created <code>dataTest</code> from <code>data</code>, by selecting certain rows. So at this step <code>dataTest</code> does not contain <code>lpsa</code>.</li>
+</ul>
+<h4>25. Generate a new DataFrame called `predictorsTrain_std` and containing the standardized variables of DataFrame `predictorsTrain`</h4>
+<ul>
+<li>Hint: compute the mean of each column and save them in variable <code>predictorsTrainMeans</code></li>
+<li>Hint: compute the standard deviation of each column and save them in variable <code>predictorsTrainStds</code></li>
+<li>Hint: compute the standardization of each variable by the formula:
+<code>\\[\\frac{predictorsTrain - predictorsTrainMeans}{predictorsTrainStd}\\]</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">predictorsTrainMeans</span> <span class="o">=</span> <span class="n">predictorsTrain</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTrainStds</span> <span class="o">=</span> <span class="n">predictorsTrain</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTrain_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">predictorsTrain</span> <span class="o">-</span> <span class="n">predictorsTrainMeans</span><span class="p">)</span><span class="o">/</span><span class="n">predictorsTrainStds</span> <span class="c1"># standardized cariables of predictorTrain</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTrain_std</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Standardizing makes it easier to compare scores, even if those scores were measured on different scales.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># It also makes it easier to read results from regression analysis and ensures that all variables contribute to a scale when added together.</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>lcavol</th>
+      <th style='text-align:center; vertical-align:middle'>lweight</th>
+      <th style='text-align:center; vertical-align:middle'>age</th>
+      <th style='text-align:center; vertical-align:middle'>lbph</th>
+      <th style='text-align:center; vertical-align:middle'>svi</th>
+      <th style='text-align:center; vertical-align:middle'>lcp</th>
+      <th style='text-align:center; vertical-align:middle'>gleason</th>
+      <th style='text-align:center; vertical-align:middle'>pgg45</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <td style='text-align:center; vertical-align:middle'>-1.523680</td>
+      <td style='text-align:center; vertical-align:middle'>-1.797414</td>
+      <td style='text-align:center; vertical-align:middle'>-1.965590</td>
+      <td style='text-align:center; vertical-align:middle'>-0.995955</td>
+      <td style='text-align:center; vertical-align:middle'>-0.533063</td>
+      <td style='text-align:center; vertical-align:middle'>-0.836769</td>
+      <td style='text-align:center; vertical-align:middle'>-1.031712</td>
+      <td style='text-align:center; vertical-align:middle'>-0.896487</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <td style='text-align:center; vertical-align:middle'>-1.857204</td>
+      <td style='text-align:center; vertical-align:middle'>-0.643057</td>
+      <td style='text-align:center; vertical-align:middle'>-0.899238</td>
+      <td style='text-align:center; vertical-align:middle'>-0.995955</td>
+      <td style='text-align:center; vertical-align:middle'>-0.533063</td>
+      <td style='text-align:center; vertical-align:middle'>-0.836769</td>
+      <td style='text-align:center; vertical-align:middle'>-1.031712</td>
+      <td style='text-align:center; vertical-align:middle'>-0.896487</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <td style='text-align:center; vertical-align:middle'>-1.468157</td>
+      <td style='text-align:center; vertical-align:middle'>-1.961526</td>
+      <td style='text-align:center; vertical-align:middle'>1.233468</td>
+      <td style='text-align:center; vertical-align:middle'>-0.995955</td>
+      <td style='text-align:center; vertical-align:middle'>-0.533063</td>
+      <td style='text-align:center; vertical-align:middle'>-0.836769</td>
+      <td style='text-align:center; vertical-align:middle'>0.378996</td>
+      <td style='text-align:center; vertical-align:middle'>-0.213934</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>3</th>
+      <td style='text-align:center; vertical-align:middle'>-2.025981</td>
+      <td style='text-align:center; vertical-align:middle'>-0.720349</td>
+      <td style='text-align:center; vertical-align:middle'>-0.899238</td>
+      <td style='text-align:center; vertical-align:middle'>-0.995955</td>
+      <td style='text-align:center; vertical-align:middle'>-0.533063</td>
+      <td style='text-align:center; vertical-align:middle'>-0.836769</td>
+      <td style='text-align:center; vertical-align:middle'>-1.031712</td>
+      <td style='text-align:center; vertical-align:middle'>-0.896487</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>4</th>
+      <td style='text-align:center; vertical-align:middle'>-0.452342</td>
+      <td style='text-align:center; vertical-align:middle'>-0.406493</td>
+      <td style='text-align:center; vertical-align:middle'>-0.366061</td>
+      <td style='text-align:center; vertical-align:middle'>-0.995955</td>
+      <td style='text-align:center; vertical-align:middle'>-0.533063</td>
+      <td style='text-align:center; vertical-align:middle'>-0.836769</td>
+      <td style='text-align:center; vertical-align:middle'>-1.031712</td>
+      <td style='text-align:center; vertical-align:middle'>-0.896487</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>...</th>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>90</th>
+      <td style='text-align:center; vertical-align:middle'>1.555621</td>
+      <td style='text-align:center; vertical-align:middle'>0.998130</td>
+      <td style='text-align:center; vertical-align:middle'>0.433703</td>
+      <td style='text-align:center; vertical-align:middle'>-0.995955</td>
+      <td style='text-align:center; vertical-align:middle'>-0.533063</td>
+      <td style='text-align:center; vertical-align:middle'>-0.836769</td>
+      <td style='text-align:center; vertical-align:middle'>-1.031712</td>
+      <td style='text-align:center; vertical-align:middle'>-0.896487</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>91</th>
+      <td style='text-align:center; vertical-align:middle'>0.981346</td>
+      <td style='text-align:center; vertical-align:middle'>0.107969</td>
+      <td style='text-align:center; vertical-align:middle'>-0.499355</td>
+      <td style='text-align:center; vertical-align:middle'>0.872223</td>
+      <td style='text-align:center; vertical-align:middle'>1.847952</td>
+      <td style='text-align:center; vertical-align:middle'>-0.836769</td>
+      <td style='text-align:center; vertical-align:middle'>0.378996</td>
+      <td style='text-align:center; vertical-align:middle'>-0.384573</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>92</th>
+      <td style='text-align:center; vertical-align:middle'>1.220657</td>
+      <td style='text-align:center; vertical-align:middle'>0.525153</td>
+      <td style='text-align:center; vertical-align:middle'>0.433703</td>
+      <td style='text-align:center; vertical-align:middle'>-0.995955</td>
+      <td style='text-align:center; vertical-align:middle'>1.847952</td>
+      <td style='text-align:center; vertical-align:middle'>1.096538</td>
+      <td style='text-align:center; vertical-align:middle'>0.378996</td>
+      <td style='text-align:center; vertical-align:middle'>1.151171</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>93</th>
+      <td style='text-align:center; vertical-align:middle'>2.017972</td>
+      <td style='text-align:center; vertical-align:middle'>0.568193</td>
+      <td style='text-align:center; vertical-align:middle'>-2.765355</td>
+      <td style='text-align:center; vertical-align:middle'>-0.995955</td>
+      <td style='text-align:center; vertical-align:middle'>1.847952</td>
+      <td style='text-align:center; vertical-align:middle'>1.701433</td>
+      <td style='text-align:center; vertical-align:middle'>0.378996</td>
+      <td style='text-align:center; vertical-align:middle'>0.468618</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>95</th>
+      <td style='text-align:center; vertical-align:middle'>1.262743</td>
+      <td style='text-align:center; vertical-align:middle'>0.310118</td>
+      <td style='text-align:center; vertical-align:middle'>0.433703</td>
+      <td style='text-align:center; vertical-align:middle'>1.015748</td>
+      <td style='text-align:center; vertical-align:middle'>1.847952</td>
+      <td style='text-align:center; vertical-align:middle'>1.265298</td>
+      <td style='text-align:center; vertical-align:middle'>0.378996</td>
+      <td style='text-align:center; vertical-align:middle'>1.833724</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 8 columns</p>
+</div>
+<h4>26. Show the histogram of each variables of predictorsTrain_std in a single figure</h4>
+<ul>
+<li>Use argument figsize to enlarge the figure if needed</li>
+<li>Hint: which kind of difference can you see in the histograms?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Now all the variables are centered at 0 and they variance equal to 1. So we can compare them in a better way.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTrain_std</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">layout</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&#34;Standardized data&#34;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><pre><code>Now all the variables are centered at 0 and they variance equal to 1. So we can compare them in a better way.
+
+
+
+&lt;Figure size 432x288 with 0 Axes&gt;
+</code></pre>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex2-prostatecancer/output_51_2.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h2 id="linear-regression" class="relative group"><strong>Linear Regression</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#linear-regression" aria-label="Anchor">#</a></span></h2><h4>27. Generate a linear regression model using `predictorsTrain_std` as dependent variables and `lpsaTrain` as independent variable</h4>
+<ul>
+<li>
+<p>Hint: find a function for linear regression model learning in sklearn (<strong>fit</strong>)</p>
+</li>
+<li>
+<p>How do you set parameter <strong>fit_intercept</strong>? Why?</p>
+<blockquote>
+<p>The parameter <strong><code>fit_intercept</code></strong> specifies whether to calculate the intercept for this model:</p>
+<ul>
+<li>If <strong>False</strong>, then the y-intercept to 0 (it is forced to 0);</li>
+<li>if <strong>True</strong>, then the y-intercept will be determined by the line of best fit (it&rsquo;s allowed to &ldquo;fit&rdquo; the y-axis).</li>
+</ul>
+<p>As default <strong><code>fit_intercept</code></strong> is <strong>True</strong> and it is good for us.</p>
+</blockquote>
+</li>
+<li>
+<p>How do you set parameter <strong>normalize</strong>? Why? Can this parameter be used to simplify the generation of the predictor matrix?</p>
+<blockquote>
+<p>If <strong><code>fit_intercept</code> = False</strong>, then the parameter <strong><code>normalize</code></strong> is ignored. If <strong><code>normalize</code> = True</strong>, the regressors X will be normalized before regression by subtracting the mean and dividing by the l2-norm.</p>
+<p>By default <strong><code>normalize</code> = False</strong>.</p>
+<p>We have already standardized our variables, so we set it as <strong>False</strong>.</p>
+</blockquote>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Create X_test</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#predictorsTestMean = predictorsTest.mean()</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTestStds</span> <span class="o">=</span> <span class="n">predictorsTest</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#predictorsTest_std = (predictorsTest - predictorsTestMeans)/predictorsTestStds # standardized cariables of predictorTrain</span>
+</span></span><span class="line"><span class="cl"><span class="n">predictorsTest_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">predictorsTest</span> <span class="o">-</span> <span class="n">predictorsTrainMeans</span><span class="p">)</span><span class="o">/</span><span class="n">predictorsTrainStds</span> <span class="c1"># standardized cariables of predictorTrain (BETTER WAY TO DO IT)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Prepare the independent and dependent variables for the model</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Independent variables</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_train</span> <span class="o">=</span> <span class="n">predictorsTrain_std</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_test</span> <span class="o">=</span> <span class="n">predictorsTest_std</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Dependent variable</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_train</span> <span class="o">=</span> <span class="n">lpsaTrain</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_test</span> <span class="o">=</span> <span class="n">lpsaTest</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">linreg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span> <span class="c1"># we don&#39;t need to specify args, because the default ones are already good for us</span>
+</span></span><span class="line"><span class="cl"><span class="n">linreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># by default: fit_intercept = True and normalize = False</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># This setting is good because we want to compute the intercept and we don&#39;t need to normalize X because we have already done it</span>
+</span></span></code></pre></div><p>LinearRegression()</p>
+<h2 id="difference-in-setting-up-kbdfit_interceptkbd-in-linearregression" class="relative group"><strong>Difference in setting up <kbd>fit_intercept</kbd> in LinearRegression()</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#difference-in-setting-up-kbdfit_interceptkbd-in-linearregression" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Difference in setting up fit_intercept</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">lr_fi_true</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">lr_fi_false</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">lr_fi_true</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">lr_fi_false</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Intercept when fit_intercept=True : </span><span class="si">{:.5f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lr_fi_true</span><span class="o">.</span><span class="n">intercept_</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Intercept when fit_intercept=False : </span><span class="si">{:.5f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lr_fi_false</span><span class="o">.</span><span class="n">intercept_</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># FIGURE</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># SOURCE: https://stackoverflow.com/questions/46779605/in-the-linearregression-method-in-sklearn-what-exactly-is-the-fit-intercept-par</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># fig properties</span>
+</span></span><span class="line"><span class="cl"><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">col</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span> <span class="o">=</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl"><span class="n">height</span> <span class="o">=</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># initialize the figure</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">ax</span><span class="p">,</span><span class="n">variable</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">variable</span><span class="p">],</span><span class="n">y_train</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Actual points&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">idx</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span> <span class="c1"># get corresponding column index to access the right coeff</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">lr_fi_true_yhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">variable</span><span class="p">],</span> <span class="n">lr_fi_true</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="o">+</span> <span class="n">lr_fi_true</span><span class="o">.</span><span class="n">intercept_</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lr_fi_false_yhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">variable</span><span class="p">],</span> <span class="n">lr_fi_false</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="o">+</span> <span class="n">lr_fi_false</span><span class="o">.</span><span class="n">intercept_</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">variable</span><span class="p">],</span> <span class="n">lr_fi_true_yhat</span><span class="p">,</span> <span class="s1">&#39;g--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;fit_intercept=True&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">variable</span><span class="p">],</span> <span class="n">lr_fi_false_yhat</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;fit_intercept=False&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span> <span class="c1"># force to show the plot after the print</span>
+</span></span></code></pre></div><pre><code>Intercept when fit_intercept=True : 2.45235
+Intercept when fit_intercept=False : 0.00000
+</code></pre>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex2-prostatecancer/output_58_1.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">lr_fi_true</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">lr_fi_true</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">lr_fi_true</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span><span class="n">lr_fi_true</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span><span class="s2">&#34;</span><span class="se">\n\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">lr_fi_false</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">lr_fi_false</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">lr_fi_true</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span><span class="n">lr_fi_false</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>[ 0.71640701  0.2926424  -0.14254963  0.2120076   0.30961953 -0.28900562
+ -0.02091352  0.27734595] 
+ 2.4523450850746262 
+
+
+[ 0.71640701  0.2926424  -0.14254963  0.2120076   0.30961953 -0.28900562
+ -0.02091352  0.27734595] 
+ 0.0
+</code></pre>
+<h4>28. Show the parameters of the linear regression model computed above. Compare the parameters with those shown in Table 3.2 of the book (page 50)</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">col</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Term&#39;</span><span class="p">,</span><span class="s1">&#39;Coefficient&#39;</span><span class="p">]</span> <span class="c1"># headers</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">intercept_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">linreg</span><span class="o">.</span><span class="n">intercept_</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">coeff_val</span> <span class="o">=</span> <span class="n">linreg</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">intercept_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Intercept&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">coeff_label</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">terms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">intercept_val</span><span class="p">,</span><span class="n">coeff_val</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>     
+</span></span><span class="line"><span class="cl"><span class="n">coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">intercept_label</span><span class="p">,</span><span class="n">coeff_label</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">coeffs</span><span class="p">,</span><span class="n">terms</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;fancy_grid&#39;</span><span class="p">))</span>
+</span></span></code></pre></div><pre><code>╒═══════════╤═══════════════╕
+│ Term      │   Coefficient │
+╞═══════════╪═══════════════╡
+│ Intercept │          2.45 │
+├───────────┼───────────────┤
+│ lcavol    │          0.72 │
+├───────────┼───────────────┤
+│ lweight   │          0.29 │
+├───────────┼───────────────┤
+│ age       │         -0.14 │
+├───────────┼───────────────┤
+│ lbph      │          0.21 │
+├───────────┼───────────────┤
+│ svi       │          0.31 │
+├───────────┼───────────────┤
+│ lcp       │         -0.29 │
+├───────────┼───────────────┤
+│ gleason   │         -0.02 │
+├───────────┼───────────────┤
+│ pgg45     │          0.28 │
+╘═══════════╧═══════════════╛
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># We can compare the above correlation matrix with the one in the book:</span>
+</span></span><span class="line"><span class="cl"><span class="n">Image</span><span class="p">(</span><span class="s2">&#34;../input/prostate-data/tab2.png&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex2-prostatecancer/output_62_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4>29. Compute the coefficient of determination of the prediction</h4>
+<p>For coefficient of determination we mean \(R^{2}\).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">y_predicted</span> <span class="o">=</span> <span class="n">linreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y_predicted</span>
+</span></span></code></pre></div><pre><code>array([1.96903844, 1.16995577, 1.26117929, 1.88375914, 2.54431886,
+       1.93275402, 2.04233571, 1.83091625, 1.99115929, 1.32347076,
+       2.93843111, 2.20314404, 2.166421  , 2.79456237, 2.67466879,
+       2.18057291, 2.40211068, 3.02351576, 3.21122283, 1.38441459,
+       3.41751878, 3.70741749, 2.54118337, 2.72969658, 2.64055575,
+       3.48060024, 3.17136269, 3.2923494 , 3.11889686, 3.76383999])
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">score</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_predicted</span><span class="p">)</span> <span class="c1"># goodness of fit measure for linreg</span>
+</span></span><span class="line"><span class="cl"><span class="n">score2</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_predicted</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;The coefficient of determination (i.e. R^2) of the prediction is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">score</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">The mean squared error is: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">score2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">.</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">The root of the mean squared error is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">score2</span><span class="p">),</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The coefficient of determination (i.e. R^2) of the prediction is 0.503
+The mean squared error is: 0.521.
+The root of the mean squared error is 0.722
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="s1">&#39;lcavol&#39;</span><span class="p">],</span><span class="n">y_test</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="s1">&#39;lcavol&#39;</span><span class="p">],</span><span class="n">y_predicted</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Predicted and Real values of Y by using `lcavol`&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Test&#39;</span><span class="p">,</span><span class="s1">&#39;Predicted&#39;</span><span class="p">],</span><span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;lcavol&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;lpsa&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex2-prostatecancer/output_67_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data_all</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../input/prostate-data/prostate.data&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">data_all</span> <span class="o">=</span> <span class="n">data_all</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">featuresToPlot</span> <span class="o">=</span> <span class="n">data_all</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">dataToPlot</span> <span class="o">=</span> <span class="n">data_all</span><span class="p">[</span><span class="n">featuresToPlot</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scatter_matrix</span><span class="p">(</span><span class="n">dataToPlot</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">diagonal</span> <span class="o">=</span> <span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex2-prostatecancer/output_70_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">predictorsTrain_std</span><span class="p">[</span><span class="s1">&#39;lweight&#39;</span><span class="p">],</span><span class="n">lpsaTrain</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Linear relationship btw `lweight` and  `lpsa`&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;lweight&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;lpsa&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># in this case linear regression is nice!</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex2-prostatecancer/output_72_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<p>We can see how these relationships are linear. We can see linearity from the plot.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">r2test</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">linreg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">lpsaTest</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">r2train</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">linreg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">lpsaTrain</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Coefficient of determination for Test set is </span><span class="si">{</span><span class="n">r2test</span><span class="si">}</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">Coefficient of determination for Test set is </span><span class="si">{</span><span class="n">r2train</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span> <span class="c1"># it&#39;s higher because the model is created by using train set </span>
+</span></span></code></pre></div><pre><code>Coefficient of determination for Test set is 0.5
+Coefficient of determination for Test set is 0.69
+</code></pre>
+<h4>30. Compute the standard errors, the Z scores (Student’s t statistics) and the related p-values</h4>
+<ul>
+<li>Hint: use library `statsmodels instead of sklearn</li>
+<li>Hint: compare the results with those in Table 3.2 of the book (page 50)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">y_predicted</span> <span class="o">=</span> <span class="n">linreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">X_trainC</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="c1"># We need this in order to have an intercept</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1"># otherwise we will no have the costant (it would be 0)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="n">X_trainC</span><span class="p">)</span> <span class="c1"># define the OLS (Ordinary Least Square - Linear Regression model)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span> <span class="c1"># fit the model</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">results</span><span class="o">.</span><span class="n">params</span> <span class="c1"># Coefficients of the model</span>
+</span></span><span class="line"><span class="cl"><span class="n">results</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">slim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Adjusted R^2 is the r^2 scaled by the number of parameters in the model</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># F-statistics tells if the value of R^2 is significant or not.</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>Dep. Variable:</th>
+  <td style='text-align:center; vertical-align:middle'>lpsa</td>
+  <th style='text-align:center; vertical-align:middle'>R-squared:</th>
+  <td style='text-align:center; vertical-align:middle'> 0.694</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>Model:</th>
+  <td style='text-align:center; vertical-align:middle'>OLS</td>
+  <th style='text-align:center; vertical-align:middle'>Adj. R-squared:</th>
+  <td style='text-align:center; vertical-align:middle'> 0.652</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>No. Observations:</th>
+  <td style='text-align:center; vertical-align:middle'>67</td>
+  <th style='text-align:center; vertical-align:middle'>F-statistic:</th>
+  <td style='text-align:center; vertical-align:middle'> 16.47</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>Covariance Type:</th>
+  <td style='text-align:center; vertical-align:middle'>nonrobust</td>
+  <th style='text-align:center; vertical-align:middle'>Prob (F-statistic):</th>
+  <td style='text-align:center; vertical-align:middle'>2.04e-12</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+<thead>
+<tr>
+<td style='text-align:center; vertical-align:middle'></td>
+  <th style='text-align:center; vertical-align:middle'>coef</th>
+  <th style='text-align:center; vertical-align:middle'>std err</th>
+  <th style='text-align:center; vertical-align:middle'>t</th>
+  <th style='text-align:center; vertical-align:middle'>P>|t|</th>
+  <th style='text-align:center; vertical-align:middle'>[0.025</th>
+  <th style='text-align:center; vertical-align:middle'>0.975]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>const</th>
+  <td style='text-align:center; vertical-align:middle'>2.4523</td>
+  <td style='text-align:center; vertical-align:middle'>0.087</td>
+  <td style='text-align:center; vertical-align:middle'>28.182</td>
+  <td style='text-align:center; vertical-align:middle'>0.000</td>
+  <td style='text-align:center; vertical-align:middle'>2.278</td>
+  <td style='text-align:center; vertical-align:middle'>2.627</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>lcavol</th>
+  <td style='text-align:center; vertical-align:middle'>0.7164</td>
+  <td style='text-align:center; vertical-align:middle'>0.134</td>
+  <td style='text-align:center; vertical-align:middle'>5.366</td>
+  <td style='text-align:center; vertical-align:middle'>0.000</td>
+  <td style='text-align:center; vertical-align:middle'>0.449</td>
+  <td style='text-align:center; vertical-align:middle'>0.984</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>lweight</th>
+  <td style='text-align:center; vertical-align:middle'>0.2926</td>
+  <td style='text-align:center; vertical-align:middle'>0.106</td>
+  <td style='text-align:center; vertical-align:middle'>2.751</td>
+  <td style='text-align:center; vertical-align:middle'>0.008</td>
+  <td style='text-align:center; vertical-align:middle'>0.080</td>
+  <td style='text-align:center; vertical-align:middle'>0.506</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>age</th>
+  <td style='text-align:center; vertical-align:middle'> -0.1425</td>
+  <td style='text-align:center; vertical-align:middle'>0.102</td>
+  <td style='text-align:center; vertical-align:middle'> -1.396</td>
+  <td style='text-align:center; vertical-align:middle'>0.168</td>
+  <td style='text-align:center; vertical-align:middle'> -0.347</td>
+  <td style='text-align:center; vertical-align:middle'>0.062</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>lbph</th>
+  <td style='text-align:center; vertical-align:middle'>0.2120</td>
+  <td style='text-align:center; vertical-align:middle'>0.103</td>
+  <td style='text-align:center; vertical-align:middle'>2.056</td>
+  <td style='text-align:center; vertical-align:middle'>0.044</td>
+  <td style='text-align:center; vertical-align:middle'>0.006</td>
+  <td style='text-align:center; vertical-align:middle'>0.418</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>svi</th>
+  <td style='text-align:center; vertical-align:middle'>0.3096</td>
+  <td style='text-align:center; vertical-align:middle'>0.125</td>
+  <td style='text-align:center; vertical-align:middle'>2.469</td>
+  <td style='text-align:center; vertical-align:middle'>0.017</td>
+  <td style='text-align:center; vertical-align:middle'>0.059</td>
+  <td style='text-align:center; vertical-align:middle'>0.561</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>lcp</th>
+  <td style='text-align:center; vertical-align:middle'> -0.2890</td>
+  <td style='text-align:center; vertical-align:middle'>0.155</td>
+  <td style='text-align:center; vertical-align:middle'> -1.867</td>
+  <td style='text-align:center; vertical-align:middle'>0.067</td>
+  <td style='text-align:center; vertical-align:middle'> -0.599</td>
+  <td style='text-align:center; vertical-align:middle'>0.021</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>gleason</th>
+  <td style='text-align:center; vertical-align:middle'> -0.0209</td>
+  <td style='text-align:center; vertical-align:middle'>0.143</td>
+  <td style='text-align:center; vertical-align:middle'> -0.147</td>
+  <td style='text-align:center; vertical-align:middle'>0.884</td>
+  <td style='text-align:center; vertical-align:middle'> -0.306</td>
+  <td style='text-align:center; vertical-align:middle'>0.264</td>
+</tr>
+<tr>
+  <th style='text-align:center; vertical-align:middle'>pgg45</th>
+  <td style='text-align:center; vertical-align:middle'>0.2773</td>
+  <td style='text-align:center; vertical-align:middle'>0.160</td>
+  <td style='text-align:center; vertical-align:middle'>1.738</td>
+  <td style='text-align:center; vertical-align:middle'>0.088</td>
+  <td style='text-align:center; vertical-align:middle'> -0.042</td>
+  <td style='text-align:center; vertical-align:middle'>0.597</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># We can compare the above correlation matrix with the one in the book:</span>
+</span></span><span class="line"><span class="cl"><span class="n">Image</span><span class="p">(</span><span class="s2">&#34;../input/prostate-data/tab2.png&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-ex2-prostatecancer/output_78_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="/posts/some-exercise-about-statistical-learning/sl-ex1-telcocustomerchurn/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >SL1: Telco Customer Churn first data analysis using Python</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="/posts/some-exercise-about-statistical-learning/sl-ex3-subsetselection/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >SL3: Analysis of Prostate Cancer dataset – variable subset selection</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                </span>
+              </span>
+              <span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+          <div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12">
+            <a
+              href="#the-top"
+              class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+              aria-label="Scroll to top"
+              title="Scroll to top"
+            >
+              &uarr;
+            </a>
+          </div>
+        
+      </main><footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            © 2024 Andrea Mortaro
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+        <div
+          class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        >
+          <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
+            <div
+              class="flex h-12 w-12 items-center justify-center dark:hidden"
+              title="Switch to dark appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+            </div>
+            <div
+              class="hidden h-12 w-12 items-center justify-center dark:flex"
+              title="Switch to light appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+            </div>
+          </button>
+        </div>
+      
+    </div>
+  </div>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm sm:p-6 md:p-[10vh] lg:p-[12vh] dark:bg-neutral-900/50"
+  data-url="http://localhost:1313/"
+>
+  <div
+    id="search-modal"
+    class="top-20 mx-auto flex min-h-0 w-full max-w-3xl flex-col rounded-md border border-neutral-200 bg-neutral shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex flex-none items-center justify-between px-2">
+      <form class="flex min-w-0 flex-auto items-center">
+        <div class="flex h-8 w-8 items-center justify-center text-neutral-400">
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="mx-1 flex h-12 flex-auto appearance-none bg-transparent focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex h-8 w-8 items-center justify-center text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto overflow-auto px-2">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+</html>

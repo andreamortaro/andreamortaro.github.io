@@ -1,0 +1,2372 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="false"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="rgb(255,255,255)" />
+  
+  <title>SL1: Telco Customer Churn first data analysis using Python &middot; Andrea Mortaro</title>
+    <meta name="title" content="SL1: Telco Customer Churn first data analysis using Python &middot; Andrea Mortaro" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.74ad8406faea02f3e186ba5126249aaeed9073629e04b05037b903396b188724.js"
+    integrity="sha256-dK2EBvrqAvPhhrpRJiSaru2Qc2KeBLBQN7kDOWsYhyQ="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.790b059e2e9fa3fdf3b2e196f71c93eebce086cb299a998628bb721d41e0453e.css"
+    integrity="sha256-eQsFni6fo/3zsuGW9xyT7rzghsspmpmGKLtyHUHgRT4="
+  />
+  
+    
+    
+    
+  
+  
+  
+    
+    
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.ef84f1e4c888f2aa2d84745ad4e1d75d27a8f29d55f84702214c97ecd79fba5b.js"
+      integrity="sha256-74Tx5MiI8qothHRa1OHXXSeo8p1V&#43;EcCIUyX7Nefuls="
+      data-copy="Copy"
+      data-copied="Copied"
+    ></script>
+  
+  
+  <meta
+    name="description"
+    content="
+      
+        
+      
+    "
+  />
+  
+  
+  
+  <link rel="canonical" href="http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex1-telcocustomerchurn/" />
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/posts/some-exercise-about-statistical-learning/sl-ex1-telcocustomerchurn/">
+  <meta property="og:site_name" content="Andrea Mortaro">
+  <meta property="og:title" content="SL1: Telco Customer Churn first data analysis using Python">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+  <meta property="article:section" content="posts">
+
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="SL1: Telco Customer Churn first data analysis using Python">
+<meta name="twitter:description" content="">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "SL1: Telco Customer Churn first data analysis using Python",
+    "headline": "SL1: Telco Customer Churn first data analysis using Python",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/localhost:1313\/posts\/some-exercise-about-statistical-learning\/sl-ex1-telcocustomerchurn\/",
+    "author" : {
+      "@type": "Person",
+      "name": "Andrea Mortaro"
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "3579"
+  }
+  </script>
+
+
+  
+  <meta name="author" content="Andrea Mortaro" />
+  
+    
+      <link href="mailto:andrea.mortaro@yahoo.com" rel="me" />
+    
+      <link href="https://github.com/andreamortaro" rel="me" />
+    
+      <link href="https://mastodon.uno/@andreamortaro" rel="me" />
+    
+      <link href="https://twitter.com/andrea_mortaro" rel="me" />
+    
+  
+  
+  
+
+
+
+
+
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/lib/katex/katex.min.af6f85907cdfd6ed3e4906d93a8233d91c5638859f744cd1b98c9b1a3ccaab5f231bdcda49f132f6cdfe8cca86ff33ed468affab8a9a502610a664a34f0f0cfa.css"
+    integrity="sha512-r2&#43;FkHzf1u0&#43;SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3&#43;jMqG/zPtRor/q4qaUCYQpmSjTw8M&#43;g=="
+  />
+  
+  
+  <script
+    defer
+    src="/lib/katex/katex.min.20da6cf7343619410c0900fbc626506c65159ea9f312f9729d5cba7aa713707378f9a4222e8f7fb9a42a7240e9749f199b7334401b3e3e4b60e29cf490492552.js"
+    integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4&#43;aQiLo9/uaQqckDpdJ8Zm3M0QBs&#43;Pktg4pz0kEklUg=="
+  ></script>
+  
+  
+  <script
+    defer
+    src="/lib/katex/auto-render.min.6095714e3aadb63b14ddc4af69346ab12974c1b460654345f8d1860a0b68fcc51b22f68b757433193090bb80afc8965b65cb607e5541d0f5f0f4b2e64d69b9ff.js"
+    integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF&#43;NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w=="
+    onload="renderMathInElement(document.body);"
+  ></script>
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+  
+  
+
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 sm:px-14 md:px-24 lg:px-32 dark:bg-neutral-800 dark:text-neutral"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 print:hidden sm:py-10 dark:text-neutral">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Andrea Mortaro</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/about/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >About</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/posts/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Blog</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/tags/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Tags</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="https://github.com/andreamortaro"
+                  title=""
+                  target="_blank"
+                  >
+                    <span
+                      class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                
+                
+                  <button
+                    id="search-button-1"
+                    title="Search (/)"
+                  >
+                    
+                      <span
+                        class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                      ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
+                        class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                        ></span
+                      >
+                    
+                  </button>
+                
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+        <ol class="text-sm text-neutral-500 print:hidden dark:text-neutral-400">
+  
+  
+    
+  
+    
+  
+    
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/"
+      >Welcome to Congo! :tada:</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class=" inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/"
+      >Posts</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class=" inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/some-exercise-about-statistical-learning/"
+      >Some exercise about Statistical Learning</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/posts/some-exercise-about-statistical-learning/sl-ex1-telcocustomerchurn/"
+      >SL1: Telco Customer Churn first data analysis using Python</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        SL1: Telco Customer Churn first data analysis using Python
+      </h1>
+      
+        <div class="mb-12 mt-8 text-base text-neutral-500 print:hidden dark:text-neutral-400">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <span title="Reading time">17 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+    <div class="my-1 flex flex-wrap text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+      
+        
+      
+        
+      
+    </div>
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+        <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
+          <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
+            <details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5">
+  <summary
+    class="block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+  >
+    Table of Contents
+  </summary>
+  <div class="border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#analysis-of-the-dataset-telcom_customer_churn"><strong>Analysis of the dataset Telcom_Customer_Churn</strong></a></li>
+    <li><a href="#data-acquisition"><strong>Data acquisition</strong></a></li>
+    <li><a href="#data-analysis"><strong>Data analysis</strong></a></li>
+    <li><a href="#visualization-of-data"><strong>Visualization of data</strong></a></li>
+    <li><a href="#prepare-the-data"><strong>Prepare the data</strong></a></li>
+    <li><a href="#linear-logistic-regression"><strong>Linear Logistic Regression</strong></a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+          </div>
+        </div>
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        
+
+<blockquote>
+<h4>Aim of the analysis</h4>The aim of this analysis is to predict behavior to retain customers.
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># This Python 3 environment comes with many helpful analytics libraries installed</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># data analysis and wrangling</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> <span class="c1"># linear algebra</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> <span class="c1"># data processing, CSV file I/O (e.g. pd.read_csv)</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rnd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># visualization</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># %matplotlib inline</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># machine learning</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># from sklearn.metrics import r2_score</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># from sklearn.metrics import mean_squared_error</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Input data files are available in the read-only &#34;../input/&#34; directory</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="s1">&#39;/kaggle/input&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+</span></span></code></pre></div><pre><code>/kaggle/input/telco-customer-churn/WA_Fn-UseC_-Telco-Customer-Churn.csv
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Automatically Wrap Graph Labels in Matplotlib and Seaborn</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># source: https://medium.com/dunder-data/automatically-wrap-graph-labels-in-matplotlib-and-seaborn-a48740bc9ce</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">textwrap</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">wrap_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">break_long_words</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="n">text</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">break_long_words</span><span class="o">=</span><span class="n">break_long_words</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="analysis-of-the-dataset-telcom_customer_churn" class="relative group"><strong>Analysis of the dataset Telcom_Customer_Churn</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#analysis-of-the-dataset-telcom_customer_churn" aria-label="Anchor">#</a></span></h2><h4>1. Open the Telco Customer Churn dataset page in Kaggle.</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>2. Check the main properties of this dataset in the “Data” tab.</h4>
+<ul>
+<li>
+<p>How many samples (rows) does it have?</p>
+<blockquote>
+<p>The number of samples (rows) is:  7043</p>
+</blockquote>
+</li>
+<li>
+<p>How many variables (columns)?</p>
+<blockquote>
+<p>The number of variables (columns) is:  21</p>
+</blockquote>
+</li>
+<li>
+<p>What does each row/column represent?</p>
+<blockquote>
+<p>Each row represents a customer, each column contains customer’s attributes.
+The data set includes information about:</p>
+<ul>
+<li><strong>Customers who left within the last month:</strong><br>
+the column is called &ldquo;Churn&rdquo;</li>
+<li><strong>Services that each customer has signed up for:</strong><br>
+phone, multiple lines, internet, online security, online backup,device protection, tech support, and streaming TV and movies</li>
+<li><strong>Customer account information:</strong><br>
+how long they’ve been a customer, contract, payment method,paperless billing, monthly charges, and total charges</li>
+<li><strong>Demographic info about customers:</strong><br>
+gender, age range, and if they have partners and dependents</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>Which is the “target” column? What does it represent?</p>
+<blockquote>
+<p>The target column is the &ldquo;Churn&rdquo;-column, because we want to predict this kind of behaviour.</p>
+</blockquote>
+</li>
+</ul>
+<h4>3. Download the dataset into your computer.</h4>
+<ul>
+<li>Which is the extension of the downloaded file?
+<blockquote>
+<p><strong>.zip</strong></p>
+</blockquote>
+</li>
+</ul>
+<h4>4. Uncompress the file</h4>
+<ul>
+<li>Which is the extension of the uncompressed file?
+<blockquote>
+<p><strong>.csv</strong></p>
+</blockquote>
+</li>
+</ul>
+<h4>5. Open the uncompressed file by both a text editor and a spreadsheet software</h4>
+<ul>
+<li>
+<p>Which symbol is used to separate columns?</p>
+<blockquote>
+<p>The comma!</p>
+</blockquote>
+</li>
+<li>
+<p>Which symbol is used to separate rows?</p>
+<blockquote>
+<p>New line &lsquo;\n&rsquo;!</p>
+</blockquote>
+</li>
+<li>
+<p>Which values can you find for variable SeniorCitizen? And for variable Partner?</p>
+<blockquote>
+<p>For <code>SeniorCitizen</code> the possible value is a boolean variable, where 1 means that the person is a senior citizen and 0 means no.<br>
+For <code>Partner</code> the possibile value is string variable, with `Yes&rsquo; or &lsquo;No&rsquo;.</p>
+</blockquote>
+</li>
+</ul>
+<h4>6. Generate a new notebook for analyzing this dataset</h4>
+<ul>
+<li>Hint: click on “New Kernel”, then choose the Notebook kernel type, on the right</li>
+<li>Assign the following title to the notebook:<br>
+&ldquo;SL_L1_TelcoCustomerChurn_Surname&rdquo;</li>
+<li>Then click on the “Commit” button on top-right to make the notebook ready to be started</li>
+</ul>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>7. Open the notebook documentation page to get help if needed</h4>
+<ul>
+<li>Hint: click the “Docs” link on the right-bottom of your notebook page</li>
+</ul>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>8. Select the first cell (we will call it “Library import cell” in the following), run it</h4>
+<ul>
+<li>
+<p>What is the output of this action?</p>
+<blockquote>
+<p>It loads some python packages</p>
+</blockquote>
+</li>
+<li>
+<p>What does the code “import numpy as np” do? Can you provide a reference website for this library?</p>
+<blockquote>
+<p>Running <code>import numpy as np</code> I load numpy package, which is useful for linear algebra. You can find a reference <a href="https://numpy.org/" target="_blank" rel="noreferrer">here</a>.</p>
+</blockquote>
+</li>
+<li>
+<p>What does the code “import pandas as pd” do? Can you provide a reference website for this library?</p>
+<blockquote>
+<p>Running <code>import pandas as pd</code> I load pandas package,m which is useful for data processing, and to handle CSV file I/O (e.g. pd.read_csv). You can find a reference <a href="https://pandas.pydata.org/" target="_blank" rel="noreferrer">here</a>.</p>
+</blockquote>
+</li>
+<li>
+<p>What does the code “import os” do? Can you provide a reference website for this library?</p>
+<blockquote>
+<p>Running <code>import os</code> I load os package, which is useful for operating system functionality. There is a reference <a href="https://docs.python.org/3/library/os.html" target="_blank" rel="noreferrer">here</a>.</p>
+</blockquote>
+</li>
+<li>
+<p>How many data files are available? Please provide their names.</p>
+<blockquote>
+<p>With os module I can list all the files available, and in our case there&rsquo;s only the file named &ldquo;/kaggle/input/telco-customer-churn/WA_Fn-UseC_-Telco-Customer-Churn.csv&rdquo;.</p>
+</blockquote>
+</li>
+</ul>
+<h4>9. Add to the first cell new lines to load the following libraries: seaborn, matplotlib.pyplot, sklearn.linear_model (only LogisticRegression)</h4>
+<ul>
+<li>Hint: find similar code in the Titanic notebook if needed</li>
+</ul>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>10. Select the first cell and add a new cell on top of it</h4>
+<ul>
+<li>Hint: use the button on top-right of the cell</li>
+</ul>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>11. Select the new cell and transform it in a “Markdown” cell, then copy all the text in this pdf file and paste it in the new Markdown cell</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>12. Please write your answers to the questions above in the new Markdown cell. From now on you can use the same cell to write your answers as well</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>13. Select the “Library input cell” and add a new cell below it</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>14. Use the new cell to load the Telco Customer Churn dataset into a Pandas DataFrame variable called data</h4>
+<ul>
+<li>Hint: find similar code in the Titanic notebook if needed</li>
+<li>Remind to run the cell after writing the code-box</li>
+</ul>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>15. Add the following `comment` before data loading line: “Data acquisition”</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>16. Add also a `Markdown cell` before the data loading cell and write in bold the text “Data acquisition”</h4>
+<ul>
+<li>Markdown cells should be used to give a structure to the report, hence they should be added before each new section</li>
+</ul>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h2 id="data-acquisition" class="relative group"><strong>Data acquisition</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#data-acquisition" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## Data acquisition</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../input/telco-customer-churn/WA_Fn-UseC_-Telco-Customer-Churn.csv&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><h4>17. In a new cell show the number of rows, the number of columns, and the total number of cells in the dataset</h4>
+<ul>
+<li>Hint: display the related parameters of the <code>Pandas DataFrame</code></li>
+<li>Hint: use the print function to print the results</li>
+<li>You should print, in particular, the following strings:
+<ul>
+<li>“The number of customers is XXXX”</li>
+<li>“The number of variables is YYYY”</li>
+<li>“The total number of cells is ZZZZ”</li>
+</ul>
+</li>
+<li>Other hints:
+<ul>
+<li>How can you select a single element from the shape tuple?</li>
+<li>How can you convert a number to string?</li>
+<li>How can you concatenate two strings?</li>
+<li>How can you print the final string?</li>
+</ul>
+</li>
+</ul>
+<h2 id="data-analysis" class="relative group"><strong>Data analysis</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#data-analysis" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">#Dataset dimension</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="n">num_rows</span><span class="p">,</span><span class="n">num_columns</span><span class="p">]</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">num_elements</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;The number of costumers (rows) is </span><span class="si">{</span><span class="n">num_rows</span><span class="si">}</span><span class="s2">.</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">The number of variables (columns) is </span><span class="si">{</span><span class="n">num_columns</span><span class="si">}</span><span class="s2">.</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">The number of elements is </span><span class="si">{</span><span class="n">num_elements</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;To select a single element from the shape tuple it&#39;s enough to assing the return of `data.shape` to two variables.</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">So I get a single element by calling one of them.</span><span class="se">\n\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">I can convert a number to string by call the method `str`.</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">I can concatenate two strings by using `+` between the two strings and I print the final string by calling `print` with the argument `</span><span class="se">\&#34;</span><span class="s2">string1</span><span class="se">\&#34;</span><span class="s2">+</span><span class="se">\&#34;</span><span class="s2">string2</span><span class="se">\&#34;</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The number of costumers (rows) is 7043.
+The number of variables (columns) is 21.
+The number of elements is 147903.
+
+To select a single element from the shape tuple it's enough to assing the return of `data.shape` to two variables.
+So I get a single element by calling one of them.
+
+I can convert a number to string by call the method `str`.
+I can concatenate two strings by using `+` between the two strings and I print the final string by calling `print` with the argument `&quot;string1&quot;+&quot;string2&quot;
+</code></pre>
+<h4>18. Add the following `comment` at the beginning of the cell: “Dataset dimension”</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>19. Add a new `markdown cell` before this cell and write in it the title “Data Analysis”</h4>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<h4>20. In a new cell show the names of the variables in the dataset</h4>
+<ul>
+<li>Hint: print the column’s names of variable data</li>
+</ul>
+<blockquote>
+<h4>✅</h4>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The names of the variables in the dataset are:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">num</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The names of the variables in the dataset are:
+1. customerID
+2. gender
+3. SeniorCitizen
+4. Partner
+5. Dependents
+6. tenure
+7. PhoneService
+8. MultipleLines
+9. InternetService
+10. OnlineSecurity
+11. OnlineBackup
+12. DeviceProtection
+13. TechSupport
+14. StreamingTV
+15. StreamingMovies
+16. Contract
+17. PaperlessBilling
+18. PaymentMethod
+19. MonthlyCharges
+20. TotalCharges
+21. Churn
+</code></pre>
+<h4>21. In a new cell show the first and last 10 rows in the dataset</h4>
+<ul>
+<li>Hint: find the correct DataFrame methods in the Pandas’ documentation</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The first 10 rows in the dataset are:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The first 10 rows in the dataset are:
+</code></pre>
+<div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>customerID</th>
+      <th style='text-align:center; vertical-align:middle'>gender</th>
+      <th style='text-align:center; vertical-align:middle'>SeniorCitizen</th>
+      <th style='text-align:center; vertical-align:middle'>Partner</th>
+      <th style='text-align:center; vertical-align:middle'>Dependents</th>
+      <th style='text-align:center; vertical-align:middle'>tenure</th>
+      <th style='text-align:center; vertical-align:middle'>PhoneService</th>
+      <th style='text-align:center; vertical-align:middle'>MultipleLines</th>
+      <th style='text-align:center; vertical-align:middle'>InternetService</th>
+      <th style='text-align:center; vertical-align:middle'>OnlineSecurity</th>
+      <th style='text-align:center; vertical-align:middle'>...</th>
+      <th style='text-align:center; vertical-align:middle'>DeviceProtection</th>
+      <th style='text-align:center; vertical-align:middle'>TechSupport</th>
+      <th style='text-align:center; vertical-align:middle'>StreamingTV</th>
+      <th style='text-align:center; vertical-align:middle'>StreamingMovies</th>
+      <th style='text-align:center; vertical-align:middle'>Contract</th>
+      <th style='text-align:center; vertical-align:middle'>PaperlessBilling</th>
+      <th style='text-align:center; vertical-align:middle'>PaymentMethod</th>
+      <th style='text-align:center; vertical-align:middle'>MonthlyCharges</th>
+      <th style='text-align:center; vertical-align:middle'>TotalCharges</th>
+      <th style='text-align:center; vertical-align:middle'>Churn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <td style='text-align:center; vertical-align:middle'>7590-VHVEG</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No phone service</td>
+      <td style='text-align:center; vertical-align:middle'>DSL</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Electronic check</td>
+      <td style='text-align:center; vertical-align:middle'>29.85</td>
+      <td style='text-align:center; vertical-align:middle'>29.85</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <td style='text-align:center; vertical-align:middle'>5575-GNVDE</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>34</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>DSL</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>One year</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Mailed check</td>
+      <td style='text-align:center; vertical-align:middle'>56.95</td>
+      <td style='text-align:center; vertical-align:middle'>1889.5</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <td style='text-align:center; vertical-align:middle'>3668-QPYBK</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>DSL</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Mailed check</td>
+      <td style='text-align:center; vertical-align:middle'>53.85</td>
+      <td style='text-align:center; vertical-align:middle'>108.15</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>3</th>
+      <td style='text-align:center; vertical-align:middle'>7795-CFOCW</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>45</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No phone service</td>
+      <td style='text-align:center; vertical-align:middle'>DSL</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>One year</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Bank transfer (automatic)</td>
+      <td style='text-align:center; vertical-align:middle'>42.30</td>
+      <td style='text-align:center; vertical-align:middle'>1840.75</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>4</th>
+      <td style='text-align:center; vertical-align:middle'>9237-HQITU</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Electronic check</td>
+      <td style='text-align:center; vertical-align:middle'>70.70</td>
+      <td style='text-align:center; vertical-align:middle'>151.65</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>5</th>
+      <td style='text-align:center; vertical-align:middle'>9305-CDSKC</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>8</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Electronic check</td>
+      <td style='text-align:center; vertical-align:middle'>99.65</td>
+      <td style='text-align:center; vertical-align:middle'>820.5</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>6</th>
+      <td style='text-align:center; vertical-align:middle'>1452-KIOVK</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>22</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Credit card (automatic)</td>
+      <td style='text-align:center; vertical-align:middle'>89.10</td>
+      <td style='text-align:center; vertical-align:middle'>1949.4</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7</th>
+      <td style='text-align:center; vertical-align:middle'>6713-OKOMC</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>10</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No phone service</td>
+      <td style='text-align:center; vertical-align:middle'>DSL</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Mailed check</td>
+      <td style='text-align:center; vertical-align:middle'>29.75</td>
+      <td style='text-align:center; vertical-align:middle'>301.9</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>8</th>
+      <td style='text-align:center; vertical-align:middle'>7892-POOKP</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>28</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Electronic check</td>
+      <td style='text-align:center; vertical-align:middle'>104.80</td>
+      <td style='text-align:center; vertical-align:middle'>3046.05</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>9</th>
+      <td style='text-align:center; vertical-align:middle'>6388-TABGU</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>62</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>DSL</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>One year</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Bank transfer (automatic)</td>
+      <td style='text-align:center; vertical-align:middle'>56.15</td>
+      <td style='text-align:center; vertical-align:middle'>3487.95</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+  </tbody>
+</table>
+<p>10 rows × 21 columns</p>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The last 10 rows in the dataset are:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The last 10 rows in the dataset are:
+</code></pre>
+<div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>customerID</th>
+      <th style='text-align:center; vertical-align:middle'>gender</th>
+      <th style='text-align:center; vertical-align:middle'>SeniorCitizen</th>
+      <th style='text-align:center; vertical-align:middle'>Partner</th>
+      <th style='text-align:center; vertical-align:middle'>Dependents</th>
+      <th style='text-align:center; vertical-align:middle'>tenure</th>
+      <th style='text-align:center; vertical-align:middle'>PhoneService</th>
+      <th style='text-align:center; vertical-align:middle'>MultipleLines</th>
+      <th style='text-align:center; vertical-align:middle'>InternetService</th>
+      <th style='text-align:center; vertical-align:middle'>OnlineSecurity</th>
+      <th style='text-align:center; vertical-align:middle'>...</th>
+      <th style='text-align:center; vertical-align:middle'>DeviceProtection</th>
+      <th style='text-align:center; vertical-align:middle'>TechSupport</th>
+      <th style='text-align:center; vertical-align:middle'>StreamingTV</th>
+      <th style='text-align:center; vertical-align:middle'>StreamingMovies</th>
+      <th style='text-align:center; vertical-align:middle'>Contract</th>
+      <th style='text-align:center; vertical-align:middle'>PaperlessBilling</th>
+      <th style='text-align:center; vertical-align:middle'>PaymentMethod</th>
+      <th style='text-align:center; vertical-align:middle'>MonthlyCharges</th>
+      <th style='text-align:center; vertical-align:middle'>TotalCharges</th>
+      <th style='text-align:center; vertical-align:middle'>Churn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7033</th>
+      <td style='text-align:center; vertical-align:middle'>9767-FFLEM</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>38</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Credit card (automatic)</td>
+      <td style='text-align:center; vertical-align:middle'>69.50</td>
+      <td style='text-align:center; vertical-align:middle'>2625.25</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7034</th>
+      <td style='text-align:center; vertical-align:middle'>0639-TSIQW</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>67</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Credit card (automatic)</td>
+      <td style='text-align:center; vertical-align:middle'>102.95</td>
+      <td style='text-align:center; vertical-align:middle'>6886.25</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7035</th>
+      <td style='text-align:center; vertical-align:middle'>8456-QDAVC</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>19</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Bank transfer (automatic)</td>
+      <td style='text-align:center; vertical-align:middle'>78.70</td>
+      <td style='text-align:center; vertical-align:middle'>1495.1</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7036</th>
+      <td style='text-align:center; vertical-align:middle'>7750-EYXWZ</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>12</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No phone service</td>
+      <td style='text-align:center; vertical-align:middle'>DSL</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>One year</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Electronic check</td>
+      <td style='text-align:center; vertical-align:middle'>60.65</td>
+      <td style='text-align:center; vertical-align:middle'>743.3</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7037</th>
+      <td style='text-align:center; vertical-align:middle'>2569-WGERO</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>72</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No internet service</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No internet service</td>
+      <td style='text-align:center; vertical-align:middle'>No internet service</td>
+      <td style='text-align:center; vertical-align:middle'>No internet service</td>
+      <td style='text-align:center; vertical-align:middle'>No internet service</td>
+      <td style='text-align:center; vertical-align:middle'>Two year</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Bank transfer (automatic)</td>
+      <td style='text-align:center; vertical-align:middle'>21.15</td>
+      <td style='text-align:center; vertical-align:middle'>1419.4</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7038</th>
+      <td style='text-align:center; vertical-align:middle'>6840-RESVB</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>24</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>DSL</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>One year</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Mailed check</td>
+      <td style='text-align:center; vertical-align:middle'>84.80</td>
+      <td style='text-align:center; vertical-align:middle'>1990.5</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7039</th>
+      <td style='text-align:center; vertical-align:middle'>2234-XADUH</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>72</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>One year</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Credit card (automatic)</td>
+      <td style='text-align:center; vertical-align:middle'>103.20</td>
+      <td style='text-align:center; vertical-align:middle'>7362.9</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7040</th>
+      <td style='text-align:center; vertical-align:middle'>4801-JZAZL</td>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>11</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No phone service</td>
+      <td style='text-align:center; vertical-align:middle'>DSL</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Electronic check</td>
+      <td style='text-align:center; vertical-align:middle'>29.60</td>
+      <td style='text-align:center; vertical-align:middle'>346.45</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7041</th>
+      <td style='text-align:center; vertical-align:middle'>8361-LTMKD</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>4</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Mailed check</td>
+      <td style='text-align:center; vertical-align:middle'>74.40</td>
+      <td style='text-align:center; vertical-align:middle'>306.6</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>7042</th>
+      <td style='text-align:center; vertical-align:middle'>3186-AJIEK</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>66</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>...</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Two year</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Bank transfer (automatic)</td>
+      <td style='text-align:center; vertical-align:middle'>105.65</td>
+      <td style='text-align:center; vertical-align:middle'>6844.5</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+  </tbody>
+</table>
+<p>10 rows × 21 columns</p>
+</div>
+<h4>22. In a new cell show i) the type of variable data, ii) the number of missing values for each variable, iii) the type of each variable, iv) the total memory used to store variable data</h4>
+<ul>
+<li>Hint: all this information can be provided by a single method of DataFrame
+With the method <code>.info</code> we can observe all the info asked.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">memory_usage</span><span class="o">=</span><span class="s1">&#39;deep&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 7043 entries, 0 to 7042
+Data columns (total 21 columns):
+ #   Column            Non-Null Count  Dtype  
+---  ------            --------------  -----  
+ 0   customerID        7043 non-null   object 
+ 1   gender            7043 non-null   object 
+ 2   SeniorCitizen     7043 non-null   int64  
+ 3   Partner           7043 non-null   object 
+ 4   Dependents        7043 non-null   object 
+ 5   tenure            7043 non-null   int64  
+ 6   PhoneService      7043 non-null   object 
+ 7   MultipleLines     7043 non-null   object 
+ 8   InternetService   7043 non-null   object 
+ 9   OnlineSecurity    7043 non-null   object 
+ 10  OnlineBackup      7043 non-null   object 
+ 11  DeviceProtection  7043 non-null   object 
+ 12  TechSupport       7043 non-null   object 
+ 13  StreamingTV       7043 non-null   object 
+ 14  StreamingMovies   7043 non-null   object 
+ 15  Contract          7043 non-null   object 
+ 16  PaperlessBilling  7043 non-null   object 
+ 17  PaymentMethod     7043 non-null   object 
+ 18  MonthlyCharges    7043 non-null   float64
+ 19  TotalCharges      7043 non-null   object 
+ 20  Churn             7043 non-null   object 
+dtypes: float64(1), int64(2), object(18)
+memory usage: 7.8 MB
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#39;TotalCharges&#39; contains also empty value and it will be difficult to handle,</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">for instance data.iloc[488][&#39;TotalCharges&#39;] contains: &#34;</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">488</span><span class="p">][</span><span class="s1">&#39;TotalCharges&#39;</span><span class="p">],</span><span class="s2">&#34;.</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">A possible solution is to cast these two variables.&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>'TotalCharges' contains also empty value and it will be difficult to handle,for instance data.iloc[488]['TotalCharges'] contains:    .
+A possible solution is to cast these two variables.
+</code></pre>
+<div class="flex rounded-md bg-primary-100 px-4 py-3 dark:bg-primary-900">
+  <span class="pe-3 text-primary-400">
+    <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"/></svg>
+</span>
+  </span>
+  <span class="dark:text-neutral-300"><strong>WARNING</strong>: Pay attention to &lsquo;customerID&rsquo; and &lsquo;TotalCharges&rsquo; variables because they are object, but they contains numerical values!</span>
+</div>
+
+<ul>
+<li>How many missing values are there in total?
+<blockquote>
+<p>To detect missing values I use the method <code>.isnull()</code>:</p>
+</blockquote>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># # Count total NaN at each column in a DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># print(&#34; \nCount total NaN at each column in a DataFrame:\n&#34;,\</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#       data.isnull().sum(),&#34;\n&#34;)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># # Count total NaN at each row in a DataFrame</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># for i in range(len(data.index)) :</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     print(&#34; Total NaN in row&#34;, i + 1, &#34;:&#34;,</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#           data.iloc[i].isnull().sum())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;There are &#34;</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span><span class="s2">&#34; missing values in total.&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>There are  0  missing values in total.
+</code></pre>
+<ul>
+<li>Which variables are categorical?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">The categorical variables are:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">objVar</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">objVar</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">objVar</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">num</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The categorical variables are:
+1. customerID
+2. gender
+3. Partner
+4. Dependents
+5. PhoneService
+6. MultipleLines
+7. InternetService
+8. OnlineSecurity
+9. OnlineBackup
+10. DeviceProtection
+11. TechSupport
+12. StreamingTV
+13. StreamingMovies
+14. Contract
+15. PaperlessBilling
+16. PaymentMethod
+17. TotalCharges
+18. Churn
+</code></pre>
+<ul>
+<li>Which variables are numerical?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">The numerical variables are:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="n">numVar</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">objVar</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">numVar</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">num</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The numerical variables are:
+1. SeniorCitizen
+2. tenure
+3. MonthlyCharges
+</code></pre>
+<h4>23. In a new cell show the following basic statistics for all `numerical variables`: number of non-missing values, mean, standard deviation, minimum, maximum, median, 1 st and 3 rd quartiles</h4>
+* Hint: all this information can be provided by a single method of DataFrame
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="p">[</span><span class="mf">.25</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="mf">.75</span><span class="p">])</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>SeniorCitizen</th>
+      <th style='text-align:center; vertical-align:middle'>tenure</th>
+      <th style='text-align:center; vertical-align:middle'>MonthlyCharges</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>count</th>
+      <td style='text-align:center; vertical-align:middle'>7043.000000</td>
+      <td style='text-align:center; vertical-align:middle'>7043.000000</td>
+      <td style='text-align:center; vertical-align:middle'>7043.000000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>mean</th>
+      <td style='text-align:center; vertical-align:middle'>0.162147</td>
+      <td style='text-align:center; vertical-align:middle'>32.371149</td>
+      <td style='text-align:center; vertical-align:middle'>64.761692</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>std</th>
+      <td style='text-align:center; vertical-align:middle'>0.368612</td>
+      <td style='text-align:center; vertical-align:middle'>24.559481</td>
+      <td style='text-align:center; vertical-align:middle'>30.090047</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>min</th>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+      <td style='text-align:center; vertical-align:middle'>18.250000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>25%</th>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+      <td style='text-align:center; vertical-align:middle'>9.000000</td>
+      <td style='text-align:center; vertical-align:middle'>35.500000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>50%</th>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+      <td style='text-align:center; vertical-align:middle'>29.000000</td>
+      <td style='text-align:center; vertical-align:middle'>70.350000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>75%</th>
+      <td style='text-align:center; vertical-align:middle'>0.000000</td>
+      <td style='text-align:center; vertical-align:middle'>55.000000</td>
+      <td style='text-align:center; vertical-align:middle'>89.850000</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>max</th>
+      <td style='text-align:center; vertical-align:middle'>1.000000</td>
+      <td style='text-align:center; vertical-align:middle'>72.000000</td>
+      <td style='text-align:center; vertical-align:middle'>118.750000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h4>24. In a new cell show the following basic information for all `categorical variables`: number of non-missing values, number of unique values, most frequent value and frequency of the most frequent value.</h4>
+* Hint: all this information can be provided by the DataFrame method used in question 22, using specific arguments
+* Can you see any strange value in this result?
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>customerID</th>
+      <th style='text-align:center; vertical-align:middle'>gender</th>
+      <th style='text-align:center; vertical-align:middle'>Partner</th>
+      <th style='text-align:center; vertical-align:middle'>Dependents</th>
+      <th style='text-align:center; vertical-align:middle'>PhoneService</th>
+      <th style='text-align:center; vertical-align:middle'>MultipleLines</th>
+      <th style='text-align:center; vertical-align:middle'>InternetService</th>
+      <th style='text-align:center; vertical-align:middle'>OnlineSecurity</th>
+      <th style='text-align:center; vertical-align:middle'>OnlineBackup</th>
+      <th style='text-align:center; vertical-align:middle'>DeviceProtection</th>
+      <th style='text-align:center; vertical-align:middle'>TechSupport</th>
+      <th style='text-align:center; vertical-align:middle'>StreamingTV</th>
+      <th style='text-align:center; vertical-align:middle'>StreamingMovies</th>
+      <th style='text-align:center; vertical-align:middle'>Contract</th>
+      <th style='text-align:center; vertical-align:middle'>PaperlessBilling</th>
+      <th style='text-align:center; vertical-align:middle'>PaymentMethod</th>
+      <th style='text-align:center; vertical-align:middle'>TotalCharges</th>
+      <th style='text-align:center; vertical-align:middle'>Churn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>count</th>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>unique</th>
+      <td style='text-align:center; vertical-align:middle'>7043</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>3</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+      <td style='text-align:center; vertical-align:middle'>4</td>
+      <td style='text-align:center; vertical-align:middle'>6531</td>
+      <td style='text-align:center; vertical-align:middle'>2</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>top</th>
+      <td style='text-align:center; vertical-align:middle'>7590-VHVEG</td>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Fiber optic</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Month-to-month</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>Electronic check</td>
+      <td style='text-align:center; vertical-align:middle'></td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>freq</th>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>3555</td>
+      <td style='text-align:center; vertical-align:middle'>3641</td>
+      <td style='text-align:center; vertical-align:middle'>4933</td>
+      <td style='text-align:center; vertical-align:middle'>6361</td>
+      <td style='text-align:center; vertical-align:middle'>3390</td>
+      <td style='text-align:center; vertical-align:middle'>3096</td>
+      <td style='text-align:center; vertical-align:middle'>3498</td>
+      <td style='text-align:center; vertical-align:middle'>3088</td>
+      <td style='text-align:center; vertical-align:middle'>3095</td>
+      <td style='text-align:center; vertical-align:middle'>3473</td>
+      <td style='text-align:center; vertical-align:middle'>2810</td>
+      <td style='text-align:center; vertical-align:middle'>2785</td>
+      <td style='text-align:center; vertical-align:middle'>3875</td>
+      <td style='text-align:center; vertical-align:middle'>4171</td>
+      <td style='text-align:center; vertical-align:middle'>2365</td>
+      <td style='text-align:center; vertical-align:middle'>11</td>
+      <td style='text-align:center; vertical-align:middle'>5174</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="visualization-of-data" class="relative group"><strong>Visualization of data</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#visualization-of-data" aria-label="Anchor">#</a></span></h2><h4>25. In a new cell show the histograms of each numeric variable (i.e., column) in the dataset</h4>
+<ul>
+<li>Hint: try to find a specific method in the DataFrame API documentation</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># numdata = data.select_dtypes(include=[&#39;number&#39;])</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cols = numdata.columns.values</span>
+</span></span><span class="line"><span class="cl"><span class="n">numdata</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">_get_numeric_data</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># numdata.hist(bins=20)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># fig properties</span>
+</span></span><span class="line"><span class="cl"><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">col</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span> <span class="o">=</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl"><span class="n">height</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># initialize the figure</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">ax</span><span class="p">,</span><span class="n">numcol</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">numdata</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">numdata</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">numcol</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span> <span class="c1"># force to show the plot after the print</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-l1-telcocustomerchurn/output_34_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4>26. In a new cell show the box-plots of each numeric variable (i.e., column) in the dataset</h4>
+<ul>
+<li>Hint: try to find a specific method in the DataFrame API documentation</li>
+<li>Does this chart provide a good visualization? Why?</li>
+<li>Try to generate one box-plot for each numerical variable</li>
+<li>Try to put all three charts in the same figure using the subplot function</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Not a good visualization because it groups together all the numerical variables:</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig1</span> <span class="o">=</span> <span class="n">numdata</span><span class="o">.</span><span class="n">boxplot</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig1</span><span class="p">)</span> <span class="c1"># force to show the plot after the print</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">Moreover for &#39;SeniorCitizen&#39; variable we can not distinguish all the info from the plot.&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>Not a good visualization because it groups together all the numerical variables:
+</code></pre>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-l1-telcocustomerchurn/output_36_1.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<pre><code>Moreover for 'SeniorCitizen' variable we can not distinguish all the info from the plot.
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;To have a good visualization, we can plot each numerical variable in a single boxplot as follows:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># fig properties</span>
+</span></span><span class="line"><span class="cl"><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">col</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span> <span class="o">=</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl"><span class="n">height</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># initialize the figure</span>
+</span></span><span class="line"><span class="cl"><span class="n">fig2</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># fig.tight_layout()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># #fig.subplots_adjust(wspace=0.2)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">ax</span><span class="p">,</span><span class="n">numcol</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">axes</span><span class="p">),</span><span class="n">numdata</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">numdata</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">numcol</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig2</span><span class="p">)</span> <span class="c1"># force to show the plot after the print</span>
+</span></span></code></pre></div><pre><code>To have a good visualization, we can plot each numerical variable in a single boxplot as follows:
+</code></pre>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-l1-telcocustomerchurn/output_37_1.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4>27. In a new cell show the histograms of the categorical variables in the dataset</h4>
+<ul>
+<li>Hint: try to use a function from the Seaborn library which counts the number of time each element appears and makes a related bar plot</li>
+<li>Hint: use the subplot function to put all the charts in the same figure</li>
+<li>Hint: resize the figure so that to avoid overlapping and enable a clear visualization of all charts</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">catdata</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;object&#34;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># fig properties</span>
+</span></span><span class="line"><span class="cl"><span class="n">row</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">col</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">width</span> <span class="o">=</span> <span class="mi">18</span>
+</span></span><span class="line"><span class="cl"><span class="n">height</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="n">height</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Dropping &#39;costumerID&#39; and &#39;TotalCharges&#39; variables because makes too hard to plot!</span>
+</span></span><span class="line"><span class="cl"><span class="n">categorical_variables</span> <span class="o">=</span> <span class="n">catdata</span><span class="p">[</span><span class="n">catdata</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">([</span><span class="s1">&#39;customerID&#39;</span><span class="p">,</span><span class="s1">&#39;TotalCharges&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">ax</span><span class="p">,</span><span class="n">col</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">categorical_variables</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">col</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># Since for &#39;PaymentMethod&#39; we have xticklabels which are overlapping    </span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="s1">&#39;PaymentMethod&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#ax.set_xticklabels(ax.get_xticklabels(), rotation=40, ha=&#34;right&#34;) # rotate x-tick-labels</span>
+</span></span><span class="line"><span class="cl">        <span class="n">wrap_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># wrap the words at or before the 10th character</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span> <span class="c1"># force to show the plot after the print</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/posts/sl-l1-telcocustomerchurn/output_39_0.png" alt="png" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4>28. In a new cell generate a new DataFrame called data1 and containing only variables gender, Partner, MonthlyCharges, Churn</h4>
+* Hint: you could try also other selections
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">#data1 = data[[&#39;gender&#39;,&#39;Partner&#39;,&#39;MonthlyCharges&#39;,&#39;Churn&#39;]]</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span><span class="s1">&#39;Partner&#39;</span><span class="p">,</span><span class="s1">&#39;MonthlyCharges&#39;</span><span class="p">,</span><span class="s1">&#39;Churn&#39;</span><span class="p">])</span>
+</span></span></code></pre></div><h4>29. In a new cell show the first 5 rows of the new dataset</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data1</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>gender</th>
+      <th style='text-align:center; vertical-align:middle'>Partner</th>
+      <th style='text-align:center; vertical-align:middle'>MonthlyCharges</th>
+      <th style='text-align:center; vertical-align:middle'>Churn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>29.85</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>56.95</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>53.85</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>3</th>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>42.30</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>4</th>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>70.70</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="prepare-the-data" class="relative group"><strong>Prepare the data</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#prepare-the-data" aria-label="Anchor">#</a></span></h2><h4>30. Convert categorical values in data1 to numeric as follows:</h4>
+<ul>
+<li>
+<p><strong>gender: Male=0, Female=1</strong></p>
+</li>
+<li>
+<p><strong>Partner: No=0, Yes=1</strong></p>
+</li>
+<li>
+<p><strong>Churn: No=0, Yes=1</strong></p>
+</li>
+<li>
+<p>Hint: find similar code in the Titanic notebook if needed</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">gender_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Male&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Female&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;No&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">gender_mapping</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># data1[&#39;gender&#39;] = data1[&#39;gender&#39;].astype(int) # it doesn&#39;t need to cast</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span><span class="p">[</span><span class="s1">&#39;Partner&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="s1">&#39;Partner&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span><span class="p">[</span><span class="s1">&#39;Churn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="s1">&#39;Churn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">display</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;Partner&#39;</span><span class="p">,</span><span class="s1">&#39;Churn&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="n">display</span><span class="p">(</span><span class="n">data1</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;Partner&#39;</span><span class="p">,</span><span class="s1">&#39;Churn&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>gender</th>
+      <th style='text-align:center; vertical-align:middle'>Partner</th>
+      <th style='text-align:center; vertical-align:middle'>Churn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>3</th>
+      <td style='text-align:center; vertical-align:middle'>Male</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>4</th>
+      <td style='text-align:center; vertical-align:middle'>Female</td>
+      <td style='text-align:center; vertical-align:middle'>No</td>
+      <td style='text-align:center; vertical-align:middle'>Yes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>gender</th>
+      <th style='text-align:center; vertical-align:middle'>Partner</th>
+      <th style='text-align:center; vertical-align:middle'>Churn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>3</th>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>4</th>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+      <td style='text-align:center; vertical-align:middle'>0</td>
+      <td style='text-align:center; vertical-align:middle'>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h4>31. Generate a separate Series variable called data1Churn for the dependent (churn) variable and drop it from DataFrame data1</h4>
+<ul>
+<li>Hint: Series is a data structure defined in Pandas, try to find its documentation page</li>
+<li>Hint: each column of a DataFrame is a Series</li>
+<li>Hint: learn how to drop columns from a dataset in the Titanoc notebook</li>
+<li>What is the difference between data1[[‘Churn’]] and data1[‘Churn’]?</li>
+<li>When single square brackets are used with Pandas DataFrame? When double brackets are used instead?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## Genereate a series variable:</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1Churn</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[</span><span class="s1">&#39;Churn&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## Dropping &#34;Churn&#34; variable from data1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># data1 = data1.drop(&#34;Churn&#34;,axis=1) # don&#39;t run this twice!</span>
+</span></span><span class="line"><span class="cl"><span class="n">data1</span> <span class="o">=</span> <span class="n">data1</span><span class="p">[[</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span><span class="s1">&#39;Partner&#39;</span><span class="p">,</span><span class="s1">&#39;MonthlyCharges&#39;</span><span class="p">]]</span>
+</span></span></code></pre></div><p>The difference between <code>data1[[‘Churn’]]</code> and <code>data1[‘Churn’]</code> is that:</p>
+<blockquote>
+<p><code>data1[[‘Churn’]]</code> return a Pandas DataFrame, while <code>data1[‘Churn’]</code> returns a Pandas Series.</p>
+</blockquote>
+<p>So according to our needs we choose the more appropriate class to use.</p>
+<h2 id="linear-logistic-regression" class="relative group"><strong>Linear Logistic Regression</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#linear-logistic-regression" aria-label="Anchor">#</a></span></h2><h4>32. Generate a linear logistic model using data1 as independent variables and data1Churn as dependent variable, then show the model “score”</h4>
+<ul>
+<li>Hint: try to find a function for linear logistic model learning in the sklearn library</li>
+<li>Hint: find similar code in the Titanic notebook if needed</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Logistic Regression</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data1Churn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Y_pred</span> <span class="o">=</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data1</span><span class="p">)</span><span class="c1"># test on data1</span>
+</span></span><span class="line"><span class="cl"><span class="n">acc_log</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">logreg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span><span class="n">data1Churn</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># R2</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The score of the Logistic Regression model is: &#34;</span><span class="p">,</span><span class="n">acc_log</span><span class="p">)</span>
+</span></span></code></pre></div><pre><code>The score of the Logistic Regression model is:  0.72
+</code></pre>
+<h4>33. Show the parameters of the linear logistic model computed above. Which variable seems to be more related to customer churn?</h4>
+<ul>
+<li>Hint: find similar code in the Titanic notebook if needed</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">logreg</span><span class="o">.</span><span class="n">get_params</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># penalty: Specify the norm of the penalty</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># for other info see here:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html#sklearn.linear_model.LogisticRegression.get_params</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The intercept is: &#34;</span><span class="p">,</span><span class="n">logreg</span><span class="o">.</span><span class="n">intercept_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&#34;</span><span class="se">\n\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">The coefficients of our model are: &#34;</span><span class="p">,</span><span class="n">logreg</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">][:])</span>
+</span></span></code></pre></div><pre><code>The intercept is:  -1.8510896831170833 
+The coefficients of our model are:  [ 0.01730586 -0.83873431  0.01754114]
+</code></pre>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Correlation</span>
+</span></span><span class="line"><span class="cl"><span class="n">coeff_data1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data1</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">coeff_data1</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Feature&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">coeff_data1</span><span class="p">[</span><span class="s2">&#34;Correlation&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">logreg</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">coeff_data1</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Correlation&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span></code></pre></div><div style="width:100%;overflow:scroll;">
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th style='text-align:center; vertical-align:middle'></th>
+      <th style='text-align:center; vertical-align:middle'>Feature</th>
+      <th style='text-align:center; vertical-align:middle'>Correlation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>2</th>
+      <td style='text-align:center; vertical-align:middle'>MonthlyCharges</td>
+      <td style='text-align:center; vertical-align:middle'>0.017541</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>0</th>
+      <td style='text-align:center; vertical-align:middle'>gender</td>
+      <td style='text-align:center; vertical-align:middle'>0.017306</td>
+    </tr>
+    <tr>
+      <th style='text-align:center; vertical-align:middle'>1</th>
+      <td style='text-align:center; vertical-align:middle'>Partner</td>
+      <td style='text-align:center; vertical-align:middle'>-0.838734</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="/posts/some-exercise-about-statistical-learning/sl-ex2-prostatecancer/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >SL2: Analysis of Prostate Cancer dataset - linear regression model</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                </span>
+              </span>
+              <span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+          <div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12">
+            <a
+              href="#the-top"
+              class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+              aria-label="Scroll to top"
+              title="Scroll to top"
+            >
+              &uarr;
+            </a>
+          </div>
+        
+      </main><footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            © 2024 Andrea Mortaro
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+        <div
+          class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        >
+          <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
+            <div
+              class="flex h-12 w-12 items-center justify-center dark:hidden"
+              title="Switch to dark appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+            </div>
+            <div
+              class="hidden h-12 w-12 items-center justify-center dark:flex"
+              title="Switch to light appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+            </div>
+          </button>
+        </div>
+      
+    </div>
+  </div>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm sm:p-6 md:p-[10vh] lg:p-[12vh] dark:bg-neutral-900/50"
+  data-url="http://localhost:1313/"
+>
+  <div
+    id="search-modal"
+    class="top-20 mx-auto flex min-h-0 w-full max-w-3xl flex-col rounded-md border border-neutral-200 bg-neutral shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex flex-none items-center justify-between px-2">
+      <form class="flex min-w-0 flex-auto items-center">
+        <div class="flex h-8 w-8 items-center justify-center text-neutral-400">
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="mx-1 flex h-12 flex-auto appearance-none bg-transparent focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex h-8 w-8 items-center justify-center text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto overflow-auto px-2">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+</html>
