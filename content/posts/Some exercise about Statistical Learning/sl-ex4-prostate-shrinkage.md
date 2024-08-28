@@ -52,17 +52,10 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 
 <h4>1. Open your kernel SL_EX2_ProstateCancer_Surname in Kaggle</h4>
 
-> <h4>✅</h4>
-
-
 <h4>2. Generate a copy called SL_EX4_Prostate_Shrinkage_Surname by the Fork button</h4>
-
-> <h4>✅</h4>
-
 
 <h4>3. Import Ridge from sklearn.linear_model</h4>
 
-> <h4>✅</h4>
 
 ## **Data acquisition**
 

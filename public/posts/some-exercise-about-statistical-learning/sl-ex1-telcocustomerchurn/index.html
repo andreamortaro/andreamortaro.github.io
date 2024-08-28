@@ -129,7 +129,7 @@
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "3579"
+    "wordCount": "3565"
   }
   </script>
 
@@ -141,6 +141,8 @@
       <link href="mailto:andrea.mortaro@yahoo.com" rel="me" />
     
       <link href="https://github.com/andreamortaro" rel="me" />
+    
+      <link href="https://www.linkedin.com/in/mortaro-andrea" rel="me" />
     
       <link href="https://mastodon.uno/@andreamortaro" rel="me" />
     
@@ -617,9 +619,6 @@
 </span></span><span class="line"><span class="cl">                      <span class="n">break_long_words</span><span class="o">=</span><span class="n">break_long_words</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span></span></code></pre></div><h2 id="analysis-of-the-dataset-telcom_customer_churn" class="relative group"><strong>Analysis of the dataset Telcom_Customer_Churn</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#analysis-of-the-dataset-telcom_customer_churn" aria-label="Anchor">#</a></span></h2><h4>1. Open the Telco Customer Churn dataset page in Kaggle.</h4>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>2. Check the main properties of this dataset in the “Data” tab.</h4>
 <ul>
 <li>
@@ -703,16 +702,10 @@ For <code>Partner</code> the possibile value is string variable, with `Yes&rsquo
 &ldquo;SL_L1_TelcoCustomerChurn_Surname&rdquo;</li>
 <li>Then click on the “Commit” button on top-right to make the notebook ready to be started</li>
 </ul>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>7. Open the notebook documentation page to get help if needed</h4>
 <ul>
 <li>Hint: click the “Docs” link on the right-bottom of your notebook page</li>
 </ul>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>8. Select the first cell (we will call it “Library import cell” in the following), run it</h4>
 <ul>
 <li>
@@ -750,47 +743,23 @@ For <code>Partner</code> the possibile value is string variable, with `Yes&rsquo
 <ul>
 <li>Hint: find similar code in the Titanic notebook if needed</li>
 </ul>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>10. Select the first cell and add a new cell on top of it</h4>
 <ul>
 <li>Hint: use the button on top-right of the cell</li>
 </ul>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>11. Select the new cell and transform it in a “Markdown” cell, then copy all the text in this pdf file and paste it in the new Markdown cell</h4>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>12. Please write your answers to the questions above in the new Markdown cell. From now on you can use the same cell to write your answers as well</h4>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>13. Select the “Library input cell” and add a new cell below it</h4>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>14. Use the new cell to load the Telco Customer Churn dataset into a Pandas DataFrame variable called data</h4>
 <ul>
 <li>Hint: find similar code in the Titanic notebook if needed</li>
 <li>Remind to run the cell after writing the code-box</li>
 </ul>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>15. Add the following `comment` before data loading line: “Data acquisition”</h4>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>16. Add also a `Markdown cell` before the data loading cell and write in bold the text “Data acquisition”</h4>
 <ul>
 <li>Markdown cells should be used to give a structure to the report, hence they should be added before each new section</li>
 </ul>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h2 id="data-acquisition" class="relative group"><strong>Data acquisition</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#data-acquisition" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1">## Data acquisition</span>
 </span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../input/telco-customer-churn/WA_Fn-UseC_-Telco-Customer-Churn.csv&#39;</span><span class="p">)</span>
 </span></span></code></pre></div><h4>17. In a new cell show the number of rows, the number of columns, and the total number of cells in the dataset</h4>
@@ -835,20 +804,11 @@ I can convert a number to string by call the method `str`.
 I can concatenate two strings by using `+` between the two strings and I print the final string by calling `print` with the argument `&quot;string1&quot;+&quot;string2&quot;
 </code></pre>
 <h4>18. Add the following `comment` at the beginning of the cell: “Dataset dimension”</h4>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>19. Add a new `markdown cell` before this cell and write in it the title “Data Analysis”</h4>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>20. In a new cell show the names of the variables in the dataset</h4>
 <ul>
 <li>Hint: print the column’s names of variable data</li>
 </ul>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The names of the variables in the dataset are:&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>

@@ -129,7 +129,7 @@
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "6352"
+    "wordCount": "6350"
   }
   </script>
 
@@ -141,6 +141,8 @@
       <link href="mailto:andrea.mortaro@yahoo.com" rel="me" />
     
       <link href="https://github.com/andreamortaro" rel="me" />
+    
+      <link href="https://www.linkedin.com/in/mortaro-andrea" rel="me" />
     
       <link href="https://mastodon.uno/@andreamortaro" rel="me" />
     
@@ -631,13 +633,7 @@
 /kaggle/input/prostate-data/tab2.png
 </code></pre>
 <h4>1. Open your kernel SL_EX2_ProstateCancer_Surname in Kaggle</h4>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h4>2. Generate a copy called SL_EX3_SubsetSelection_Surname by the Fork button</h4>
-<blockquote>
-<h4>✅</h4>
-</blockquote>
 <h2 id="data-acquisition" class="relative group"><strong>Data acquisition</strong> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#data-acquisition" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Load the Prostate Cancer dataset</span>
 </span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../input/prostate-data/prostate.data&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Save &#34;train&#34; and lpsa&#34; columns into Pandas Series variables</span>

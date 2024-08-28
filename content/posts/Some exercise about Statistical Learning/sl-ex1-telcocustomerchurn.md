@@ -63,8 +63,6 @@ def wrap_labels(ax, width, break_long_words=False):
 
 <h4>1. Open the Telco Customer Churn dataset page in Kaggle.</h4>
 
-> <h4>✅</h4>
-
 <h4>2. Check the main properties of this dataset in the “Data” tab.</h4>
 
 * How many samples (rows) does it have?
@@ -118,13 +116,9 @@ def wrap_labels(ax, width, break_long_words=False):
         "SL_L1_TelcoCustomerChurn_Surname"
 * Then click on the “Commit” button on top-right to make the notebook ready to be started
 
-> <h4>✅</h4>
-
 <h4>7. Open the notebook documentation page to get help if needed</h4>
 
 * Hint: click the “Docs” link on the right-bottom of your notebook page
-
-> <h4>✅</h4>
 
 <h4>8. Select the first cell (we will call it “Library import cell” in the following), run it</h4>
 
@@ -147,42 +141,27 @@ def wrap_labels(ax, width, break_long_words=False):
 
 * Hint: find similar code in the Titanic notebook if needed
 
-> <h4>✅</h4>
-
 <h4>10. Select the first cell and add a new cell on top of it</h4>
 
 * Hint: use the button on top-right of the cell
 
-> <h4>✅</h4>
 
 <h4>11. Select the new cell and transform it in a “Markdown” cell, then copy all the text in this pdf file and paste it in the new Markdown cell</h4>
 
-> <h4>✅</h4>
-
 <h4>12. Please write your answers to the questions above in the new Markdown cell. From now on you can use the same cell to write your answers as well</h4>
 
-> <h4>✅</h4>
-
 <h4>13. Select the “Library input cell” and add a new cell below it</h4>
-
-> <h4>✅</h4>
 
 <h4>14. Use the new cell to load the Telco Customer Churn dataset into a Pandas DataFrame variable called data</h4>
 
 * Hint: find similar code in the Titanic notebook if needed
 * Remind to run the cell after writing the code-box
 
-> <h4>✅</h4>
-
 <h4>15. Add the following `comment` before data loading line: “Data acquisition”</h4>
-
-> <h4>✅</h4>
 
 <h4>16. Add also a `Markdown cell` before the data loading cell and write in bold the text “Data acquisition”</h4>
 
 * Markdown cells should be used to give a structure to the report, hence they should be added before each new section
-
-> <h4>✅</h4>
 
 ## **Data acquisition**
 
@@ -236,16 +215,11 @@ I can concatenate two strings by using `+` between the two strings and I print t
 
 <h4>18. Add the following `comment` at the beginning of the cell: “Dataset dimension”</h4>
 
-> <h4>✅</h4>
-
 <h4>19. Add a new `markdown cell` before this cell and write in it the title “Data Analysis”</h4>
-
-> <h4>✅</h4>
 
 <h4>20. In a new cell show the names of the variables in the dataset</h4>
 
 * Hint: print the column’s names of variable data
-> <h4>✅</h4>
 
 
 ```python

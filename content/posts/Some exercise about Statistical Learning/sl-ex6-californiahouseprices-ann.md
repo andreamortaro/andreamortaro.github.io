@@ -42,8 +42,6 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 
 <h4>1. Browse the Keras library (tutorial and documentation cited in the slides)</h4>
 
-> <h2> ✅ </h2>
-
 <h4>2. Load the California housing dataset</h4>
 
 ## **Some info about the California_housing_dataset**

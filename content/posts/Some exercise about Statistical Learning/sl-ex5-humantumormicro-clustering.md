@@ -74,12 +74,7 @@ Some info about <kbd>14cancer.xtrain.txt</kbd> and<kbd>14cancer.ytrain.txt</kbd>
 <h4>2. Generate a new Kernel and give it the name:</h4>
         “SL_EX5_HTM_Clustering_Surname”
 
-
-> <h2>✅</h2>
-
 <h4>3. Load the data in Kaggle</h4>
-
-> <h2>✅</h2>
 
 ## **Data acquisition**
 

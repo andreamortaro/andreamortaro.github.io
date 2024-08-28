@@ -76,19 +76,12 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 
 <h4>4. Open Kaggle, generate a new kernel and give it the name “SL_EX2_ProstateCancer_Surname”</h4>
 
-> <h4>✅</h4>
-
 <h4>5. Add the dataset `prostate.data` to the kernel</h4>
 
 * Hint: See the Add Dataset button on the right
 * Hint: use import option “Convert tabular files to csv”
 
-> <h4>✅</h4>
-
-
 <h4>6. Run the first cell of the kernel to check if the data file is present in folder ../input</h4>
-
-> <h4>✅</h4>
 
 <h4>7. Add to the first cell new lines to load the following libraries: seaborn, matplotlib.pyplot, sklearn.linear_model.LinearRegression</h4>
 
@@ -97,8 +90,6 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 {{< /alert >}}
 
 <h4>8. Add a Markdown cell on top of the notebook, copy and paste in it the text of this exercise and provide in the same cell the answers to the questions that you get step-by-step.</h4>
-
-> <h4>✅</h4>
 
 <h4>9. Load the Prostate Cancer dataset into a Pandas DataFrame variable called "data"</h4>
 
