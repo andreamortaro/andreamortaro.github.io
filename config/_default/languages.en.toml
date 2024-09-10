@@ -3,16 +3,16 @@ languageName = "English"
 languageDirection = "ltr"
 weight = 1
 
-title = "Andrea Mortaro"
+#title = "Andrea Mortaro"
 # description = "My awesome website"
 copyright = "© 2024 Andrea Mortaro"
 
 [params]
   # mainSections = ["section1", "section2"]
     dateFormat = "2 January 2006"
-    rtl = false
-    isoCode = "en"
-    displayName = "EN"
+#    rtl = false
+#    isoCode = "en"
+#    displayName = "EN"
 
 [params.author]
   name = "Andrea Mortaro"
@@ -36,6 +36,7 @@ copyright = "© 2024 Andrea Mortaro"
     { github = "https://github.com/andreamortaro" },
   #   { gitlab = "https://gitlab.com/username" },
   #   { google = "https://www.google.com/" },
+  #   { google-scholar = "https://scholar.google.com/citations?user=user-id" },
   #   { hashnode = "https://username.hashnode.dev" },
   #   { instagram = "https://instagram.com/username" },
   #   { keybase = "https://keybase.io/username" },
@@ -44,6 +45,7 @@ copyright = "© 2024 Andrea Mortaro"
     { linkedin = "https://www.linkedin.com/in/mortaro-andrea" },
     { mastodon = "https://mastodon.uno/@andreamortaro"},
   #   { medium = "https://medium.com/username" },
+  #   { mendeley = "https://www.mendeley.com/" },
   #   { microsoft = "https://www.microsoft.com/" },
   #   { orcid = "https://orcid.org/userid" },
   #   { patreon = "https://www.patreon.com/username" },
@@ -51,17 +53,17 @@ copyright = "© 2024 Andrea Mortaro"
   #   { reddit = "https://reddit.com/user/username" },
   #   { researchgate = "https://www.researchgate.net/profile/username" },
   #   { slack = "https://workspace.url/team/userid" },
+#      { signal = "https://signal.me/#eu/IrnprJ7u2RFv_tShcdEMMhWzgI3du5GjOncVUlSIAFOp1Sd6LNdK7I6SUbWVfcm4"},
   #   { snapchat = "https://snapchat.com/add/username" },
   #   { soundcloud = "https://soundcloud.com/username" },
   #   { stack-overflow = "https://stackoverflow.com/users/userid/username" },
   #   { steam = "https://steamcommunity.com/profiles/userid" },
   #   { telegram = "https://t.me/username" },
+  #   { threads = "https://threads.net/@username" },
   #   { tiktok = "https://tiktok.com/@username" },
   #   { tumblr = "https://username.tumblr.com" },
   #   { twitch = "https://twitch.tv/username" },
-#    { x-twitter = "https://twitter.com/andrea_mortaro"}
   #   { whatsapp = "https://wa.me/phone-number" },
+  #   { x-twitter = "https://twitter.com/username" },
   #   { youtube = "https://youtube.com/username" },
-  { signal = "https://signal.me/#eu/IrnprJ7u2RFv_tShcdEMMhWzgI3du5GjOncVUlSIAFOp1Sd6LNdK7I6SUbWVfcm4"},
-  { session = "https://signal.me/#eu/IrnprJ7u2RFv_tShcdEMMhWzgI3du5GjOncVUlSIAFOp1Sd6LNdK7I6SUbWVfcm4"},
   ]

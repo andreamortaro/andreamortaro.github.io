@@ -9,6 +9,8 @@ colorScheme = "Sapphire"
 defaultAppearance = "light" # valid options: light or dark
 autoSwitchAppearance = false
 
+defaultThemeColor = "#FFFFFF"
+
 enableSearch = true
 enableCodeCopy = true
 enableImageLazyLoading = true
@@ -19,7 +21,7 @@ fingerprintAlgorithm = "sha256"
 
 [header]
   layout = "basic" # valid options: basic, hamburger, hybrid, custom
-  # logo = "img/logo.jpg"
+  logo = "img/logo5.png"
   # logoDark = "img/dark-logo.jpg"
   showTitle = true
 
@@ -51,7 +53,7 @@ fingerprintAlgorithm = "sha256"
   showTaxonomies = true
   showWordCount = false
   showComments = false
-  # sharingLinks = ["facebook", "twitter", "mastodon", "pinterest", "reddit", "linkedin", "email"]
+  # sharingLinks = ["facebook", "x-twitter", "mastodon", "pinterest", "reddit", "linkedin", "email", "threads", "telegram", "line", "weibo"]
 
 [list]
   showBreadcrumbs = false
@@ -74,6 +76,10 @@ fingerprintAlgorithm = "sha256"
   # domain = "blog.yoursite.com"
   # event = ""
   # script = ""
+
+[umamiAnalytics]
+  site = "e3473205-d13e-48bc-9540-b3f4a08c8198"
+  region = "eu"  # can be either "eu" or "us"
 
 [verification]
   # google = ""

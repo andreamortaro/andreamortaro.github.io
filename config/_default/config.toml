@@ -8,13 +8,13 @@ baseURL = "https://andrea.mortaro.it"
 defaultContentLanguage = "en"
 
 enableRobotsTXT = true
-paginate = 10
+pagination.pagerSize = 10
 summaryLength = 0
 
-[Params.umami]
-  enabled = true
-  websiteId = "e3473205-d13e-48bc-9540-b3f4a08c8198"
-  jsLocation = "https://analytics.eu.umami.is/script.js"
+#[Params.umami]
+#  enabled = true
+#  websiteId = "e3473205-d13e-48bc-9540-b3f4a08c8198"
+#  jsLocation = "https://analytics.eu.umami.is/script.js"
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
