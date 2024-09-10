@@ -59,7 +59,9 @@ copyright = "© 2024 Andrea Mortaro"
   #   { tiktok = "https://tiktok.com/@username" },
   #   { tumblr = "https://username.tumblr.com" },
   #   { twitch = "https://twitch.tv/username" },
-    { x-twitter = "https://twitter.com/andrea_mortaro"}
+#    { x-twitter = "https://twitter.com/andrea_mortaro"}
   #   { whatsapp = "https://wa.me/phone-number" },
   #   { youtube = "https://youtube.com/username" },
+  { signal = "https://signal.me/#eu/IrnprJ7u2RFv_tShcdEMMhWzgI3du5GjOncVUlSIAFOp1Sd6LNdK7I6SUbWVfcm4"},
+  { session = "https://signal.me/#eu/IrnprJ7u2RFv_tShcdEMMhWzgI3du5GjOncVUlSIAFOp1Sd6LNdK7I6SUbWVfcm4"},
   ]
