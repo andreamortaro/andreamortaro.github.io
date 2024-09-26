@@ -17,3 +17,7 @@ My Master's thesis, titled "Data-Driven Modelling and Calibration of Multi-Agent
 To address the parameter estimation challenge, I contextualized the problem within optimal control framework and utilized data provided by the [Esimas Project](https://github.com/ctotzeck/NN-interaction).
 
 For further insights, please explore my [presentation](https://andreamortaro.github.io/TrafficPresentation/) created with [reveal.js](https://revealjs.com/), and examine the codes available on my GitHub repository [TrafficModelling](https://github.com/andreamortaro/TrafficModelling).
+
+---
+
+Photo by <a href="https://unsplash.com/@sajjadahmadi?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Sajjad Ahmadi</a> on <a href="https://unsplash.com/photos/time-lapse-photography-of-cars-on-road-during-night-time-tOGsoS4ZvDE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.

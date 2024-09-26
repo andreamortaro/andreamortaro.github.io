@@ -27,3 +27,7 @@ To see the codes you can look at my github repo [EpidModCovid19](https://github.
     >}}
 
 [comment]:  ![image](/posts/sl-ex4-prostate-shrinkage/output_47_0.png)
+
+---
+
+Photo by <a href="https://unsplash.com/@hakannural?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Hakan Nural</a> on <a href="https://unsplash.com/photos/a-gloved-hand-holding-a-vial-with-a-liquid-inside-of-it-gQd4SRfKs40?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.

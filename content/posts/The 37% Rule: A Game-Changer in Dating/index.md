@@ -76,3 +76,7 @@ Moreover, this strategy isn't limited to selecting a life partner; it's applicab
 [^book]: For more details take a look at this book: https://algorithmstoliveby.com.
 [^wife]: You can find how Kepler chose his wife [here](https://www.npr.org/sections/krulwich/2014/05/15/312537965/how-to-marry-the-right-girl-a-mathematical-solution).
 [^proof]: For more details, you can find a proof [here](https://plus.maths.org/content/kissing-frog-mathematicians-guide-mating-0).
+
+---
+
+Photo by <a href="https://unsplash.com/@shairad?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Shaira Dela Peña</a> on <a href="https://unsplash.com/photos/pink-love-neon-signage-twoEJNpgdbI?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.

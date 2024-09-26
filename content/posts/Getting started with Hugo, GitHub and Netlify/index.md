@@ -157,3 +157,7 @@ Now we have built our static website! Looking at the docs of the theme we can cu
 [dg]: https://dolugen.com/how-to-publish-your-website-with-hugo-and-netlify/#generate-static-output-for-publishing
 [kir]: https://www.kiroule.com/article/start-blogging-with-github-hugo-and-netlify/
 
+---
+
+Photo by <a href="https://unsplash.com/@ilyapavlov?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Ilya Pavlov</a> on <a href="https://unsplash.com/photos/monitor-showing-java-programming-OqtafYT5kTw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.
+
