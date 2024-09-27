@@ -16,7 +16,7 @@ This playlist is a musical journey that blends vibrant beats, heartfelt ballads,
 
 ---
 
-## Top Albums of 2024
+## Top 5 Albums of 2024
 
 ### The Smile - *Wall of Eyes*
 

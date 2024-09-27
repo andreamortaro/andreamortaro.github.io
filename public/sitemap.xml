@@ -39,10 +39,27 @@
     
   
     
+  
+    
+  
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/my-favorite-music-of-2024/</loc>
+            <lastmod>2024-09-13T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
       <url>
             <loc>http://localhost:1313/posts/</loc>
             <lastmod>2024-09-13T00:00:00+00:00</lastmod>
           </url>
+    
+  
     
   
     
@@ -71,18 +88,10 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <url>
             <loc>http://localhost:1313/posts/my-favorite-music-of-2023/</loc>
             <lastmod>2023-12-13T00:00:00+00:00</lastmod>
           </url>
-    
-  
     
   
     

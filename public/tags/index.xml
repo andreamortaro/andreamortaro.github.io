@@ -7,8 +7,36 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>© 2024 Andrea Mortaro</copyright>
-    <lastBuildDate>Mon, 11 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2024</title>
+      <link>http://localhost:1313/tags/2024/</link>
+      <pubDate>Fri, 13 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/2024/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Albums</title>
+      <link>http://localhost:1313/tags/albums/</link>
+      <pubDate>Fri, 13 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/albums/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Music</title>
+      <link>http://localhost:1313/tags/music/</link>
+      <pubDate>Fri, 13 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/music/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Playlist</title>
+      <link>http://localhost:1313/tags/playlist/</link>
+      <pubDate>Fri, 13 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/playlist/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Math</title>
       <link>http://localhost:1313/tags/math/</link>
@@ -21,27 +49,6 @@
       <link>http://localhost:1313/tags/2023/</link>
       <pubDate>Wed, 13 Dec 2023 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/2023/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Albums</title>
-      <link>http://localhost:1313/tags/albums/</link>
-      <pubDate>Wed, 13 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/albums/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Music</title>
-      <link>http://localhost:1313/tags/music/</link>
-      <pubDate>Wed, 13 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/music/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Playlist</title>
-      <link>http://localhost:1313/tags/playlist/</link>
-      <pubDate>Wed, 13 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/playlist/</guid>
       <description></description>
     </item>
     <item>
