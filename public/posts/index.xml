@@ -6,9 +6,23 @@
     <description>Recent content in Posts on Andrea Mortaro</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <copyright>© 2024 Andrea Mortaro</copyright>
-    <lastBuildDate>Fri, 13 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <copyright>© 2025 Andrea Mortaro</copyright>
+    <lastBuildDate>Sun, 31 Aug 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Favorite Music of 2025</title>
+      <link>http://localhost:1313/posts/my-favorite-music-of-2025/</link>
+      <pubDate>Sun, 31 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/my-favorite-music-of-2025/</guid>
+      <description>Albums and tracks that shaped my 2025.</description>
+    </item>
+    <item>
+      <title>My Personal Travel Guide in Prague</title>
+      <link>http://localhost:1313/posts/my-personal-travel-guide-in-prague/</link>
+      <pubDate>Sun, 31 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/my-personal-travel-guide-in-prague/</guid>
+      <description>Itinerary, food discoveries, and hidden gems in Prague</description>
+    </item>
     <item>
       <title>My Favorite Music of 2024</title>
       <link>http://localhost:1313/posts/my-favorite-music-of-2024/</link>
