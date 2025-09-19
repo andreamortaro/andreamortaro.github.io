@@ -3,7 +3,7 @@ title: "My Favorite Music of 2025"
 date: 2025-08-31
 tags: [music, albums, playlist, 2025]
 summary: "Albums and tracks that shaped my 2025."
-draft: false
+draft: true
 ---
 
 Looking back at 2025, these are the albums that not only shaped my year but also carried me through its highs and lows, leaving a lasting mark along the way.
