@@ -43,18 +43,9 @@
     
   
     
-  
-    
       <url>
             <loc>http://localhost:1313/posts/my-favorite-music-of-2025/</loc>
-            <lastmod>2025-08-31T00:00:00+00:00</lastmod>
-          </url>
-    
-  
-    
-      <url>
-            <loc>http://localhost:1313/posts/my-personal-travel-guide-in-prague/</loc>
-            <lastmod>2025-08-31T00:00:00+00:00</lastmod>
+            <lastmod>2025-12-13T00:00:00+00:00</lastmod>
           </url>
     
   
@@ -63,14 +54,8 @@
     
       <url>
             <loc>http://localhost:1313/posts/</loc>
-            <lastmod>2025-08-31T00:00:00+00:00</lastmod>
+            <lastmod>2025-12-13T00:00:00+00:00</lastmod>
           </url>
-    
-  
-    
-  
-    
-  
     
   
     
@@ -78,6 +63,20 @@
     
       <url>
             <loc>http://localhost:1313/</loc>
+            <lastmod>2025-12-13T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/radiohead-live-in-bologna---17.11.2025/</loc>
+            <lastmod>2025-11-29T00:00:00+00:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://localhost:1313/posts/my-personal-travel-guide-in-prague/</loc>
             <lastmod>2025-08-31T00:00:00+00:00</lastmod>
           </url>
     
@@ -108,8 +107,6 @@
     
   
     
-  
-    
       <url>
             <loc>http://localhost:1313/posts/my-favorite-music-of-2023/</loc>
             <lastmod>2023-12-13T00:00:00+00:00</lastmod>
@@ -121,6 +118,8 @@
             <loc>http://localhost:1313/posts/the-37-rule-a-game-changer-in-dating/</loc>
             <lastmod>2023-10-16T00:00:00+00:00</lastmod>
           </url>
+    
+  
     
   
     

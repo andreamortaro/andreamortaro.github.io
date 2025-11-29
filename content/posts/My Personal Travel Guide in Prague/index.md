@@ -1,7 +1,7 @@
 ---
 title: "My Personal Travel Guide in Prague"
 date: 2025-08-31
-tags: ["travel", "Prague", "TIL"]
+tags: ["travel"]
 summary: "Itinerary, food discoveries, and hidden gems in Prague"
 draft: false
 ---
@@ -97,7 +97,7 @@ Even with the rain, visiting the museum was the perfect introduction to Pragueâ€
 
 All food and brewery experiences in one place for easier reading.
 
-### Traditional Czech Food:
+### Traditional Czech Food
 
 - **Cheese Soup** â€“ it came served inside a hollowed-out loaf of bread, with the soup poured right in. A cheesy, filling dish that felt super cozy on a chilly evening.
 

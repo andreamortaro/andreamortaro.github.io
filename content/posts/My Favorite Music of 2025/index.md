@@ -1,7 +1,7 @@
 ---
 title: "My Favorite Music of 2025"
-date: 2025-08-31
-tags: [music, albums, playlist, 2025]
+date: 2025-12-13
+tags: [music, albums, playlist  ]
 summary: "Albums and tracks that shaped my 2025."
 draft: true
 ---
@@ -32,30 +32,29 @@ Forever Howlong shows BCNR’s virtuosity and creativity, even after Isaac Wood�
 {{< spotify type="album" id="5FjaEW3Hi8vD2aoJNWln4t" width="100%" height="160" >}}
 
 
-### Tyler, The Creator - *CHROMAKOPIA*
+### aaa
 
 
 
-### Floating Points - *Cascade*
+### aaa
 
 
+### Rosalía - *Lux*
 
-### BadBadNotGood & Baby Rose - *Slow Burn (EP)*
-
-
+{{< spotify type="album" id="3SUEJULSGgBDG1j4GQhfYY" width="100%" height="160" >}}
 
 ---
 
 ## Honorable Mentions
 
 
-### Beth Gibbons - *Lives Outgrown* & Beak - *>>>>*
+### bbb
 
 
-### Porridge Radio - *Clouds in the Sky They Will Always Be There for Me*
+### ccc
 
 
-### Cindy Lee - *Diamond Jubilee*
+### ddd
 
 
 

@@ -7,14 +7,6 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>© 2025 Andrea Mortaro</copyright>
-    <lastBuildDate>Sun, 31 Aug 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/2025/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>My Favorite Music of 2025</title>
-      <link>http://localhost:1313/posts/my-favorite-music-of-2025/</link>
-      <pubDate>Sun, 31 Aug 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/my-favorite-music-of-2025/</guid>
-      <description>Albums and tracks that shaped my 2025.</description>
-    </item>
   </channel>
 </rss>

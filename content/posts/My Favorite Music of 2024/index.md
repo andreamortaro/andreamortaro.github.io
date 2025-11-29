@@ -1,7 +1,7 @@
 ---
 title: "My Favorite Music of 2024"
 date: 2024-12-13
-tags: [music, albums, playlist, 2024]
+tags: [music, albums, playlist]
 summary: "Albums and tracks that shaped my 2024."
 draft: false
 ---

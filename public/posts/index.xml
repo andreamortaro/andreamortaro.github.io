@@ -7,14 +7,21 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>© 2025 Andrea Mortaro</copyright>
-    <lastBuildDate>Sun, 31 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 13 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My Favorite Music of 2025</title>
       <link>http://localhost:1313/posts/my-favorite-music-of-2025/</link>
-      <pubDate>Sun, 31 Aug 2025 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 13 Dec 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/my-favorite-music-of-2025/</guid>
       <description>Albums and tracks that shaped my 2025.</description>
+    </item>
+    <item>
+      <title>Radiohead Live in Bologna - 17.11.25</title>
+      <link>http://localhost:1313/posts/radiohead-live-in-bologna---17.11.2025/</link>
+      <pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/radiohead-live-in-bologna---17.11.2025/</guid>
+      <description>Not just an unforgettable night, but a dream come true</description>
     </item>
     <item>
       <title>My Personal Travel Guide in Prague</title>
