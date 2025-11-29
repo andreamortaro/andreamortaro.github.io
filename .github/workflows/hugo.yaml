@@ -47,8 +47,10 @@ jobs:
           fetch-depth: 0
       - name: Init submodules
         run: git submodule update --init --recursive
+      - name: List themes
+        run: ls -R themes || echo "Themes folder missing"
       - name: List theme shortcodes
-        run: ls -l themes/congo/layouts/shortcodes/
+        run: ls -l themes/congo/layouts/shortcodes/ || echo "Shortcodes folder missing"
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v3
