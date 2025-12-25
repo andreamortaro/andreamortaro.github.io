@@ -7,27 +7,13 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>© 2025 Andrea Mortaro</copyright>
-    <lastBuildDate>Sat, 13 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Albums</title>
-      <link>http://localhost:1313/tags/albums/</link>
-      <pubDate>Fri, 13 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/albums/</guid>
-      <description></description>
-    </item>
     <item>
       <title>Music</title>
       <link>http://localhost:1313/tags/music/</link>
-      <pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/music/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Playlist</title>
-      <link>http://localhost:1313/tags/playlist/</link>
-      <pubDate>Fri, 13 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/playlist/</guid>
       <description></description>
     </item>
     <item>

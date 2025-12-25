@@ -1,7 +1,7 @@
 ---
 title: "My Favorite Music of 2023"
 date: 2023-12-13
-tags: [music, albums, playlist]
+tags: [music]
 summary: "A selection of albums and songs that defined my 2023."
 draft: false
 ---

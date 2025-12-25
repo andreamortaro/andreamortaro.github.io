@@ -7,7 +7,7 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>© 2025 Andrea Mortaro</copyright>
-    <lastBuildDate>Sat, 13 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SL6: California housing dataset – regression with ANN</title>
@@ -54,9 +54,9 @@
     <item>
       <title>My Favorite Music of 2025</title>
       <link>http://localhost:1313/posts/my-favorite-music-of-2025/</link>
-      <pubDate>Sat, 13 Dec 2025 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/my-favorite-music-of-2025/</guid>
-      <description>Albums and tracks that shaped my 2025.</description>
+      <description>My 2025 in albums and tracks.</description>
     </item>
     <item>
       <title>Radiohead Live in Bologna - 17.11.25</title>
